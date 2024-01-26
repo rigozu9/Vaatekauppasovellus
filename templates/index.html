@@ -1,3 +1,30 @@
-<title>Etusivu</title>
-<h1>Etusivu</h1>
-<b>Tervetuloa</b> <i>sovellukseen</i>!
+<!-- Clothing pieces are shown here if you are logged in if not loginpage is shown. -->
+{% if session.username %}
+    <p>Signed in by: {{ session.username }}</p>
+    <a href="/logout">Sign out</a>
+    <html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Clothing Shop</title>
+    </head>
+    <body>
+        <h1>Welcome to our Clothing Shop</h1>
+        <a href="/new">Sell a garment</a>
+        <ul>
+            {% for item in result %}
+                <li>{{ item.name }}</li>
+            {% endfor %}
+        </ul>
+    </body>
+    </html>
+{% else %}
+    <form action="/login" method="POST">
+        <p>Username:<br>
+        <input type="text" name="username"></p>
+        <p>Password:<br>
+        <input type="password" name="password"></p>
+        <input type="submit" value="Sign in">
+    </form>
+    <p>No account? <a href="/register">Register here</a></p>
+{% endif %}
