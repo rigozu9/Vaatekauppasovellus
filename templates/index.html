@@ -7,6 +7,7 @@
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>Clothing Shop</title>
+        <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
     </head>
     <body>
         <h1>Welcome to our Clothing Shop</h1>
@@ -28,3 +29,4 @@
     </form>
     <p>No account? <a href="/register">Register here</a></p>
 {% endif %}
+{% include 'footer.html' %}

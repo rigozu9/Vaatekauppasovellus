@@ -28,3 +28,11 @@ def login_route():
 @app.route("/logout")
 def logout_route():
     return logout()
+
+@app.route("/about")
+def about():
+    return render_template("about.html")
+
+@app.route("/faq")
+def faq():
+    return render_template("faq.html")
