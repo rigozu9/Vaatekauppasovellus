@@ -8,17 +8,17 @@
 <body>
     <h1>CDCA Clothing Company</h1>
 
-    <!-- Shop content -->
+    <!-- Clothes rendered here -->
     <ul>
         {% for item in result %}
             <li>
-                <strong>Name: {{ item.name }}</strong>
+                <p><strong>Name: {{ item.name }}</strong></p>
                 <ul>
                     <li><strong>Category:</strong> {{ item.category }}</li>
                     <li><strong>Brand:</strong> {{ item.brand }}</li>
                     <li><strong>Size:</strong> {{ item.size }}</li>
                     <li><strong>Price:</strong> {{ item.price }}€</li>
-                    <li><strong>Listed by:</strong> {{ item.user_id }}</li>
+                    <li><strong>Listed by:</strong> {{ item.username }}</li>
                 </ul>
             </li>
         {% endfor %}
@@ -34,7 +34,7 @@
         <a class="login" href="/login">Sign in</a>
         <a class="register" href="/register">Register here</a>
     {% endif %}
-
+    <!-- footer -->
     {% include 'footer.html' %}
 </body>
 </html>

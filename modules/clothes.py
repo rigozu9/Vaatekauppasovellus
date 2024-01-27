@@ -1,14 +1,15 @@
-# method to get clothes from database
+# method to get clothes from database and add a new garment
 
 from db import db
-from models import Clothes  # Import Clothes model from models module
+from models import Clothing
 from flask import redirect, render_template, request, session
 
+# Fetch all clothing items from the clothes table
 def get_clothes():
-    # Fetch all clothing items from the clothes table
-    result = Clothes.query.all()
+    result = Clothing.query.all()
     return render_template("index.html", result=result)
 
+#Adding new clothes on new.html
 def add_clothes():
     name = request.form["name"]
     category = request.form["category"]
@@ -20,7 +21,7 @@ def add_clothes():
     if 'username' in session:
         username = session['username']
 
-    new_clothes = Clothes(name=name, category=category, brand=brand, size=size, price=price, user_id=username)
+    new_clothes = Clothing(name=name, category=category, brand=brand, size=size, price=price, username=username)
     db.session.add(new_clothes)
     db.session.commit()
     return redirect("/")

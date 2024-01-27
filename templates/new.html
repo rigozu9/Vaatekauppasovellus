@@ -1,12 +1,30 @@
 <!-- New garment adding page -->
-
+<!-- Select options for brand, category and size from database -->
 <form action="/send" method="POST">
-<h2>Add new garment for sale</h2> <br>
-<p>Name:</p><textarea name="name" rows="1" cols="40"></textarea>
-<p>Brand:</p><textarea name="brand" rows="1" cols="40"></textarea>
-<p>Category:</p><textarea name="category" rows="1" cols="40"></textarea>
-<p>Size:</p><textarea name="size" rows="1" cols="40"></textarea>
-<p>Price:</p><textarea name="price" rows="1" cols="10"></textarea>
-<br>
-<input type="submit" value="Submit">
+    <h2>Add new garment for sale</h2> <br>
+    <p>Name:</p><textarea name="name" rows="1" cols="40"></textarea>
+    <p>Brand:</p>
+    <select name="brand">
+        <option value="">Choose the brand...</option>
+        {% for brand in brands %}
+            <option value="{{ brand.name }}">{{ brand.name }}</option>
+        {% endfor %}
+    </select>
+    <p>Category:</p>
+    <select name="category">
+        <option value="">Choose a category...</option>
+        {% for category in categories %}
+            <option value="{{ category.name }}">{{ category.name }}</option>
+        {% endfor %}
+    </select>
+    <p>Size:</p>
+    <select name="size">
+        <option value="">Choose size...</option>
+        {% for size in sizes %}
+            <option value="{{ size.name }}">{{ size.name }}</option>
+        {% endfor %}
+    </select>
+    <p>Price:</p><textarea name="price" rows="1" cols="10"></textarea>
+    <br>
+    <input type="submit" value="Submit">
 </form>
