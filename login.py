@@ -22,17 +22,18 @@ def register():
 
 #check if the credentials are correct if they are sign in
 def login():
-    username = request.form["username"]
-    password = request.form["password"]
+    if request.method == "POST":
+        username = request.form["username"]
+        password = request.form["password"]
 
-    user = User.query.filter_by(username=username).first()
+        user = User.query.filter_by(username=username).first()
 
-    if not user or not check_password_hash(user.password, password):
-        return render_template("login.html", error="Invalid username or password")
+        if not user or not check_password_hash(user.password, password):
+            return render_template("login.html", error="Invalid username or password")
 
-    session["username"] = username
-    return redirect("/")
-
+        session["username"] = username
+        return redirect("/")
+    return render_template("login.html")
 #log out
 def logout():
     session.pop("username", None)

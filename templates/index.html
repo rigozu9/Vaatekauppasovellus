@@ -1,32 +1,31 @@
-<!-- Clothing pieces are shown here if you are logged in if not loginpage is shown. -->
-{% if session.username %}
-    <p>Signed in by: {{ session.username }}</p>
-    <a href="/logout">Sign out</a>
-    <html lang="en">
-    <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Clothing Shop</title>
-        <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
-    </head>
-    <body>
-        <h1>Welcome to our Clothing Shop</h1>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Clothing Shop</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+</head>
+<body>
+    <h1>Welcome to our Clothing Shop</h1>
+
+    <!-- Shop content -->
+    <ul>
+        {% for item in result %}
+            <li>{{ item.name }}</li>
+        {% endfor %}
+    </ul>
+
+    {% if session.username %}
+        <!-- User is logged in, show logout link -->
+        <p>Signed in by: {{ session.username }}</p>
+        <a href="/logout">Sign out</a>
         <a href="/new">Sell a garment</a>
-        <ul>
-            {% for item in result %}
-                <li>{{ item.name }}</li>
-            {% endfor %}
-        </ul>
-    </body>
-    </html>
-{% else %}
-    <form action="/login" method="POST">
-        <p>Username:<br>
-        <input type="text" name="username"></p>
-        <p>Password:<br>
-        <input type="password" name="password"></p>
-        <input type="submit" value="Sign in">
-    </form>
-    <p>No account? <a href="/register">Register here</a></p>
-{% endif %}
-{% include 'footer.html' %}
+    {% else %}
+        <!-- User is not logged in, show login and register links -->
+        <p>Already registered? <a href="/login">Sign in</a></p>
+        <p>No account? <a href="/register">Register here</a></p>
+    {% endif %}
+
+    {% include 'footer.html' %}
+</body>
+</html>
