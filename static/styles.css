@@ -1,4 +1,74 @@
 /* styles.css */
+.login {
+    font-family: Arial, sans-serif;
+    color: #fff; /* Text color */
+    background-color: #333; /* Background color */
+    border: none; /* Remove borders */
+    padding: 10px 20px; /* Padding */
+    border-radius: 5px; /* Rounded corners */
+    text-decoration: none; /* Remove underlines */
+    cursor: pointer; /* Cursor style */
+    transition: background-color 0.3s ease; /* Smooth transition */
+    position: absolute;
+    top: 10px;
+    right: 150px;
+}
+
+.sell {
+    font-family: Arial, sans-serif;
+    color: #fff; /* Text color */
+    background-color: #333; /* Background color */
+    border: none; /* Remove borders */
+    padding: 10px 20px; /* Padding */
+    border-radius: 5px; /* Rounded corners */
+    text-decoration: none; /* Remove underlines */
+    cursor: pointer; /* Cursor style */
+    transition: background-color 0.3s ease; /* Smooth transition */
+    position: absolute;
+    top: 10px;
+    right: 130px;
+}
+
+.logout {
+    font-family: Arial, sans-serif;
+    color: #fff; /* Text color */
+    background-color: #333; /* Background color */
+    border: none; /* Remove borders */
+    padding: 10px 20px; /* Padding */
+    border-radius: 5px; /* Rounded corners */
+    text-decoration: none; /* Remove underlines */
+    cursor: pointer; /* Cursor style */
+    transition: background-color 0.3s ease; /* Smooth transition */
+    position: absolute;
+    top: 10px;
+    right: 30px;
+}
+
+.register {
+    font-family: Arial, sans-serif;
+    color: #fff; /* Text color */
+    background-color: #333; /* Background color */
+    border: none; /* Remove borders */
+    padding: 10px 20px; /* Padding */
+    border-radius: 5px; /* Rounded corners */
+    text-decoration: none; /* Remove underlines */
+    transition: background-color 0.3s ease; /* Smooth transition */
+    position: absolute;
+    top: 10px;
+    right: 10px; /* Adjust as needed */
+}
+
+.login:hover, .sell:hover, .logout:hover, .register:hover {
+    background-color: #555; /* Darker background color on hover */
+}
+
+a {
+    font-family: Arial, sans-serif;
+    color: brown;
+    margin: 0;
+    padding: 0;
+}
+
 body {
     font-family: Arial, sans-serif;
     background-color: #f0f0f0;
@@ -14,7 +84,7 @@ header {
 }
 
 footer {
-    background-color: #333;
+    background-color: grey;
     color: #fff;
     padding: 10px;
     text-align: center;

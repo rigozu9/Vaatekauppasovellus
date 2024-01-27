@@ -2,30 +2,40 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Clothing Shop</title>
+    <title>CDCA </title>
     <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
 </head>
 <body>
-    <h1>Welcome to our Clothing Shop</h1>
+    <h1>CDCA Clothing Company</h1>
 
     <!-- Shop content -->
     <ul>
         {% for item in result %}
-            <li>{{ item.name }}</li>
+            <li>
+                <strong>Name: {{ item.name }}</strong>
+                <ul>
+                    <li><strong>Category:</strong> {{ item.category }}</li>
+                    <li><strong>Brand:</strong> {{ item.brand }}</li>
+                    <li><strong>Size:</strong> {{ item.size }}</li>
+                    <li><strong>Price:</strong> {{ item.price }}€</li>
+                    <li><strong>Listed by:</strong> {{ item.user_id }}</li>
+                </ul>
+            </li>
         {% endfor %}
     </ul>
 
     {% if session.username %}
         <!-- User is logged in, show logout link -->
         <p>Signed in by: {{ session.username }}</p>
-        <a href="/logout">Sign out</a>
-        <a href="/new">Sell a garment</a>
+        <a class="logout" href="/logout">Sign out</a>
+        <a class="sell" href="/new">Sell a garment</a>
     {% else %}
         <!-- User is not logged in, show login and register links -->
-        <p>Already registered? <a href="/login">Sign in</a></p>
-        <p>No account? <a href="/register">Register here</a></p>
+        <a class="login" href="/login">Sign in</a>
+        <a class="register" href="/register">Register here</a>
     {% endif %}
 
     {% include 'footer.html' %}
 </body>
 </html>
+

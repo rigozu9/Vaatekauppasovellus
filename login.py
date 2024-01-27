@@ -4,7 +4,7 @@ from werkzeug.security import check_password_hash, generate_password_hash
 from db import db
 from models import User
 
-#registering a new account usin User model
+#registering a new account using User model
 def register():
     if request.method == "POST":
         username = request.form["username"]
@@ -34,6 +34,7 @@ def login():
         session["username"] = username
         return redirect("/")
     return render_template("login.html")
+
 #log out
 def logout():
     session.pop("username", None)
