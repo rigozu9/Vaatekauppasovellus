@@ -45,6 +45,6 @@ def about():
     return render_template("about.html")
 
 #faq template
-@app.route("/faq")
+@app.route("/FAQ")
 def faq():
     return render_template("faq.html")

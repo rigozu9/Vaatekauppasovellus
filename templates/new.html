@@ -1,6 +1,7 @@
 <!-- New garment adding page -->
-<!-- Select options for brand, category and size from database -->
-<form action="/send" method="POST">
+<!-- Select options for brand, category, and size from the database -->
+<link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+<form action="/send" method="POST" class="new-garment-form">
     <h2>Add new garment for sale</h2> <br>
     <p>Name:</p><textarea name="name" rows="1" cols="40"></textarea>
     <p>Brand:</p>

@@ -9,14 +9,17 @@
     <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
 </head>
 <body>
-    <h1>User Registration</h1>
-    <form action="/register" method="POST">
-        <label for="username">Username:</label><br>
-        <input type="text" id="username" name="username" required><br><br>
-        <label for="password">Password:</label><br>
-        <input type="password" id="password" name="password" required><br><br>
-        <input type="submit" value="Register">
-    </form>
-    <p>Already have an account? <a href="/">Log in here</a></p>
+
+<form action="/register" method="POST" class="login-form">
+    <h2>Login</h2>
+    <p>Username:</p>
+    <input type="text" name="username">
+    <p>Password:</p>
+    <input type="password" name="password">
+    <br>
+    <input type="submit" value="Register">
+    <p class="no-account">Already have an account? <a href="/login">Log in here</a></p>
+</form>
+
 </body>
 </html>

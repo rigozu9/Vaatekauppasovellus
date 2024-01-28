@@ -62,20 +62,6 @@
     background-color: #555; /* Darker background color on hover */
 }
 
-a {
-    font-family: Arial, sans-serif;
-    color: brown;
-    margin: 0;
-    padding: 0;
-}
-
-body {
-    font-family: Arial, sans-serif;
-    background-color: #f0f0f0;
-    margin: 0;
-    padding: 0;
-}
-
 header {
     background-color: #333;
     color: #fff;
@@ -92,3 +78,112 @@ footer {
     bottom: 0;
     width: 100%;
 }
+
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f0f0f0;
+    margin: 0;
+    padding: 0;
+}
+
+a {
+    font-family: Arial, sans-serif;
+    color: black;
+    margin: 0;
+    padding: 0;
+}
+
+/* Form styles */
+.login-form {
+    width: 50%; /* Adjust width as needed */
+    margin: 50px auto; /* Center the form horizontally */
+    background-color: #fff; /* Form background color */
+    padding: 20px; /* Add padding for spacing */
+    border-radius: 10px; /* Add rounded corners */
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* Add shadow for depth */
+}
+
+.login-form h2 {
+    text-align: center; /* Center the heading */
+}
+
+.login-form p {
+    margin-bottom: 10px; /* Add spacing between paragraphs */
+}
+
+.login-form input[type="text"],
+.login-form input[type="password"],
+.login-form input[type="submit"] {
+    width: 100%; /* Make elements full width */
+    padding: 10px; /* Add padding for spacing */
+    margin-bottom: 10px; /* Add spacing between elements */
+    border-radius: 5px; /* Add rounded corners */
+    border: 1px solid #ccc; /* Add border */
+}
+
+.login-form input[type="submit"] {
+    background-color: #333; /* Button background color */
+    color: #fff; /* Button text color */
+    border: none; /* Remove button border */
+    cursor: pointer; /* Set cursor to pointer on hover */
+    transition: background-color 0.3s ease; /* Smooth transition */
+}
+
+.login-form input[type="submit"]:hover {
+    background-color: #555; /* Darker background color on hover */
+}
+
+.login-form p.no-account {
+    text-align: center;
+    margin-top: 20px;
+}
+
+.login-form p.no-account a {
+    color: #333;
+}
+
+.login-form p.no-account a:hover {
+    text-decoration: underline;
+}
+
+/* New garment form */
+
+.new-garment-form {
+    width: 50%; /* Adjust width as needed */
+    margin: 0 auto; /* Center the form horizontally */
+    background-color: #fff; /* Form background color */
+    padding: 20px; /* Add padding for spacing */
+    border-radius: 10px; /* Add rounded corners */
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* Add shadow for depth */
+}
+
+.new-garment-form h2 {
+    text-align: center; /* Center the heading */
+}
+
+.new-garment-form p {
+    margin-bottom: 10px; /* Add spacing between paragraphs */
+}
+
+.new-garment-form textarea,
+.new-garment-form select,
+.new-garment-form input[type="submit"] {
+    width: 100%; /* Make elements full width */
+    padding: 10px; /* Add padding for spacing */
+    margin-bottom: 10px; /* Add spacing between elements */
+    border-radius: 5px; /* Add rounded corners */
+    border: 1px solid #ccc; /* Add border */
+}
+
+.new-garment-form input[type="submit"] {
+    background-color: #333; /* Button background color */
+    color: #fff; /* Button text color */
+    border: none; /* Remove button border */
+    cursor: pointer; /* Set cursor to pointer on hover */
+    transition: background-color 0.3s ease; /* Smooth transition */
+}
+
+.new-garment-form input[type="submit"]:hover {
+    background-color: #555; /* Darker background color on hover */
+}
+

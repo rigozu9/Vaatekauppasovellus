@@ -1,14 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Clothing Shop</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
 </head>
-<form action="/login" method="POST">
-    <p>Username:<br>
-    <input type="text" name="username"></p>
-    <p>Password:<br>
-    <input type="password" name="password"></p>
+<body>
+
+<form action="/login" method="POST" class="login-form">
+    <h2>Login</h2>
+    <p>Username:</p>
+    <input type="text" name="username">
+    <p>Password:</p>
+    <input type="password" name="password">
+    <br>
     <input type="submit" value="Sign in">
+    <p class="no-account">No account? <a href="/register">Register here</a></p>
 </form>
-<p>No account? <a href="/register">Register here</a></p>
+
+</body>
+</html>
