@@ -1,17 +1,20 @@
 #Clothes class to set up model
 from db import db
 
-#Clothes model with id, name, brand, category, size, price and the user who added it. 
+#Clothes model with id, name, description, brand, category, size, price, 
+#the user who added it and the uploaded image_path. 
 class Clothing(db.Model):
     __tablename__ = 'clothes'
 
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(255), nullable=False)
+    description = db.Column(db.String(255), nullable=False)
     brand = db.Column(db.String(255), nullable=False)
     category = db.Column(db.String(255), nullable=False)
     size = db.Column(db.String(255), nullable=False)
     price = db.Column(db.Float, nullable=False)
     username = db.Column(db.String(255), db.ForeignKey('users.id'))
+    image_path = db.Column(db.String(255))
 
     def __repr__(self):
         return f'<Clothes {self.name}>'
