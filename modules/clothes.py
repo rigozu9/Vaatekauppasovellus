@@ -1,6 +1,6 @@
 from flask import redirect, render_template, request, session
 from db import db
-from models import Clothing
+from models import Clothing, Category
 import os
 from werkzeug.utils import secure_filename
 
@@ -12,10 +12,21 @@ ALLOWED_EXTENSIONS = {'png', 'jpg', 'jpeg', 'gif'}
 def allowed_file(filename):
     return '.' in filename and filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
 
-# Method to get clothes from the database
+# Method to get all clothes from the database
 def get_clothes():
     result = Clothing.query.all()
     return render_template("index.html", result=result)
+
+# Method to get clothes based on category from the database
+def get_clothes_by_category(category_name):
+    clothes = Clothing.query.filter_by(category=category_name).all()
+    print(category_name)
+    return render_template("category.html", clothes=clothes)
+
+# Method to get categories from the database
+def get_categories():
+    categories = Category.query.all()
+    return render_template("index.html", categories=categories)
 
 # Add new clothes now able to upload a picture of the garment.
 def add_clothes():

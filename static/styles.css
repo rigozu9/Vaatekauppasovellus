@@ -14,6 +14,27 @@
     right: 150px;
 }
 
+/* categories css */
+.category-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    grid-gap: 20px;
+    list-style: none;
+    padding: 0;
+}
+
+.category-item {
+    text-align: center;
+}
+
+.category-image {
+    width: 150px;
+    height: 150px;
+    object-fit: cover;
+    border-radius: 50%;
+}
+
+
 .sell {
     font-family: Arial, sans-serif;
     color: #fff; /* Text color */
