@@ -1,5 +1,28 @@
-<link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
-<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer euismod eros ac quam accumsan, sit amet aliquet lacus commodo. Fusce commodo efficitur magna,</p>
-<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer euismod eros ac quam accumsan,</p>
-<p>sit amet aliquet lacus commodo. Fusce commodo efficitur magna, nec tincidunt magna laoreet sed.</p>
-<p>Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia curae; Sed ut malesuada est. Vivamus ultrices, libero nec fermentum aliquet, risus dui feugiat dolor, eget egestas quam augue nec lorem. Mauris bibendum convallis justo, vel tincidunt libero convallis in. Donec semper est in odio sollicitudin, eget ultrices metus mattis.</p>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FAQ</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+</head>
+<body>
+    <header>
+        <h1>Frequently Asked Questions (FAQ)</h1>
+    </header>
+
+    <main>
+        <h2>Question 1: How are the items authenticated?</h2>
+        <p>At CDCA we have an expert authentication team that checks every single listing to provide quaranteed satisfaction for buyers.</p>
+
+        <h2>Question 2: What are the buyer/seller fees in CDCA?</h2>
+        <p>For buyers there arent no fees. And sellers pay 5% for the garment they sold.</p>
+
+        <h2>Question 3: What are the shipping fees in CDCA?</h2>
+        <p>There are no shipping fees. After you sell an item we will provide a shipping code for you.</p>
+
+    </main>
+
+    {% include 'footer.html' %}
+</body>
+</html>

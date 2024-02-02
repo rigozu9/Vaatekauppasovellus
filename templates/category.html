@@ -33,7 +33,6 @@
 
     {% if session.username %}
         <!-- User is logged in, show logout link -->
-        <p>Signed in by: {{ session.username }}</p>
         <a class="logout" href="/logout">Sign out</a>
         <a class="sell" href="/new">Sell a garment</a>
     {% else %}

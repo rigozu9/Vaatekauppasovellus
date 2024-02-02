@@ -12,17 +12,11 @@ ALLOWED_EXTENSIONS = {'png', 'jpg', 'jpeg', 'gif'}
 def allowed_file(filename):
     return '.' in filename and filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
 
-# Method to get all clothes from the database
-def get_clothes():
-    result = Clothing.query.all()
-    return render_template("index.html", result=result)
-
 # Method to get categories and brands from the database
 def get_categories_and_brands():
     categories = Category.query.all()
     brands = Brand.query.all()
     return render_template("index.html", categories=categories, brands=brands)
-
 
 # Method to get clothes based on category from the database
 def get_clothes_by_category(category_name):
@@ -31,9 +25,11 @@ def get_clothes_by_category(category_name):
 
 # Method to get clothes based on brands from the database
 def get_clothes_by_brand(brand_name):
-    clothes = Clothing.query.filter_by(brand=brand_name).all()
-    return render_template("category.html", clothes=clothes)
-
+    if brand_name != "All brands":
+        clothes = Clothing.query.filter_by(brand=brand_name).all()
+        return render_template("category.html", clothes=clothes)
+    else:
+        return render_template("category.html", clothes=Clothing.query.all())
 # Add new clothes now able to upload a picture of the garment.
 def add_clothes():
     name = request.form["name"]

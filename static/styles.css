@@ -88,7 +88,7 @@
 .clothing-item {
     display: flex;
     align-items: center;
-    margin-bottom: 25px;
+    margin-bottom: 10px;
 }
 
 .clothing-item img {
