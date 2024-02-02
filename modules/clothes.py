@@ -1,6 +1,6 @@
 from flask import redirect, render_template, request, session
 from db import db
-from models import Clothing, Category
+from models import Clothing, Category, Brand
 import os
 from werkzeug.utils import secure_filename
 
@@ -17,16 +17,22 @@ def get_clothes():
     result = Clothing.query.all()
     return render_template("index.html", result=result)
 
+# Method to get categories and brands from the database
+def get_categories_and_brands():
+    categories = Category.query.all()
+    brands = Brand.query.all()
+    return render_template("index.html", categories=categories, brands=brands)
+
+
 # Method to get clothes based on category from the database
 def get_clothes_by_category(category_name):
     clothes = Clothing.query.filter_by(category=category_name).all()
-    print(category_name)
     return render_template("category.html", clothes=clothes)
 
-# Method to get categories from the database
-def get_categories():
-    categories = Category.query.all()
-    return render_template("index.html", categories=categories)
+# Method to get clothes based on brands from the database
+def get_clothes_by_brand(brand_name):
+    clothes = Clothing.query.filter_by(brand=brand_name).all()
+    return render_template("category.html", clothes=clothes)
 
 # Add new clothes now able to upload a picture of the garment.
 def add_clothes():

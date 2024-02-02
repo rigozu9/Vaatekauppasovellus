@@ -1,4 +1,4 @@
-<!-- Main page shows clothing categories that you can clik and browse -->
+<!-- Main page shows clothing categories and brands that you can clik and browse -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -16,8 +16,21 @@
         {% for category in categories %}
             <li class="category-item">
                 <a href="/category/{{ category.name }}">
-                    <img class="category-image" src="{{ url_for('static', filename=category.name + 'default.jpg') }}" alt="Category">
+                    <img class="category-image" src="{{ url_for('static', filename='categorydefaults/' + category.name + 'default.jpg') }}" alt="Category">
                     <p>{{ category.name }}</p>
+                </a>
+            </li>
+        {% endfor %}
+    </ul>
+
+    <!-- Brands rendered here -->
+    <h2>Browse brands</h2>
+    <ul class="category-grid">
+        {% for brand in brands %}
+            <li class="category-item">
+                <a href="/brands/{{ brand.name }}">
+                    <img class="category-image" src="{{ url_for('static', filename='branddefaults/' + brand.name + 'default.jpg') }}" alt="Brand">
+                    <p>{{ brand.name }}</p>
                 </a>
             </li>
         {% endfor %}
