@@ -9,10 +9,10 @@
     <h1>CDCA Clothing Company</h1>
 
     <!-- Clothes rendered here -->
-    <ul>
+    <ul class="category-grid">
         {% for item in clothes %}
-            <li class="clothing-item">
-                <div class="clothing-details">
+            <li class="category-item">
+                <div>
                     <p><strong>Name: {{ item.name }}</strong></p>
                     <ul>
                         <li><strong>Description:</strong> {{ item.description }}</li>

@@ -1,19 +1,36 @@
-Vaatekauppa sovellus, jossa käyttäjät myyvät ja ostavat vaatteita.
+Clothing Shop Web Application
+To start the application:
+1. Install requiremetns: pip install -r requirements.txt
+2. Run the app: flask run
 
-Käyttäjä voi kirjautua sisään ja ulos sekä luoda uuden tunnuksen.	
+The Clothing Shop web application is currently under development and making progress. Below is an overview of its current functionalities and future enhancements:
 
-Käyttäjä näkee sovelluksen etusivulla eri vaate kategorioita ja eri vaatemerkkejä joita selailla.
+Current Features
+Homepage Categories and Brands: The homepage displays categories and brands that users can click on to browse clothes in those categories.
 
-Käyttäjä voi laittaa omia vaatteitaan myyntiin.
+User Authentication: Users can create an account, log in, and log out of their accounts.
 
-Käyttäjä voi muokata vaatteiden tietoja (kategoria, merkki, kunto, hinta… jne).
+Clothes Selling: Logged-in users can add clothes for sale using a form, including the option to upload pictures which are saved in a designated folder.
 
-Käyttäjä voi ostaa vaatteen sivulta ja lähettää viestejä toiselle käyttäjälle.
+Database Structure: The application utilizes five PostgreSQL database tables: Brands, Categories, Clothes, Sizes, and Users.
 
-Käyttäjä voi etsiä erilaisia vaatteita ja merkkejä.
+Footer Navigation: The footer contains links to pages such as "About Us" and "FAQ" for additional information and frequently asked questions. Users can also navigate back to the home page.
 
-Ylläpitäjä voi poistaa vaatteita esim jos hän uskoo että vaate ei ole aito.
+Future Enhancements
+User Profile Tab: Implement a user profile tab where users can view their own listings and manage their account information.
 
-Ylläpitäjä voi lisätä harvinaisia vaatteita erilaiseen kategoriaan, jonka nimi on Special Picks. 
+Contact Sellers: Provide a way for users to contact sellers directly through the application.
 
+Purchase Functionality: Enable users to buy clothes listed by sellers through the application.
 
+Detailed Item View: Allow users to click on an item to view detailed information in another tab or modal.
+
+Admin User: Implement an admin user role with special privileges for managing users, listings, and other aspects of the application.
+
+Security Measures: Enhance security measures to protect user data and prevent unauthorized access.
+
+Multiple Images per Listing: Allow sellers to add more pictures of a garment to their listings for better showcasing.
+
+User Interface Improvements: Enhance the appearance and user experience of the application to make it more visually appealing and user-friendly.
+
+Thank you!
