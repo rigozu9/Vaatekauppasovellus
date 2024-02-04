@@ -1,11 +1,11 @@
-Clothing Shop Web Application
+**Clothing Shop Web Application**
 To start the application:
 1. Install requiremetns: pip install -r requirements.txt
 2. Run the app: flask run
 
 The Clothing Shop web application is currently under development and making progress. Below is an overview of its current functionalities and future enhancements:
 
-Current Features
+**Current Features**
 Homepage Categories and Brands: The homepage displays categories and brands that users can click on to browse clothes in those categories.
 
 User Authentication: Users can create an account, log in, and log out of their accounts.
@@ -16,7 +16,7 @@ Database Structure: The application utilizes five PostgreSQL database tables: Br
 
 Footer Navigation: The footer contains links to pages such as "About Us" and "FAQ" for additional information and frequently asked questions. Users can also navigate back to the home page.
 
-Future Enhancements
+**Future Enhancements**
 User Profile Tab: Implement a user profile tab where users can view their own listings and manage their account information.
 
 Contact Sellers: Provide a way for users to contact sellers directly through the application.
