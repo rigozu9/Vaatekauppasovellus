@@ -2,7 +2,7 @@
 
 ## Getting Started
 To start the application:
-1. Gitclone the repository to your computer: `**pip install -r requirements.txt**`
+1. Gitclone the repository to your computer: `git clone https://github.com/rigozu9/Vaatekauppasovellus.git`
 2. Install requirements: `pip install -r requirements.txt`
 3. Create a file named `.env` in the root directory of the project.
 4. Add the following lines to the `.env` file, replacing placeholders with your actual database URL and secret key:
