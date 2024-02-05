@@ -2,19 +2,9 @@
 
 ## Getting Started
 To start the application:
-1. Install requirements: `pip install -r requirements.txt`
-2. Create a file named `.env` in the root directory of the project.
-3. Add the following lines to the `.env` file, replacing placeholders with your actual database URL and secret key:
-    ```plaintext
-    DATABASE_URL="postgresql://user:password@localhost:5432/databasename"
-    SECRET_KEY="setasecretkeyhere"
-    ```
-4. Sign in to your PostgreSQL database.
-5. Create a new database using the provided database URL.
-6. Run the schema.sql commands to set up the database schema.
-7. Run the app: `flask run`
+1. Install requiremetns: pip install -r requirements.txt
+2. Run the app: flask run
 
-## Overview
 The Clothing Shop web application is currently under development and making progress. Below is an overview of its current functionalities and future enhancements:
 
 ### Current Features
