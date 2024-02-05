@@ -2,8 +2,9 @@
 from app import app
 from modules.clothes import get_categories_and_brands, add_clothes, get_clothes_by_category, get_clothes_by_brand
 from modules.login import register, login, logout
+from modules.user import get_clothes_by_user
 from models import Category, Brand, Size
-from flask import render_template
+from flask import render_template, session
 
 #calls index.html the main page and renders the categories and brands from database
 @app.route("/")
@@ -26,8 +27,12 @@ def new():
     categories = Category.query.all()
     brands = Brand.query.all()
     sizes = Size.query.all()
-    print(sizes)
     return render_template('new.html', categories=categories, brands=brands, sizes=sizes)
+
+#calls usertab.html where usertab renders and shows own listings
+@app.route('/users/<user_name>')
+def user_tab(user_name):
+    return get_clothes_by_user(user_name)
 
 #adding a new garment
 @app.route("/send", methods=["POST"])
