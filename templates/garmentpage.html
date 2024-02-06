@@ -9,24 +9,24 @@
     <h1>CDCA Clothing Company</h1>
 
     <!-- Clothes rendered here -->
-    <ul class="category-grid">
+    <ul class="garmentpage-grid">
         {% for item in clothing %}
-            <li class="category-item">
+            <li class="garmentpage-item">
                 <div>
-                    <p><strong>Name: {{ item.name }}</strong></p>
+                    <p><strong><a href="/brands/{{ item.brand }}">{{ item.brand }}</a></strong></p>
+                    <!-- Display an image using the filename from static/uploads -->
+                    {% if item.image_path %}
+                        <img class="garmentpage-image" src="{{ url_for('static', filename='uploads/' + item.image_path) }}" alt="Clothing">
+                    {% endif %}
                     <ul>
-                        <li><strong>Description:</strong> {{ item.description }}</li>
-                        <li><strong>Category:</strong> {{ item.category }}</li>
-                        <li><strong>Brand:</strong> {{ item.brand }}</li>
-                        <li><strong>Size:</strong> {{ item.size }}</li>
-                        <li><strong>Price:</strong> {{ item.price }}€</li>
-                        <li><strong>Listed by:</strong> {{ item.username }}</li>
+                        <p><strong>{{ item.name }}</strong></p>
+                        <p><strong>Category:</strong> {{ item.category }}</p>
+                        <p><strong>About the item:</strong> <br>{{ item.description }}</br></p>
+                        <p><strong>Size:</strong> {{ item.size }}</p>
+                        <p><strong>Price:</strong> {{ item.price }}€</p>
+                        <p><strong>Listed by: </strong>{{ item.username }} </p>
                     </ul>
                 </div>
-                <!-- Display an image using the filename from static/uploads -->
-                {% if item.image_path %}
-                    <img src="{{ url_for('static', filename='uploads/' + item.image_path) }}" alt="Clothing" style="max-width: 200px;">
-                {% endif %}
             </li>
         {% endfor %}
     </ul>

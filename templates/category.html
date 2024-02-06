@@ -7,24 +7,23 @@
 </head>
 <body>
     <h1>CDCA Clothing Company</h1>
-
     <!-- Clothes rendered here -->
     <ul class="category-grid">
         {% for item in clothes %}
             <li class="category-item">
                 <div>
                     <p><strong><a href="/garment/{{ item.id }}">{{ item.name }}</a></strong></p>
+                    <!-- Display an image using the filename from static/uploads -->
+                    {% if item.image_path %}
+                        <a href="/garment/{{ item.id }}"><img class="category-image" src="{{ url_for('static', filename='uploads/' + item.image_path) }}" alt="Clothing" style="max-width: 200px;"></a>
+                    {% endif %}
                     <ul>
-                        <li><strong> Brand:</strong> {{ item.brand }}</li>
-                        <li><strong>Size:</strong> {{ item.size }}</li>
-                        <li><strong>Price:</strong> {{ item.price }}€</li>
-                        <li><strong>Listed by:</strong> {{ item.username }}</li>
+                        <p><strong>{{ item.brand }}</strong></p>
+                        <p><strong>{{ item.size }}</strong></p>
+                        <p><strong>{{ item.price }}€</strong></p>
+                        <p><strong>Listed by:</strong> {{ item.username }}</p>
                     </ul>
                 </div>
-                <!-- Display an image using the filename from static/uploads -->
-                {% if item.image_path %}
-                    <a href="/garment/{{ item.id }}"><img src="{{ url_for('static', filename='uploads/' + item.image_path) }}" alt="Clothing" style="max-width: 200px;"></a>
-                {% endif %}
             </li>
         {% endfor %}
     </ul>
