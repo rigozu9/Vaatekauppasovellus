@@ -1,120 +1,4 @@
-/* styles.css */
-.login {
-    font-family: Arial, sans-serif;
-    color: #fff; /* Text color */
-    background-color: #333; /* Background color */
-    border: none; /* Remove borders */
-    padding: 10px 20px; /* Padding */
-    border-radius: 5px; /* Rounded corners */
-    text-decoration: none; /* Remove underlines */
-    cursor: pointer; /* Cursor style */
-    transition: background-color 0.3s ease; /* Smooth transition */
-    position: absolute;
-    top: 10px;
-    right: 150px;
-}
-
-/* categories css */
-.category-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-    grid-gap: 20px;
-    list-style: none;
-    padding: 0;
-}
-
-.category-item {
-    text-align: center;
-}
-
-.category-image {
-    width: 150px;
-    height: 150px;
-    object-fit: cover;
-    border-radius: 50%;
-}
-
-.usertab {
-    font-family: Arial, sans-serif;
-    color: #fff; /* Text color */
-    background-color: #333; /* Background color */
-    border: none; /* Remove borders */
-    padding: 10px 20px; /* Padding */
-    border-radius: 5px; /* Rounded corners */
-    text-decoration: none; /* Remove underlines */
-    cursor: pointer; /* Cursor style */
-    transition: background-color 0.3s ease; /* Smooth transition */
-    position: absolute;
-    top: 10px;
-    right: 280px;
-}
-
-.sell {
-    font-family: Arial, sans-serif;
-    color: #fff; /* Text color */
-    background-color: #333; /* Background color */
-    border: none; /* Remove borders */
-    padding: 10px 20px; /* Padding */
-    border-radius: 5px; /* Rounded corners */
-    text-decoration: none; /* Remove underlines */
-    cursor: pointer; /* Cursor style */
-    transition: background-color 0.3s ease; /* Smooth transition */
-    position: absolute;
-    top: 10px;
-    right: 130px;
-}
-
-.logout {
-    font-family: Arial, sans-serif;
-    color: #fff; /* Text color */
-    background-color: #333; /* Background color */
-    border: none; /* Remove borders */
-    padding: 10px 20px; /* Padding */
-    border-radius: 5px; /* Rounded corners */
-    text-decoration: none; /* Remove underlines */
-    cursor: pointer; /* Cursor style */
-    transition: background-color 0.3s ease; /* Smooth transition */
-    position: absolute;
-    top: 10px;
-    right: 30px;
-}
-
-.register {
-    font-family: Arial, sans-serif;
-    color: #fff; /* Text color */
-    background-color: #333; /* Background color */
-    border: none; /* Remove borders */
-    padding: 10px 20px; /* Padding */
-    border-radius: 5px; /* Rounded corners */
-    text-decoration: none; /* Remove underlines */
-    transition: background-color 0.3s ease; /* Smooth transition */
-    position: absolute;
-    top: 10px;
-    right: 10px; /* Adjust as needed */
-}
-
-.login:hover, .sell:hover, .logout:hover, .register:hover {
-    background-color: #555; /* Darker background color on hover */
-}
-
-/* clothing image size and style */
-
-.clothing-item {
-    display: flex;
-    align-items: center;
-    margin-bottom: 10px;
-}
-
-.clothing-item img {
-    max-width: 200px;
-    max-height: 120px;
-    margin-right: 1000px;
-}
-
-.clothing-details {
-    flex: 1;
-}
-
+/* Base styles */
 header {
     background-color: #333;
     color: #fff;
@@ -144,6 +28,101 @@ a {
     color: black;
     margin: 0;
     padding: 0;
+}
+
+.login {
+    font-family: Arial, sans-serif;
+    color: #fff; /* Text color */
+    background-color: #333; /* Background color */
+    border: none; /* Remove borders */
+    padding: 10px 20px; /* Padding */
+    border-radius: 5px; /* Rounded corners */
+    text-decoration: none; /* Remove underlines */
+    cursor: pointer; /* Cursor style */
+    transition: background-color 0.3s ease; /* Smooth transition */
+    position: absolute;
+    top: 10px;
+    right: 150px;
+}
+
+/* Sell, logout, register, usertab css */
+
+.sell, .logout, .register, .usertab {
+    font-family: Arial, sans-serif;
+    color: #fff; /* Text color */
+    background-color: #333; /* Background color */
+    border: none; /* Remove borders */
+    padding: 10px 20px; /* Padding */
+    border-radius: 5px; /* Rounded corners */
+    text-decoration: none; /* Remove underlines */
+    cursor: pointer; /* Cursor style */
+    transition: background-color 0.3s ease; /* Smooth transition */
+    position: absolute;
+}
+
+.login:hover, .sell:hover, .logout:hover, .register:hover, .usertab:hover {
+    background-color: #555; /* Darker background color on hover */
+}
+
+/* Usertab, logout, register, sell placements  */
+
+.usertab {
+    top: 10px;
+    right: 280px;
+}
+
+.logout {
+    top: 10px;
+    right: 30px;
+}
+
+.register {
+    top: 10px;
+    right: 10px;
+}
+.sell {
+    top: 10px;
+    right: 133px;
+}
+
+/* clothing image size and style */
+
+/* Category css */
+.category-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    grid-gap: 20px;
+    list-style: none;
+    padding: 0;
+}
+
+.category-item {
+    text-align: center;
+}
+
+.category-image {
+    width: 150px;
+    height: 150px;
+    object-fit: cover;
+    border-radius: 50%;
+}
+
+/* clothing css */
+
+.clothing-item {
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+.clothing-item img {
+    max-width: 200px;
+    max-height: 120px;
+    margin-right: 1000px;
+}
+
+.clothing-details {
+    flex: 1;
 }
 
 /* Form styles */

@@ -1,10 +1,10 @@
 #routes file for navigating in the app
 from app import app
-from modules.clothes import get_categories_and_brands, add_clothes, get_clothes_by_category, get_clothes_by_brand
+from modules.clothes import get_categories_and_brands, add_clothes, get_clothes_by_category, get_clothes_by_brand, get_clothes_by_id
 from modules.login import register, login, logout
 from modules.user import get_clothes_by_user
 from models import Category, Brand, Size
-from flask import render_template, session
+from flask import render_template
 
 #calls index.html the main page and renders the categories and brands from database
 @app.route("/")
@@ -20,6 +20,12 @@ def category(category_name):
 @app.route('/brands/<brand_name>')
 def brand(brand_name):
     return get_clothes_by_brand(brand_name)
+
+#calls garment.html
+@app.route('/garment/<garment_id>')
+def garment(garment_id):
+    return get_clothes_by_id(garment_id)
+
 
 #renders new.html and adds categories, brands, sizes from database to the select list
 @app.route("/new", methods=['GET'])

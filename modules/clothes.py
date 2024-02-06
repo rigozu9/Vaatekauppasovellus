@@ -30,6 +30,12 @@ def get_clothes_by_brand(brand_name):
         return render_template("category.html", clothes=clothes)
     else:
         return render_template("category.html", clothes=Clothing.query.all())
+    
+# Method to get clothes based on category from the database
+def get_clothes_by_id(garment_id):
+    clothing = Clothing.query.filter_by(id=garment_id).all()
+    return render_template("garmentpage.html", clothing=clothing)
+
 # Add new clothes now able to upload a picture of the garment.
 def add_clothes():
     name = request.form["name"]
