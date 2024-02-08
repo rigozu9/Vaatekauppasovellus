@@ -1,6 +1,6 @@
 #routes file for navigating in the app
 from app import app
-from modules.clothes import get_categories_and_brands, add_clothes, get_clothes_by_category, get_clothes_by_brand, get_clothes_by_id
+from modules.clothes import get_categories_and_brands, add_clothes, get_clothes_by_category, get_clothes_by_brand, get_clothes_by_id, get_clothes_by_search
 from modules.login import register, login, logout
 from modules.user import get_clothes_by_user
 from models import Category, Brand, Size
@@ -26,6 +26,10 @@ def brand(brand_name):
 def garment(garment_id):
     return get_clothes_by_id(garment_id)
 
+#route for search
+@app.route('/search')
+def search():
+    return get_clothes_by_search()
 
 #renders new.html and adds categories, brands, sizes from database to the select list
 @app.route("/new", methods=['GET'])

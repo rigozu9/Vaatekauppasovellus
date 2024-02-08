@@ -1,5 +1,17 @@
 {% include 'header.html' %}
-<h2>Browse {{ category_name }}</h2>
+{% include 'search.html' %}
+
+{% if category_name %}
+    <h2>Browse {{ category_name }}</h2>
+{% else %}
+    {% if clothes and query %}
+        <h2>Results for "{{ query }}"</h2>
+    {% elif query %}
+        <h2>No results for the search "{{ query }}"</h2>
+    {% else %}
+        <h2>Browse "{{ brand_name }}"</h2>
+    {% endif %}
+{% endif %}
 
 <!-- Clothes rendered here -->
 <ul class="category-grid">

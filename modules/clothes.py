@@ -31,6 +31,13 @@ def get_clothes_by_brand(brand_name):
     else:
         return render_template("category.html", clothes=Clothing.query.all(), brand_name="All brands")
     
+# Method to get clothes based on search
+def get_clothes_by_search():
+    query = request.args.get('query') # Get the search query from the request
+    # Filter clothes based on the search query
+    clothes = Clothing.query.filter(Clothing.name.ilike(f'%{query}%')).all()
+    return render_template("category.html", clothes=clothes, query=query)
+    
 # Method to get clothes based on category from the database
 def get_clothes_by_id(garment_id):
     clothing = Clothing.query.filter_by(id=garment_id).all()
