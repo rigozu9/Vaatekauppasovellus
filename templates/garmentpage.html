@@ -1,46 +1,36 @@
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CDCA </title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
-</head>
-<body>
-    <h1>CDCA Clothing Company</h1>
+{% include 'header.html' %}
 
-    <!-- Clothes rendered here -->
-    <ul class="garmentpage-grid">
-        {% for item in clothing %}
-            <li class="garmentpage-item">
-                <div>
-                    <p><strong><a href="/brands/{{ item.brand }}">{{ item.brand }}</a></strong></p>
-                    <!-- Display an image using the filename from static/uploads -->
-                    {% if item.image_path %}
-                        <img class="garmentpage-image" src="{{ url_for('static', filename='uploads/' + item.image_path) }}" alt="Clothing">
-                    {% endif %}
-                    <ul>
-                        <p><strong>{{ item.name }}</strong></p>
-                        <p><strong>Category:</strong> {{ item.category }}</p>
-                        <p><strong>About the item:</strong> <br>{{ item.description }}</br></p>
-                        <p><strong>Size:</strong> {{ item.size }}</p>
-                        <p><strong>Price:</strong> {{ item.price }}€</p>
-                        <p><strong>Listed by: </strong>{{ item.username }} </p>
-                    </ul>
-                </div>
-            </li>
-        {% endfor %}
-    </ul>
+<!-- Garment rendered here -->
+<ul class="garmentpage-grid">
+    {% for item in clothing %}
+        <li class="garmentpage-item">
+            <div>
+                <p><strong><a href="/brands/{{ item.brand }}">{{ item.brand }}</a></strong></p>
+                <!-- Display an image using the filename from static/uploads -->
+                {% if item.image_path %}
+                    <img class="garmentpage-image" src="{{ url_for('static', filename='uploads/' + item.image_path) }}" alt="Clothing">
+                {% endif %}
+                <ul>
+                    <p><strong>{{ item.name }}</strong></p>
+                    <p><strong>Category:</strong> {{ item.category }}</p>
+                    <p><strong>About the item:</strong> <br>{{ item.description }}</br></p>
+                    <p><strong>Size:</strong> {{ item.size }}</p>
+                    <p><strong>Price:</strong> {{ item.price }}€</p>
+                    <p><strong>Listed by: </strong>{{ item.username }} </p>
+                </ul>
+            </div>
+        </li>
+    {% endfor %}
+</ul>
 
-    {% if session.username %}
-        <!-- User is logged in, show logout link -->
-        <a class="logout" href="/logout">Sign out</a>
-        <a class="sell" href="/new">Sell a garment</a>
-    {% else %}
-        <!-- User is not logged in, show login and register links -->
-        <a class="login" href="/login">Sign in</a>
-        <a class="register" href="/register">Register here</a>
-    {% endif %}
-    <!-- footer -->
-    {% include 'footer.html' %}
-</body>
-</html>
+{% if session.username %}
+    <!-- User is logged in, show logout link -->
+    <a class="logout" href="/logout">Sign out</a>
+    <a class="sell" href="/new">Sell a garment</a>
+{% else %}
+    <!-- User is not logged in, show login and register links -->
+    <a class="login" href="/login">Sign in</a>
+    <a class="register" href="/register">Register here</a>
+{% endif %}
+<!-- footer -->
+{% include 'footer.html' %}

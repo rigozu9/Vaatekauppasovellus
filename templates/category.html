@@ -1,43 +1,35 @@
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CDCA </title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
-</head>
-<body>
-    <h1>CDCA Clothing Company</h1>
-    <!-- Clothes rendered here -->
-    <ul class="category-grid">
-        {% for item in clothes %}
-            <li class="category-item">
-                <div>
-                    <p><strong><a href="/garment/{{ item.id }}">{{ item.name }}</a></strong></p>
-                    <!-- Display an image using the filename from static/uploads -->
-                    {% if item.image_path %}
-                        <a href="/garment/{{ item.id }}"><img class="category-image" src="{{ url_for('static', filename='uploads/' + item.image_path) }}" alt="Clothing" style="max-width: 200px;"></a>
-                    {% endif %}
-                    <ul>
-                        <p><strong>{{ item.brand }}</strong></p>
-                        <p><strong>{{ item.size }}</strong></p>
-                        <p><strong>{{ item.price }}€</strong></p>
-                        <p><strong>Listed by:</strong> {{ item.username }}</p>
-                    </ul>
-                </div>
-            </li>
-        {% endfor %}
-    </ul>
+{% include 'header.html' %}
+<h2>Browse {{ category_name }}</h2>
 
-    {% if session.username %}
-        <!-- User is logged in, show logout link -->
-        <a class="logout" href="/logout">Sign out</a>
-        <a class="sell" href="/new">Sell a garment</a>
-    {% else %}
-        <!-- User is not logged in, show login and register links -->
-        <a class="login" href="/login">Sign in</a>
-        <a class="register" href="/register">Register here</a>
-    {% endif %}
-    <!-- footer -->
-    {% include 'footer.html' %}
-</body>
-</html>
+<!-- Clothes rendered here -->
+<ul class="category-grid">
+    {% for item in clothes %}
+        <li class="category-item">
+            <div>
+                <p><strong><a href="/garment/{{ item.id }}">{{ item.name }}</a></strong></p>
+                <!-- Display an image using the filename from static/uploads -->
+                {% if item.image_path %}
+                    <a href="/garment/{{ item.id }}"><img class="category-image" src="{{ url_for('static', filename='uploads/' + item.image_path) }}" alt="Clothing" style="max-width: 200px;"></a>
+                {% endif %}
+                <ul>
+                    <p><strong>{{ item.brand }}</strong></p>
+                    <p><strong>{{ item.size }}</strong></p>
+                    <p><strong>{{ item.price }}€</strong></p>
+                    <p><strong>Listed by:</strong> {{ item.username }}</p>
+                </ul>
+            </div>
+        </li>
+    {% endfor %}
+</ul>
+
+{% if session.username %}
+    <!-- User is logged in, show logout link -->
+    <a class="logout" href="/logout">Sign out</a>
+    <a class="sell" href="/new">Sell a garment</a>
+{% else %}
+    <!-- User is not logged in, show login and register links -->
+    <a class="login" href="/login">Sign in</a>
+    <a class="register" href="/register">Register here</a>
+{% endif %}
+<!-- footer -->
+{% include 'footer.html' %}

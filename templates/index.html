@@ -1,52 +1,41 @@
-<!-- Main page shows clothing categories and brands that you can clik and browse -->
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CDCA </title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
-</head>
-<body>
-    <h1>CDCA Clothing Company</h1>
+{% include 'header.html' %}
 
-    <!-- Categories rendered here -->
-    <h2>Browse categories</h2>
-    <ul class="category-grid">
-        {% for category in categories %}
-            <li class="category-item">
-                <a href="/category/{{ category.name }}">
-                    <img class="category-image" src="{{ url_for('static', filename='categorydefaults/' + category.name + 'default.jpg') }}" alt="Category">
-                    <p>{{ category.name }}</p>
-                </a>
-            </li>
-        {% endfor %}
-    </ul>
+<!-- Categories rendered here -->
+<h2>Browse categories</h2>
+<ul class="category-grid">
+    {% for category in categories %}
+        <li class="category-item">
+            <a href="/category/{{ category.name }}">
+                <img class="category-image" src="{{ url_for('static', filename='categorydefaults/' + category.name + 'default.jpg') }}" alt="Category">
+                <p>{{ category.name }}</p>
+            </a>
+        </li>
+    {% endfor %}
+</ul>
 
-    <!-- Brands rendered here -->
-    <h2>Browse brands</h2>
-    <ul class="category-grid">
-        {% for brand in brands %}
-            <li class="category-item">
-                <a href="/brands/{{ brand.name }}">
-                    <img class="category-image" src="{{ url_for('static', filename='branddefaults/' + brand.name + 'default.jpg') }}" alt="Brand">
-                    <p>{{ brand.name }}</p>
-                </a>
-            </li>
-        {% endfor %}
-    </ul>
+<!-- Brands rendered here -->
+<h2>Browse brands</h2>
+<ul class="category-grid">
+    {% for brand in brands %}
+        <li class="category-item">
+            <a href="/brands/{{ brand.name }}">
+                <img class="category-image" src="{{ url_for('static', filename='branddefaults/' + brand.name + 'default.jpg') }}" alt="Brand">
+                <p>{{ brand.name }}</p>
+            </a>
+        </li>
+    {% endfor %}
+</ul>
 
-    {% if session.username %}
-        <!-- User is logged in, shows usertab, sell a garment tab and logout link -->
-        <a class="usertab" href="/users/{{ session.username }}"> {{ session.username }}</a>
-        <a class="logout" href="/logout">Sign out</a>
-        <a class="sell" href="/new">Sell a garment</a>
-    {% else %}
-        <!-- User is not logged in, show login and register links -->
-        <a class="login" href="/login">Sign in</a>
-        <a class="register" href="/register">Register here</a>
-    {% endif %}
-    <!-- footer -->
-    {% include 'footer.html' %}
-</body>
-</html>
+{% if session.username %}
+    <!-- User is logged in, shows usertab, sell a garment tab and logout link -->
+    <a class="usertab" href="/users/{{ session.username }}"> {{ session.username }}</a>
+    <a class="logout" href="/logout">Sign out</a>
+    <a class="sell" href="/new">Sell a garment</a>
+{% else %}
+    <!-- User is not logged in, show login and register links -->
+    <a class="login" href="/login">Sign in</a>
+    <a class="register" href="/register">Register here</a>
+{% endif %}
+
+<!-- footer -->
+{% include 'footer.html' %}

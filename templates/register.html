@@ -1,15 +1,5 @@
 <!-- registeration form and option to return to login -->
-
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>User Registration</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
-</head>
-<body>
-
+{% include 'header.html' %}
 <form action="/register" method="POST" class="login-form">
     <h2>Register</h2>
     <p>Username:</p>
@@ -19,7 +9,5 @@
     <br>
     <input type="submit" value="Register">
     <p class="no-account">Already have an account? <a href="/login">Log in here</a></p>
+    <p class="no-account">Continue as a guest <a href="/">Here</a></p>
 </form>
-
-</body>
-</html>
