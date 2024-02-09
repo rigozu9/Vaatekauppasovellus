@@ -5,20 +5,27 @@
 <ul class="garmentpage-grid">
     {% for item in clothing %}
         <li class="garmentpage-item">
-            <div>
-                <p><strong><a href="/brands/{{ item.brand }}">{{ item.brand }}</a></strong></p>
+            <div class="item-container">
                 <!-- Display an image using the filename from static/uploads -->
-                {% if item.image_path %}
-                    <img class="garmentpage-image" src="{{ url_for('static', filename='uploads/' + item.image_path) }}" alt="Clothing">
-                {% endif %}
-                <ul>
+                {% set image_filenames = item.image_path[1:-1].split(',') %}
+                <div class="slideshow-container">
+                    {% for image in image_filenames %}
+                        <div class="mySlides fade">
+                            <img class="garmentpage-image" src="{{ url_for('static', filename='uploads/' + image)}}" alt="Clothing">
+                        </div>
+                    {% endfor %}
+                    <!-- Next and previous buttons -->
+                    <a class="prev" onclick="plusSlides(-1)">&#10094;</a>
+                    <a class="next" onclick="plusSlides(1)">&#10095;</a>
+                </div>
+                <div class="details-container">
                     <p><strong>{{ item.name }}</strong></p>
                     <p><strong>Category:</strong> {{ item.category }}</p>
                     <p><strong>About the item:</strong> <br>{{ item.description }}</br></p>
                     <p><strong>Size:</strong> {{ item.size }}</p>
                     <p><strong>Price:</strong> {{ item.price }}€</p>
                     <p><strong>Listed by: </strong>{{ item.username }} </p>
-                </ul>
+                </div>
             </div>
         </li>
     {% endfor %}
@@ -33,5 +40,31 @@
     <a class="login" href="/login">Sign in</a>
     <a class="register" href="/register">Register here</a>
 {% endif %}
+
 <!-- footer -->
 {% include 'footer.html' %}
+
+<!-- Manual slideshow for the pictures -->
+<script>
+    var slideIndex = 1;
+    showSlides(slideIndex);
+
+    function plusSlides(n) {
+        showSlides(slideIndex += n);
+    }
+
+    function currentSlide(n) {
+        showSlides(slideIndex = n);
+    }
+
+    function showSlides(n) {
+        var i;
+        var slides = document.getElementsByClassName("mySlides");
+        if (n > slides.length) {slideIndex = 1}
+        if (n < 1) {slideIndex = slides.length}
+        for (i = 0; i < slides.length; i++) {
+            slides[i].style.display = "none";
+        }
+        slides[slideIndex-1].style.display = "block";
+    }
+</script>

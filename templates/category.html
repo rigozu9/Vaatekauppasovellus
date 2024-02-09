@@ -21,7 +21,7 @@
                 <p><strong><a href="/garment/{{ item.id }}">{{ item.name }}</a></strong></p>
                 <!-- Display an image using the filename from static/uploads -->
                 {% if item.image_path %}
-                    <a href="/garment/{{ item.id }}"><img class="category-image" src="{{ url_for('static', filename='uploads/' + item.image_path) }}" alt="Clothing" style="max-width: 200px;"></a>
+                    <a href="/garment/{{ item.id }}"><img class="category-image" src="{{ url_for('static', filename='uploads/' + item.image_path[1:-1].split(',')[0]) }}" alt="Clothing" style="max-width: 200px;"></a>
                 {% endif %}
                 <ul>
                     <p><strong>{{ item.brand }}</strong></p>

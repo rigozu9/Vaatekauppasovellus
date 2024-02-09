@@ -3,6 +3,7 @@ from db import db
 from models import Clothing, Category, Brand
 import os
 from werkzeug.utils import secure_filename
+import uuid
 
 # Where the pictures are uploaded
 UPLOAD_FOLDER = 'static/uploads' 
@@ -21,6 +22,7 @@ def get_categories_and_brands():
 # Method to get clothes based on category from the database
 def get_clothes_by_category(category_name):
     clothes = Clothing.query.filter_by(category=category_name).all()
+    print(clothes[0].image_path)
     return render_template("category.html", clothes=clothes, category_name=category_name)
 
 # Method to get clothes based on brands from the database
@@ -56,13 +58,19 @@ def add_clothes():
         username = session['username']
 
     # Image uploading handled here 
-    if 'image' in request.files:
-        file = request.files['image']
-        if file and allowed_file(file.filename):
-            filename = secure_filename(file.filename)
-            file.save(os.path.join(UPLOAD_FOLDER, filename))
+    image_paths = []  # Store the filenames for multiple images
 
-    new_clothes = Clothing(name=name, description=description, category=category, brand=brand, size=size, price=price, username=username, image_path=filename)
+    if 'image' in request.files:
+        files = request.files.getlist('image')  # Retrieve multiple files
+        for file in files:
+            if file and allowed_file(file.filename):
+                # Generate a unique filename
+                filename = str(uuid.uuid4()) + secure_filename(file.filename)
+                file.save(os.path.join(UPLOAD_FOLDER, filename))
+                image_paths.append(filename)
+                print(image_paths)
+
+    new_clothes = Clothing(name=name, description=description, category=category, brand=brand, size=size, price=price, username=username, image_path=image_paths)
     db.session.add(new_clothes)
     db.session.commit()
     return redirect("/")
