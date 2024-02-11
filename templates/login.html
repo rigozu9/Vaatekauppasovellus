@@ -2,6 +2,9 @@
 {% include 'header.html' %}
 <form action="/login" method="POST" class="login-form">
     <h2>Login</h2>
+    {% if error %}
+        <p class="error-message">{{ error }}</p>
+    {% endif %}
     <p>Username:</p>
     <input type="text" name="username">
     <p>Password:</p>

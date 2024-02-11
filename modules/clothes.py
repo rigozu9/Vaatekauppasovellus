@@ -68,7 +68,6 @@ def add_clothes():
                 filename = str(uuid.uuid4()) + secure_filename(file.filename)
                 file.save(os.path.join(UPLOAD_FOLDER, filename))
                 image_paths.append(filename)
-                print(image_paths)
 
     new_clothes = Clothing(name=name, description=description, category=category, brand=brand, size=size, price=price, username=username, image_path=image_paths)
     db.session.add(new_clothes)

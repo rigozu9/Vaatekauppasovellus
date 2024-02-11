@@ -1,13 +1,29 @@
-<!-- registeration form and option to return to login -->
+<!-- registration form and option to return to login -->
 {% include 'header.html' %}
-<form action="/register" method="POST" class="login-form">
+<form action="/register" method="POST" class="login-form" onsubmit="return validateForm()">
     <h2>Register</h2>
     <p>Username:</p>
-    <input type="text" name="username">
+    <input type="text" name="username" required>
     <p>Password:</p>
-    <input type="password" name="password">
+    <input type="password" name="password" id="password" minlength="8" required>
+    <p>Confirm Password:</p>
+    <input type="password" name="confirm_password" id="confirm_password" minlength="8" required>
     <br>
     <input type="submit" value="Register">
     <p class="no-account">Already have an account? <a href="/login">Log in here</a></p>
     <p class="no-account">Continue as a guest <a href="/">Here</a></p>
 </form>
+
+<script>
+    function validateForm() {
+        var password = document.getElementById("password").value;
+        var confirm_password = document.getElementById("confirm_password").value;
+
+        if (password !== confirm_password) {
+            alert("Passwords do not match!");
+            return false;
+        }
+
+        return true;
+    }
+</script>

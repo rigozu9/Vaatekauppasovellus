@@ -42,7 +42,7 @@ footer a:hover {
 .header h1 {
     margin: 0; /* Remove default margin for h1 */
     font-size: 48px; /* Larger font size */
-    letter-spacing: 3px; /* Increase letter spacing for a modern look */
+    letter-spacing: 2px; /* Increase letter spacing for a modern look */
     text-transform: uppercase; /* Convert text to uppercase */
     text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5); /* Add shadow for depth */
 }

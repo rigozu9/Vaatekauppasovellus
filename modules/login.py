@@ -9,6 +9,7 @@ def register():
     if request.method == "POST":
         username = request.form["username"]
         password = request.form["password"]
+        
         hash_value = generate_password_hash(password)
 
         new_user = User(username=username, password=hash_value)
@@ -22,6 +23,7 @@ def register():
 
 #check if the credentials are correct if they are sign in
 def login():
+    render_template("login.html", error=None)
     if request.method == "POST":
         username = request.form["username"]
         password = request.form["password"]
