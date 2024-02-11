@@ -27,18 +27,6 @@ CREATE TABLE clothes (
     category VARCHAR(255) NOT NULL,
     size VARCHAR(255) NOT NULL,
     price FLOAT NOT NULL,
-    username VARCHAR(255) REFERENCES users(id),
-    image_path VARCHAR(255)
-);
-
-CREATE TABLE clothes (
-    id SERIAL PRIMARY KEY,
-    name VARCHAR(255) NOT NULL,
-    description VARCHAR(255) NOT NULL,
-    brand VARCHAR(255) NOT NULL,
-    category VARCHAR(255) NOT NULL,
-    size VARCHAR(255) NOT NULL,
-    price FLOAT NOT NULL,
     username VARCHAR(50) REFERENCES users(username),
     image_path VARCHAR(255)
 );
