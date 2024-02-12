@@ -46,3 +46,4 @@ INSERT INTO sizes (name) VALUES ('S');
 INSERT INTO sizes (name) VALUES ('M');
 INSERT INTO sizes (name) VALUES ('L');
 INSERT INTO sizes (name) VALUES ('XL');
+INSERT INTO sizes (name) VALUES ('Other');

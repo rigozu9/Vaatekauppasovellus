@@ -1,19 +1,11 @@
 # Clothing Shop Web Application
 
 ## Getting Started
-To start the application:
-1. Gitclone the repository to your computer: `git clone https://github.com/rigozu9/Vaatekauppasovellus.git`
-2. Install requirements: `pip install -r requirements.txt`
-3. Create a file named `.env` in the root directory of the project.
-4. Add the following lines to the `.env` file, replacing placeholders with your actual database URL and secret key:
-    ```plaintext
-    DATABASE_URL="postgresql://user:password@localhost:5432/databasename"
-    SECRET_KEY="setasecretkeyhere"
-    ```
-5. Sign in to your PostgreSQL database.
-6. Create a new database using the provided database URL.
-7. Run the schema.sql commands to set up the database schema.
-8. Run the app: `flask run`
+Test the application in Fly.io now:
+https://ccd-clothingshop.fly.dev/
+
+## Fly problems
+Right now the pictures arent loaded properly in fly so otherwise the app should work properly
 
 ## Overview
 The Clothing Shop web application is currently under development and making progress. Below is an overview of its current functionalities and future enhancements:
