@@ -22,7 +22,6 @@ def get_categories_and_brands():
 # Method to get clothes based on category from the database
 def get_clothes_by_category(category_name):
     clothes = Clothing.query.filter_by(category=category_name).all()
-    print(clothes[0].image_path)
     return render_template("category.html", clothes=clothes, category_name=category_name)
 
 # Method to get clothes based on brands from the database
