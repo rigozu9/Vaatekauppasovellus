@@ -80,3 +80,49 @@ def delete_garment(garment_id):
 
     return redirect(f"/users/{username}")
 
+#function to modify items
+def modify_garment(garment_id):
+    username = session['username']
+    
+    # Get the form data from the request
+    name = request.form['name']
+    description = request.form['description']
+    brand = request.form['brand']
+    category = request.form['category']
+    size = request.form['size']
+    price = request.form['price']
+    
+    # Retrieve the garment from the database
+    garment = Clothing.query.get(garment_id)
+
+    # Update the garment attributes with the new data
+    garment.name = name
+    garment.description = description
+    garment.brand = brand
+    garment.category = category
+    garment.size = size
+    garment.price = price
+
+
+        # Handle image upload
+    if 'image' in request.files:
+        files = request.files.getlist('image')  # Retrieve multiple files
+
+        garment.images[:] = []
+
+        # Iterate over each image and add it to the garment
+        for file in files:
+            if file and allowed_file(file.filename):
+                image_data = file.read()
+                new_image = Image(data=image_data)
+                garment.images.append(new_image)
+
+    # Commit changes to the database
+    db.session.commit()
+
+    # Redirect to the home page or any other appropriate page
+    return redirect(f"/users/{username}")
+
+
+
+

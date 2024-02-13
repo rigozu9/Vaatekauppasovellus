@@ -25,9 +25,6 @@
                     <p><strong>{{ item.size }}</strong></p>
                     <p><strong>{{ item.price }}€</strong></p>
                 </ul>
-                {% if session.username==username %}
-                    <p><a href="/delete/{{ item.id }}">DELETE ITEM</a></p>
-                {% endif %}
             </div>
         </li>
     {% endfor %}

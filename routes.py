@@ -1,10 +1,19 @@
 #routes file for navigating in the app
 from app import app
-from modules.clothes import get_categories_and_brands, add_clothes, get_clothes_by_category, get_clothes_by_brand, get_clothes_by_id, get_clothes_by_search, delete_garment
+from modules.clothes import (
+    get_categories_and_brands,
+    add_clothes,
+    get_clothes_by_category,
+    get_clothes_by_brand,
+    get_clothes_by_id,
+    get_clothes_by_search,
+    delete_garment,
+    modify_garment,
+)
 from modules.login import register, login, logout
 from modules.user import get_clothes_by_user
-from models import Category, Brand, Size
-from flask import render_template
+from models import Category, Brand, Size, Clothing, Image
+from flask import render_template, request
 
 #For the picture to render from the database need to 
 #define a custom Jinja2 filter for base64 encoding
@@ -47,15 +56,28 @@ def new():
     sizes = Size.query.all()
     return render_template('new.html', categories=categories, brands=brands, sizes=sizes)
 
-#calls usertab.html where usertab renders and shows own listings
-@app.route('/users/<user_name>')
-def user_tab(user_name):
-    return get_clothes_by_user(user_name)
-
 #adding a new garment
 @app.route("/send", methods=["POST"])
 def send():
     return add_clothes()
+
+#modify a garment if its a get method loads modify_item.html if post if calls modify_garment function 
+@app.route("/modify/<garment_id>", methods=["GET", "POST"])
+def modify_item(garment_id):
+    garment = Clothing.query.get(garment_id)
+    categories = Category.query.all()
+    brands = Brand.query.all()
+    sizes = Size.query.all()
+    images = Image.query.all()
+    if request.method == "POST":
+        return modify_garment(garment_id)
+    else:
+        return render_template('modify_item.html', garment=garment, categories=categories, brands=brands, sizes=sizes, images=images)
+
+#calls usertab.html where usertab renders and shows own listings
+@app.route('/users/<user_name>')
+def user_tab(user_name):
+    return get_clothes_by_user(user_name)
 
 #delete a garmnet
 @app.route("/delete/<garment_id>", methods=["GET", "POST"])
