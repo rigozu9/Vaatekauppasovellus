@@ -68,3 +68,15 @@ def add_clothes():
     db.session.commit()
 
     return redirect("/")
+
+#added function to delete garment. Redirects to usertab
+def delete_garment(garment_id):
+    username = session['username']
+    garment = Clothing.query.get(garment_id)
+    
+    if garment:
+        db.session.delete(garment)
+        db.session.commit()
+
+    return redirect(f"/users/{username}")
+

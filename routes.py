@@ -1,6 +1,6 @@
 #routes file for navigating in the app
 from app import app
-from modules.clothes import get_categories_and_brands, add_clothes, get_clothes_by_category, get_clothes_by_brand, get_clothes_by_id, get_clothes_by_search
+from modules.clothes import get_categories_and_brands, add_clothes, get_clothes_by_category, get_clothes_by_brand, get_clothes_by_id, get_clothes_by_search, delete_garment
 from modules.login import register, login, logout
 from modules.user import get_clothes_by_user
 from models import Category, Brand, Size
@@ -56,6 +56,11 @@ def user_tab(user_name):
 @app.route("/send", methods=["POST"])
 def send():
     return add_clothes()
+
+#delete a garmnet
+@app.route("/delete/<garment_id>", methods=["GET", "POST"])
+def delete_item(garment_id):
+    return delete_garment(garment_id)
 
 #register a new account
 @app.route("/register", methods=["GET", "POST"])

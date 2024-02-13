@@ -1,8 +1,7 @@
 {% include 'header.html' %}
 {% include 'search.html' %}
 
-<h2> Welcome: {{ session.username }}! </h2>
-<h3>Browse your listings here:</h3>
+<h2>{{ username }}'s' listings:</h2>
 
 <!-- If theres no listings it says so and offers you a link to list an item-->
 {% if not clothes %}
@@ -25,8 +24,10 @@
                     <p><strong>{{ item.brand }}</strong></p>
                     <p><strong>{{ item.size }}</strong></p>
                     <p><strong>{{ item.price }}€</strong></p>
-                    <p><strong>Listed by:</strong> {{ item.username }}</p>
                 </ul>
+                {% if session.username==username %}
+                    <p><a href="/delete/{{ item.id }}">DELETE ITEM</a></p>
+                {% endif %}
             </div>
         </li>
     {% endfor %}

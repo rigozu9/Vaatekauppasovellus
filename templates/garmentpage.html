@@ -23,7 +23,7 @@
                     <p><strong>About the item:</strong> <br>{{ item.description }}</br></p>
                     <p><strong>Size:</strong> {{ item.size }}</p>
                     <p><strong>Price:</strong> {{ item.price }}€</p>
-                    <p><strong>Listed by: </strong>{{ item.username }} </p>
+                    <p><strong>Listed by: </strong><a href="/users/{{ item.username }}">{{ item.username }}</a></p>
                 </div>
             </div>
         </li>

@@ -58,3 +58,10 @@ INSERT INTO sizes (name) VALUES ('M');
 INSERT INTO sizes (name) VALUES ('L');
 INSERT INTO sizes (name) VALUES ('XL');
 INSERT INTO sizes (name) VALUES ('Other');
+
+-- Example data for clothes. Need users to insert
+-- INSERT INTO clothes (name, description, brand, category, size, price, username)
+-- VALUES 
+--     ('Nike shirt', 'Cotton t-shirt', 'Nike', 'tops', 'M', 50, 'rigozu9'),
+--     ('Blue jeans', 'Blue denim jeans', 'Levi''s', 'bottoms', 'XL', 100, 'rigozu9'),
+--     ('Adidas sneakers', 'White canvas sneakers', 'Adidas', 'footwear', 'Other', 79, '123');
