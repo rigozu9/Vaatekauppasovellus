@@ -1,8 +1,8 @@
 # Clothing Shop Web Application
 
 ## Getting Started
-Test the application in Fly.io now:
-https://ccd-clothingshop.fly.dev/
+Test the application in Render.com now:
+https://ccd-clothingshop.onrender.com/
 
 ## Overview
 The Clothing Shop web application is currently under development and making progress. Below is an overview of its current functionalities and future enhancements:

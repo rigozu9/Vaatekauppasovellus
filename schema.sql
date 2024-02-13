@@ -2,7 +2,7 @@
 CREATE TABLE users (
     id SERIAL PRIMARY KEY,
     username VARCHAR(50) UNIQUE NOT NULL,
-    password VARCHAR(128) NOT NULL
+    password VARCHAR(255) NOT NULL
 );
 
 -- Create the 'categories' table
@@ -41,3 +41,20 @@ CREATE TABLE images (
     clothing_id INTEGER REFERENCES clothes(id) ON DELETE CASCADE,
     data BYTEA NOT NULL
 );
+
+INSERT INTO categories (name) VALUES ('tops');
+INSERT INTO categories (name) VALUES ('bottoms');
+INSERT INTO categories (name) VALUES ('footwear');
+INSERT INTO categories (name) VALUES ('other');
+
+
+INSERT INTO brands (name) VALUES ('BAPE');
+INSERT INTO brands (name) VALUES ('NUMBER (N)INE');
+INSERT INTO brands (name) VALUES ('junya watanabe');
+INSERT INTO brands (name) VALUES ('All brands');
+
+INSERT INTO sizes (name) VALUES ('S');
+INSERT INTO sizes (name) VALUES ('M');
+INSERT INTO sizes (name) VALUES ('L');
+INSERT INTO sizes (name) VALUES ('XL');
+INSERT INTO sizes (name) VALUES ('Other');
