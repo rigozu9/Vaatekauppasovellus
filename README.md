@@ -4,9 +4,6 @@
 Test the application in Fly.io now:
 https://ccd-clothingshop.fly.dev/
 
-## Fly problems
-Right now the pictures arent loaded properly in fly so otherwise the app should work properly
-
 ## Overview
 The Clothing Shop web application is currently under development and making progress. Below is an overview of its current functionalities and future enhancements:
 

@@ -26,6 +26,7 @@ footer {
     position: fixed;
     width: 100%;
     bottom: 0;
+    margin-top: 15px;
 }
 
 footer a {
@@ -232,7 +233,7 @@ footer a:hover {
     width: 50%; /* Adjust width as needed */
     margin: 0 auto; /* Center the form horizontally */
     background-color: #fff; /* Form background color */
-    padding: 20px; /* Add padding for spacing */
+    padding: 40px; /* Add padding for spacing */
     border-radius: 10px; /* Add rounded corners */
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* Add shadow for depth */
 }

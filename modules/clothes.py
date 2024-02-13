@@ -2,8 +2,6 @@ from flask import redirect, render_template, request, session
 from db import db
 from models import Clothing, Category, Brand, Image
 
-# Where the pictures are uploaded
-UPLOAD_FOLDER = 'static/uploads' 
 # Check if the filename has an allowed extension
 ALLOWED_EXTENSIONS = {'png', 'jpg', 'jpeg', 'gif'}
 
