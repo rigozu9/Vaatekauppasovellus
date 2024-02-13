@@ -20,7 +20,7 @@ a:hover {
 footer {
     background-color: #222;
     color: #fff;
-    padding: 20px;
+    padding: 7px;
     text-align: center;
     font-family: Arial, sans-serif;
     position: fixed;
@@ -242,7 +242,7 @@ footer a:hover {
 }
 
 .new-garment-form p {
-    margin-bottom: 10px; /* Add spacing between paragraphs */
+    margin-bottom: 7px; /* Add spacing between paragraphs */
 }
 
 .new-garment-form textarea,
