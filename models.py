@@ -14,10 +14,20 @@ class Clothing(db.Model):
     size = db.Column(db.String(255), nullable=False)
     price = db.Column(db.Float, nullable=False)
     username = db.Column(db.String(255), db.ForeignKey('users.id'))
-    image_path = db.Column(db.String(255))
+
+    # Define the one-to-many relationship with Image
+    images = db.relationship('Image', backref='clothing', lazy=True)
 
     def __repr__(self):
         return f'<Clothes {self.name}>'
+    
+#Table for images that are connected to a listing by clothes.id
+class Image(db.Model):
+    __tablename__ = 'images'
+
+    id = db.Column(db.Integer, primary_key=True)
+    clothing_id = db.Column(db.Integer, db.ForeignKey('clothes.id'), nullable=False)
+    data = db.Column(db.LargeBinary, nullable=False)
 
 #User model for registering an account. Has unique id, unique, username and password.
 class User(db.Model):

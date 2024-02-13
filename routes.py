@@ -6,6 +6,14 @@ from modules.user import get_clothes_by_user
 from models import Category, Brand, Size
 from flask import render_template
 
+#For the picture to render from the database need to 
+#define a custom Jinja2 filter for base64 encoding
+import base64
+
+@app.template_filter('b64encode')
+def b64encode_filter(data):
+    return base64.b64encode(data).decode('utf-8')
+
 #calls index.html the main page and renders the categories and brands from database
 @app.route("/")
 def index():

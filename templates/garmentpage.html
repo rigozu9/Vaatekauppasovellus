@@ -6,12 +6,11 @@
     {% for item in clothing %}
         <li class="garmentpage-item">
             <div class="item-container">
-                <!-- Display an image using the filename from static/uploads -->
-                {% set image_filenames = item.image_path[1:-1].split(',') %}
+                <!-- Display an image from the database -->
                 <div class="slideshow-container">
-                    {% for image in image_filenames %}
+                    {% for image in item.images %}
                         <div class="mySlides fade">
-                            <img class="garmentpage-image" src="{{ url_for('static', filename='uploads/' + image)}}" alt="Clothing">
+                            <img class="garmentpage-image" src="data:image/jpeg;base64,{{ image.data | b64encode }}" alt="Clothing">
                         </div>
                     {% endfor %}
                     <!-- Next and previous buttons -->

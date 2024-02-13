@@ -1,9 +1,6 @@
 from flask import redirect, render_template, request, session
 from db import db
-from models import Clothing, Category, Brand
-import os
-from werkzeug.utils import secure_filename
-import uuid
+from models import Clothing, Category, Brand, Image
 
 # Where the pictures are uploaded
 UPLOAD_FOLDER = 'static/uploads' 
@@ -44,7 +41,7 @@ def get_clothes_by_id(garment_id):
     clothing = Clothing.query.filter_by(id=garment_id).all()
     return render_template("garmentpage.html", clothing=clothing)
 
-# Add new clothes now able to upload a picture of the garment.
+# Add new clothes
 def add_clothes():
     name = request.form["name"]
     description = request.form["description"]
@@ -56,19 +53,20 @@ def add_clothes():
     if 'username' in session:
         username = session['username']
 
-    # Image uploading handled here 
-    image_paths = []  # Store the filenames for multiple images
-
     if 'image' in request.files:
         files = request.files.getlist('image')  # Retrieve multiple files
-        for file in files:
-            if file and allowed_file(file.filename):
-                # Generate a unique filename
-                filename = str(uuid.uuid4()) + secure_filename(file.filename)
-                file.save(os.path.join(UPLOAD_FOLDER, filename))
-                image_paths.append(filename)
 
-    new_clothes = Clothing(name=name, description=description, category=category, brand=brand, size=size, price=price, username=username, image_path=image_paths)
+    new_clothes = Clothing(name=name, description=description, category=category, brand=brand, size=size, price=price, username=username)
+
+    # Iterate over each image and create Image objects
+    for file in files:
+        if file and allowed_file(file.filename):
+            image_data = file.read()
+            new_image = Image(data=image_data)
+            new_clothes.images.append(new_image)
+
+    # Add the new clothing item
     db.session.add(new_clothes)
     db.session.commit()
+
     return redirect("/")
