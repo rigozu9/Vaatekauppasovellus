@@ -42,6 +42,17 @@ CREATE TABLE images (
     data BYTEA NOT NULL
 );
 
+-- Create the 'messages' table
+CREATE TABLE messages (
+    id SERIAL PRIMARY KEY,
+    sender_username INTEGER REFERENCES users(username),
+    receiver_username INTEGER REFERENCES users(username),
+    item_id INTEGER REFERENCES clothes(id),
+    message_body TEXT NOT NULL,
+    timestamp TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+
 INSERT INTO categories (name) VALUES ('tops');
 INSERT INTO categories (name) VALUES ('bottoms');
 INSERT INTO categories (name) VALUES ('footwear');

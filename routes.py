@@ -10,6 +10,7 @@ from modules.clothes import (
     delete_garment,
     modify_garment,
 )
+from modules.messages import send_message, get_messages
 from modules.login import register, login, logout
 from modules.user import get_clothes_by_user
 from models import Category, Brand, Size, Clothing, Image
@@ -49,17 +50,15 @@ def search():
     return get_clothes_by_search()
 
 #renders new.html and adds categories, brands, sizes from database to the select list
-@app.route("/new", methods=['GET'])
+@app.route("/new", methods=["POST", "GET"])
 def new():
     categories = Category.query.all()
     brands = Brand.query.all()
     sizes = Size.query.all()
-    return render_template('new.html', categories=categories, brands=brands, sizes=sizes)
-
-#adding a new garment
-@app.route("/send", methods=["POST"])
-def send():
-    return add_clothes()
+    if request.method == "POST":
+        return add_clothes()
+    else: 
+        return render_template("new.html", categories=categories, brands=brands, sizes=sizes)
 
 #modify a garment if its a get method loads modify_item.html if post if calls modify_garment function 
 @app.route("/modify/<garment_id>", methods=["GET", "POST"])
@@ -80,9 +79,18 @@ def user_tab(user_name):
     return get_clothes_by_user(user_name)
 
 #delete a garmnet
-@app.route("/delete/<garment_id>", methods=["GET", "POST"])
+@app.route("/delete/<garment_id>")
 def delete_item(garment_id):
     return delete_garment(garment_id)
+
+#if get renders item_messages.html tempalte if post sends message by calling the function send_message 
+@app.route('/send_message/<user_name>/<garment_id>', methods=['GET', 'POST'])
+def user_send_message(user_name, garment_id):
+    garment = Clothing.query.get(garment_id)
+    if request.method == 'POST':
+        return send_message()
+    else:
+        return render_template('item_messages.html', messages=[], user_name=user_name, garment=garment)
 
 #register a new account
 @app.route("/register", methods=["GET", "POST"])

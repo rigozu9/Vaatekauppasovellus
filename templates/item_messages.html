@@ -1,0 +1,31 @@
+{% include 'header.html' %}
+{% include 'search.html' %}
+
+<!-- Message sending page -->
+<form action="/send_message/{{ user_name }}/{{ garment.id }}" method="POST" enctype="multipart/form-data">
+    <h2>Send a message about an item</h2>
+    <br>
+    <p>Username: {{ user_name }} send a message to {{ garment.username }} about {{ garment.name }}:</p>
+    <!-- Textarea for message content -->
+    <textarea name="message_body" rows="3" cols="40"></textarea>
+
+    <!-- Hidden input fields for sender_id and receiver_id -->
+    <input type="hidden" name="sender_username" value="{{ user_name }}">
+    <input type="hidden" name="receiver_username" value="{{ garment.username }}">
+    <input type="hidden" name="item_id" value="{{ garment.id }}">
+    
+    <input type="submit" value="Send">
+
+{% if session.username %}
+    <!-- User is logged in, show logout link -->
+    <a class="usertab" href="/users/{{ session.username }}"> {{ session.username }}</a>
+    <a class="logout" href="/logout">Sign out</a>
+    <a class="sell" href="/new">Sell a garment</a>
+{% else %}
+    <!-- User is not logged in, show login and register links -->
+    <a class="login" href="/login">Sign in</a>
+    <a class="register" href="/register">Register here</a>
+{% endif %}
+
+<!-- footer -->
+{% include 'footer.html' %}

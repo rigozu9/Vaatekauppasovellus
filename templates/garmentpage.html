@@ -24,6 +24,8 @@
                     <p><strong>Size:</strong> {{ item.size }}</p>
                     <p><strong>Price:</strong> {{ item.price }}€</p>
                     <p><strong>Listed by: </strong><a href="/users/{{ item.username }}">{{ item.username }}</a></p>
+                    <!-- link to send messsage about the item -->
+                    <p><a href="/send_message/{{ session.username }}/{{ item.id }}">Send a message about the item</a></p>
                     {% if session.username == item.username %}
                         <p><a href="/modify/{{ item.id }}">MODIFY ITEM</a></p>
                         <p><a href="/delete/{{ item.id }}" onclick="return confirm('Are you sure you want to delete this item?');">DELETE ITEM</a></p>

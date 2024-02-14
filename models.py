@@ -69,3 +69,22 @@ class Size(db.Model):
 
     def __repr__(self):
         return f'<Brand {self.name}>'
+    
+class Message(db.Model):
+    __tablename__ = 'messages'
+
+    id = db.Column(db.Integer, primary_key=True)
+    sender_username = db.Column(db.Integer, db.ForeignKey('users.username'), nullable=False)
+    receiver_username = db.Column(db.Integer, db.ForeignKey('users.username'), nullable=False)
+    item_id = db.Column(db.Integer, db.ForeignKey('clothes.id'), nullable=False)
+    message_body = db.Column(db.Text, nullable=False)
+    timestamp = db.Column(db.TIMESTAMP, server_default=db.func.now())
+
+    sender = db.relationship("User", foreign_keys=[sender_username])
+    receiver = db.relationship("User", foreign_keys=[receiver_username])
+    item = db.relationship("Clothing")
+
+    def __repr__(self):
+        return f'<Message {self.id}>'
+    
+    
