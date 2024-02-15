@@ -42,16 +42,25 @@ CREATE TABLE images (
     data BYTEA NOT NULL
 );
 
--- Create the 'messages' table
-CREATE TABLE messages (
+-- Create the chats table
+CREATE TABLE chats (
     id SERIAL PRIMARY KEY,
-    sender_username INTEGER REFERENCES users(username),
-    receiver_username INTEGER REFERENCES users(username),
-    item_id INTEGER REFERENCES clothes(id),
+    buyer_username VARCHAR(255) REFERENCES users(username) NOT NULL,
+    seller_username VARCHAR(255) REFERENCES users(username) NOT NULL,
+    item_id INTEGER REFERENCES clothes(id) NOT NULL,
+    start_timestamp TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+-- Create the messages table
+CREATE TABLE IF NOT EXISTS messages (
+    id SERIAL PRIMARY KEY,
+    chat_id INTEGER REFERENCES chats(id) NOT NULL,
+    sender_username VARCHAR(255) REFERENCES users(username) NOT NULL,
+    receiver_username VARCHAR(255) REFERENCES users(username) NOT NULL,
+    item_id INTEGER REFERENCES clothes(id) NOT NULL,
     message_body TEXT NOT NULL,
     timestamp TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
-
 
 INSERT INTO categories (name) VALUES ('tops');
 INSERT INTO categories (name) VALUES ('bottoms');

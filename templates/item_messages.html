@@ -6,6 +6,9 @@
     <h2>Send a message about an item</h2>
     <br>
     <p>Username: {{ user_name }} send a message to {{ garment.username }} about {{ garment.name }}:</p>
+    {% for message in messages %}
+        <p>{{message.message_body}}</p>
+    {% endfor %}
     <!-- Textarea for message content -->
     <textarea name="message_body" rows="3" cols="40"></textarea>
 

@@ -69,13 +69,34 @@ class Size(db.Model):
 
     def __repr__(self):
         return f'<Brand {self.name}>'
-    
+
+#Added a chat model to store chats
+class Chat(db.Model):
+    __tablename__ = 'chats'
+
+    id = db.Column(db.Integer, primary_key=True)
+    buyer_username = db.Column(db.String(255), db.ForeignKey('users.username'), nullable=False)
+    seller_username = db.Column(db.String(255), db.ForeignKey('users.username'), nullable=False)
+    item_id = db.Column(db.Integer, db.ForeignKey('clothes.id'), nullable=False)
+    start_timestamp = db.Column(db.TIMESTAMP, server_default=db.func.now())
+
+    buyer = db.relationship("User", foreign_keys=[buyer_username])
+    seller = db.relationship("User", foreign_keys=[seller_username])
+    item = db.relationship("Clothing")
+
+    messages = db.relationship("Message", backref="associated_chat", lazy="dynamic")
+
+    def __repr__(self):
+        return f'<Chat {self.id}>'    
+
+# Message model
 class Message(db.Model):
     __tablename__ = 'messages'
 
     id = db.Column(db.Integer, primary_key=True)
-    sender_username = db.Column(db.Integer, db.ForeignKey('users.username'), nullable=False)
-    receiver_username = db.Column(db.Integer, db.ForeignKey('users.username'), nullable=False)
+    chat_id = db.Column(db.Integer, db.ForeignKey('chats.id'), nullable=False)
+    sender_username = db.Column(db.String(255), db.ForeignKey('users.username'), nullable=False)
+    receiver_username = db.Column(db.String(255), db.ForeignKey('users.username'), nullable=False)
     item_id = db.Column(db.Integer, db.ForeignKey('clothes.id'), nullable=False)
     message_body = db.Column(db.Text, nullable=False)
     timestamp = db.Column(db.TIMESTAMP, server_default=db.func.now())
@@ -83,8 +104,9 @@ class Message(db.Model):
     sender = db.relationship("User", foreign_keys=[sender_username])
     receiver = db.relationship("User", foreign_keys=[receiver_username])
     item = db.relationship("Clothing")
+    chat = db.relationship("Chat")
 
     def __repr__(self):
         return f'<Message {self.id}>'
-    
+
     

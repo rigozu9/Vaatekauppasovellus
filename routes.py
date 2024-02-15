@@ -1,5 +1,6 @@
 #routes file for navigating in the app
 from app import app
+from sqlalchemy import and_, or_
 from modules.clothes import (
     get_categories_and_brands,
     add_clothes,
@@ -10,10 +11,18 @@ from modules.clothes import (
     delete_garment,
     modify_garment,
 )
-from modules.messages import send_message, get_messages
+from modules.messages import send_message
 from modules.login import register, login, logout
 from modules.user import get_clothes_by_user
-from models import Category, Brand, Size, Clothing, Image
+from models import (
+    Category, 
+    Brand, 
+    Size, 
+    Clothing, 
+    Image, 
+    Message, 
+    Chat
+)
 from flask import render_template, request
 
 #For the picture to render from the database need to 
@@ -83,14 +92,31 @@ def user_tab(user_name):
 def delete_item(garment_id):
     return delete_garment(garment_id)
 
-#if get renders item_messages.html tempalte if post sends message by calling the function send_message 
+#if GET renders item_messages.html tempalte if POST sends message by calling the function send_message 
 @app.route('/send_message/<user_name>/<garment_id>', methods=['GET', 'POST'])
 def user_send_message(user_name, garment_id):
     garment = Clothing.query.get(garment_id)
+    messages = Message.query.filter(and_(
+        Message.sender_username == user_name,
+        Message.receiver_username == garment.username,
+        Message.item_id == garment_id
+    )).all()
     if request.method == 'POST':
         return send_message()
     else:
-        return render_template('item_messages.html', messages=[], user_name=user_name, garment=garment)
+        return render_template('item_messages.html', messages=messages, user_name=user_name, garment=garment)
+    
+#Route for users to check inquiries on their listings
+@app.route('/<user_name>/chats/<garment_id>', methods=['GET', 'POST'])
+def user_get_chats(user_name, garment_id):
+    garment = Clothing.query.get(garment_id)
+    chats = Chat.query.filter(
+        (
+            Chat.seller_username == user_name
+        ),
+        Chat.item_id == garment_id
+    ).all()
+    return render_template('chats.html', chats=chats, user_name=user_name, garment=garment)
 
 #register a new account
 @app.route("/register", methods=["GET", "POST"])

@@ -1,0 +1,24 @@
+{% include 'header.html' %}
+{% include 'search.html' %}
+
+<!-- See chats for the listing-->
+<h2>{{garment.name}} inquiries</h2>
+<br>
+{% for chat in chats %}
+    <p>{{ chat.buyer_username }}</p>
+{% endfor %}
+
+
+{% if session.username %}
+    <!-- User is logged in, show logout link -->
+    <a class="usertab" href="/users/{{ session.username }}"> {{ session.username }}</a>
+    <a class="logout" href="/logout">Sign out</a>
+    <a class="sell" href="/new">Sell a garment</a>
+{% else %}
+    <!-- User is not logged in, show login and register links -->
+    <a class="login" href="/login">Sign in</a>
+    <a class="register" href="/register">Register here</a>
+{% endif %}
+
+<!-- footer -->
+{% include 'footer.html' %}
