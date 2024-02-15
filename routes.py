@@ -1,6 +1,6 @@
 #routes file for navigating in the app
 from app import app
-from sqlalchemy import and_, or_
+from sqlalchemy import and_, or_, desc
 from modules.clothes import (
     get_categories_and_brands,
     add_clothes,
@@ -110,13 +110,21 @@ def user_send_message(user_name, garment_id):
 @app.route('/<user_name>/chats/<garment_id>', methods=['GET', 'POST'])
 def user_get_chats(user_name, garment_id):
     garment = Clothing.query.get(garment_id)
+    # Fetch chats where the user is the seller and the item_id matches
     chats = Chat.query.filter(
-        (
-            Chat.seller_username == user_name
-        ),
+        Chat.seller_username == user_name,
         Chat.item_id == garment_id
     ).all()
-    return render_template('chats.html', chats=chats, user_name=user_name, garment=garment)
+
+    # Fetch the last message for each chat
+    last_messages = {}
+    for chat in chats:
+        last_message = Message.query.filter_by(chat_id=chat.id).order_by(desc(Message.timestamp)).first()
+        last_messages[chat.id] = last_message
+
+    return render_template('chats.html', chats=chats, last_messages=last_messages, user_name=user_name, garment=garment)
+
+
 
 #register a new account
 @app.route("/register", methods=["GET", "POST"])

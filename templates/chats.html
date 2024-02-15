@@ -5,9 +5,14 @@
 <h2>{{garment.name}} inquiries</h2>
 <br>
 {% for chat in chats %}
-    <p>{{ chat.buyer_username }}</p>
+    <p>
+        <a href="/send_message/{{ chat.seller_username }}/{{ garment.id }}">{{ chat.buyer_username }}
+        {% if last_messages.get(chat.id) %}
+            : {{ last_messages.get(chat.id).message_body }}
+        {% endif %}
+        </a>
+    </p>
 {% endfor %}
-
 
 {% if session.username %}
     <!-- User is logged in, show logout link -->
