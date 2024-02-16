@@ -26,7 +26,6 @@ footer {
     position: fixed;
     width: 100%;
     bottom: 0;
-    margin-top: 15px;
 }
 
 footer a {
@@ -37,6 +36,77 @@ footer a {
 
 footer a:hover {
     color: hsl(16, 8%, 26%); /* Change link color on hover */
+}
+
+/* Chat list styling */
+.chat-list {
+    list-style: none;
+    padding: 0;
+}
+
+.chat-item {
+    padding: 15px;
+    background-color: #f1f1f1;
+    margin-bottom: 15px;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Add shadow effect */
+    transition: background-color 0.3s ease; /* Smooth transition for background color */
+}
+
+.chat-item:hover {
+    background-color: #e0e0e0; /* Darken the background color on hover */
+}
+
+.chat-link {
+    color: #333;
+    text-decoration: none;
+}
+
+/* Chat form container styling */
+.chat-form {
+    max-width: 600px;
+    margin: 0 auto;
+    padding: 20px;
+    background-color: #f9f9f9;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+/* Heading styling */
+.chat-form h2 {
+    font-size: 24px;
+    color: #333;
+    margin-bottom: 20px;
+}
+
+/* Paragraph styling */
+.chat-form p {
+    color: #555;
+    margin-bottom: 10px;
+}
+
+/* Textarea styling */
+.chat-form textarea {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    resize: vertical;
+    margin-bottom: 20px;
+}
+
+/* Submit button styling */
+.chat-form input[type="submit"] {
+    background-color: #333;
+    color: #fff;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.chat-form input[type="submit"]:hover {
+    background-color: #555;
 }
 
 

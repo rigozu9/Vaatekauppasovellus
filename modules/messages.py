@@ -44,5 +44,5 @@ def send_message():
     db.session.add(new_message)
     db.session.commit()
 
-    # Redirect the user to a suitable route
-    return redirect(f"/send_message/{sender_username}/{item_id}")
+    # Redirect to the chat
+    return redirect(f"/send_message/{sender_username}/{receiver_username}/{item_id}")
