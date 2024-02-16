@@ -104,7 +104,7 @@ class Message(db.Model):
     sender = db.relationship("User", foreign_keys=[sender_username])
     receiver = db.relationship("User", foreign_keys=[receiver_username])
     item = db.relationship("Clothing")
-    chat = db.relationship("Chat")
+    chat = db.relationship("Chat", overlaps="associated_chat,messages")
 
     def __repr__(self):
         return f'<Message {self.id}>'

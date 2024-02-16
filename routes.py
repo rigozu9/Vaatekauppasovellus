@@ -96,15 +96,22 @@ def delete_item(garment_id):
 @app.route('/send_message/<user_name>/<garment_id>', methods=['GET', 'POST'])
 def user_send_message(user_name, garment_id):
     garment = Clothing.query.get(garment_id)
-    messages = Message.query.filter(and_(
-        Message.sender_username == user_name,
-        Message.receiver_username == garment.username,
-        Message.item_id == garment_id
-    )).all()
-    if request.method == 'POST':
-        return send_message()
+    chat = Chat.query.filter(
+        and_(
+            Chat.buyer_username == user_name,
+            Chat.item_id == garment_id
+        )
+    ).first()
+
+    if chat:
+        messages = Message.query.filter_by(chat_id=chat.id).order_by(Message.timestamp).all()
+        if request.method == 'POST':
+            return send_message()
+        else:
+            return render_template('item_messages.html', messages=messages, user_name=user_name, garment=garment)
     else:
-        return render_template('item_messages.html', messages=messages, user_name=user_name, garment=garment)
+        # Handle case where there is no chat between the buyer, seller, and item
+        return "No chat found for the specified user, garment, and item combination"
     
 #Route for users to check inquiries on their listings
 @app.route('/<user_name>/chats/<garment_id>', methods=['GET', 'POST'])
@@ -124,9 +131,6 @@ def user_get_chats(user_name, garment_id):
 
     return render_template('chats.html', chats=chats, last_messages=last_messages, user_name=user_name, garment=garment)
 
-
-
-#register a new account
 @app.route("/register", methods=["GET", "POST"])
 def register_route():
     return register()

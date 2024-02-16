@@ -52,7 +52,7 @@ CREATE TABLE chats (
 );
 
 -- Create the messages table
-CREATE TABLE IF NOT EXISTS messages (
+CREATE TABLE messages (
     id SERIAL PRIMARY KEY,
     chat_id INTEGER REFERENCES chats(id) NOT NULL,
     sender_username VARCHAR(255) REFERENCES users(username) NOT NULL,

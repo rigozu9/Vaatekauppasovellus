@@ -6,7 +6,7 @@
 <br>
 {% for chat in chats %}
     <p>
-        <a href="/send_message/{{ chat.seller_username }}/{{ garment.id }}">{{ chat.buyer_username }}
+        <a href="/send_message/{{ chat.buyer_username }}/{{ garment.id }}">{{ chat.buyer_username }}
         {% if last_messages.get(chat.id) %}
             : {{ last_messages.get(chat.id).message_body }}
         {% endif %}
