@@ -1,30 +1,41 @@
-{% include 'header.html' %}
-{% include 'search.html' %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CCD:</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+</head>
+<body>
+    {% include 'header.html' %}
+    {% include 'search.html' %}
 
-<!-- See chats for the listing-->
-<h2 class="garment-name">{{ garment.name }} inquiries</h2>
-<br>
-{% for chat in chats %}
-    <p class="chat-item">
-        <a href="/send_message/{{ seller_username }}/{{ chat.buyer_username }}/{{ garment.id }}" class="chat-link">{{ chat.buyer_username }}
-        {% if last_messages.get(chat.id) %}
-            : {{ last_messages.get(chat.id).message_body }}
-            <p>Open chat</p>
-        {% endif %}
-        </a>
-    </p>
-{% endfor %}
+    <!-- See chats for the listing-->
+    <h2 class="garment-name">{{ garment.name }} inquiries</h2>
+    <br>
+    {% for chat in chats %}
+        <p class="chat-item">
+            <a href="/send_message/{{ seller_username }}/{{ chat.buyer_username }}/{{ garment.id }}" class="chat-link">{{ chat.buyer_username }}
+            {% if last_messages.get(chat.id) %}
+                : {{ last_messages.get(chat.id).message_body }}
+                <p>Open chat</p>
+            {% endif %}
+            </a>
+        </p>
+    {% endfor %}
 
-{% if session.username %}
-    <!-- User is logged in, show logout link -->
-    <a class="usertab" href="/users/{{ session.username }}"> {{ session.username }}</a>
-    <a class="logout" href="/logout">Sign out</a>
-    <a class="sell" href="/new">Sell a garment</a>
-{% else %}
-    <!-- User is not logged in, show login and register links -->
-    <a class="login" href="/login">Sign in</a>
-    <a class="register" href="/register">Register here</a>
-{% endif %}
+    {% if session.username %}
+        <!-- User is logged in, show logout link -->
+        <a class="usertab" href="/users/{{ session.username }}"> {{ session.username }}</a>
+        <a class="logout" href="/logout">Sign out</a>
+        <a class="sell" href="/new">Sell a garment</a>
+    {% else %}
+        <!-- User is not logged in, show login and register links -->
+        <a class="login" href="/login">Sign in</a>
+        <a class="register" href="/register">Register here</a>
+    {% endif %}
 
-<!-- footer -->
-{% include 'footer.html' %}
+    <!-- footer -->
+    {% include 'footer.html' %}
+</body>
+</html>

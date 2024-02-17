@@ -1,45 +1,56 @@
-{% include 'header.html' %}
-{% include 'search.html' %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CCD:</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+</head>
+<body>
+    {% include 'header.html' %}
+    {% include 'search.html' %}
 
-<h2>{{ username }}'s' listings:</h2>
+    <h2>{{ username }}'s' listings:</h2>
 
-<!-- If theres no listings it says so and offers you a link to list an item-->
-{% if not clothes %}
-    <p>No listings made yet. </p>
-    <a href="/new">List an item here</a>
-{% endif %}
+    <!-- If theres no listings it says so and offers you a link to list an item-->
+    {% if not clothes %}
+        <p>No listings made yet. </p>
+        <a href="/new">List an item here</a>
+    {% endif %}
 
-<!-- Clothes rendered here if there are listing in-->
-<ul class="category-grid">
-    {% for item in clothes %}
-        <li class="category-item">
-            <div>
-                <p><strong><a href="/garment/{{ item.id }}">{{ item.name }}</a></strong></p>
-                <!-- Check if the clothing item has associated images -->
-                {% if item.images %}
-                    <!-- Render only the first image associated with the clothing item -->
-                    <a href="/garment/{{ item.id }}"><img class="category-image" src="data:image/jpeg;base64,{{ item.images[0].data | b64encode }}" alt="Clothing"></a>
-                {% endif %}
-                <ul>
-                    <p><strong>{{ item.brand }}</strong></p>
-                    <p><strong>{{ item.size }}</strong></p>
-                    <p><strong>{{ item.price }}€</strong></p>
-                </ul>
-            </div>
-        </li>
-    {% endfor %}
-</ul>
+    <!-- Clothes rendered here if there are listing in-->
+    <ul class="category-grid">
+        {% for item in clothes %}
+            <li class="category-item">
+                <div>
+                    <p><strong><a href="/garment/{{ item.id }}">{{ item.name }}</a></strong></p>
+                    <!-- Check if the clothing item has associated images -->
+                    {% if item.images %}
+                        <!-- Render only the first image associated with the clothing item -->
+                        <a href="/garment/{{ item.id }}"><img class="category-image" src="data:image/jpeg;base64,{{ item.images[0].data | b64encode }}" alt="Clothing"></a>
+                    {% endif %}
+                    <ul>
+                        <p><strong>{{ item.brand }}</strong></p>
+                        <p><strong>{{ item.size }}</strong></p>
+                        <p><strong>{{ item.price }}€</strong></p>
+                    </ul>
+                </div>
+            </li>
+        {% endfor %}
+    </ul>
 
-{% if session.username %}
-    <!-- User is logged in, show logout link -->
-    <a class="usertab" href="/users/{{ session.username }}"> {{ session.username }}</a>
-    <a class="logout" href="/logout">Sign out</a>
-    <a class="sell" href="/new">Sell a garment</a>
-{% else %}
-    <!-- User is not logged in, show login and register links -->
-    <a class="login" href="/login">Sign in</a>
-    <a class="register" href="/register">Register here</a>
-{% endif %}
+    {% if session.username %}
+        <!-- User is logged in, show logout link -->
+        <a class="usertab" href="/users/{{ session.username }}"> {{ session.username }}</a>
+        <a class="logout" href="/logout">Sign out</a>
+        <a class="sell" href="/new">Sell a garment</a>
+    {% else %}
+        <!-- User is not logged in, show login and register links -->
+        <a class="login" href="/login">Sign in</a>
+        <a class="register" href="/register">Register here</a>
+    {% endif %}
 
-<!-- footer -->
-{% include 'footer.html' %}
+    <!-- footer -->
+    {% include 'footer.html' %}
+</body>
+</html>

@@ -1,46 +1,57 @@
-{% include 'header.html' %}
-<form action="/modify/{{ garment.id }}" class="new-garment-form"  method="POST" class="modify-garment-form" enctype="multipart/form-data">
-    <h2>Modify {{garment.name}} details</h2> 
-    <br>
-    <p>Name:</p>
-    <textarea name="name" rows="1" cols="40">{{ garment.name }}</textarea>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CCD:</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+</head>
+<body>
+    {% include 'header.html' %}
+    <form action="/modify/{{ garment.id }}" class="new-garment-form"  method="POST" class="modify-garment-form" enctype="multipart/form-data">
+        <h2>Modify {{garment.name}} details</h2> 
+        <br>
+        <p>Name:</p>
+        <textarea name="name" rows="1" cols="40">{{ garment.name }}</textarea>
 
-    <p>Current Images:</p>
-    
+        <p>Current Images:</p>
+        
 
-    <p>Pictures (Max 4), (Accepted extensions: 'png', 'jpg', 'jpeg', 'gif'):</p>
-    <input type="file" name="image" multiple>
+        <p>Pictures (Max 4), (Accepted extensions: 'png', 'jpg', 'jpeg', 'gif'):</p>
+        <input type="file" name="image" multiple>
 
-    <p>Description:</p>
-    <textarea name="description" rows="3" cols="40">{{ garment.description }}</textarea>
+        <p>Description:</p>
+        <textarea name="description" rows="3" cols="40">{{ garment.description }}</textarea>
 
-    <p>Brand:</p>
-    <select name="brand">
-        <option value="">Choose the brand...</option>
-        {% for brand in brands %}
-            <option value="{{ brand.name }}" {% if garment.brand == brand.name %}selected{% endif %}>{{ brand.name }}</option>
-        {% endfor %}
-    </select>
+        <p>Brand:</p>
+        <select name="brand">
+            <option value="">Choose the brand...</option>
+            {% for brand in brands %}
+                <option value="{{ brand.name }}" {% if garment.brand == brand.name %}selected{% endif %}>{{ brand.name }}</option>
+            {% endfor %}
+        </select>
 
-    <p>Category:</p>
-    <select name="category">
-        <option value="">Choose a category...</option>
-        {% for category in categories %}
-            <option value="{{ category.name }}" {% if garment.category == category.name %}selected{% endif %}>{{ category.name }}</option>
-        {% endfor %}
-    </select>
+        <p>Category:</p>
+        <select name="category">
+            <option value="">Choose a category...</option>
+            {% for category in categories %}
+                <option value="{{ category.name }}" {% if garment.category == category.name %}selected{% endif %}>{{ category.name }}</option>
+            {% endfor %}
+        </select>
 
-    <p>Size:</p>
-    <select name="size">
-        <option value="">Choose size...</option>
-        {% for size in sizes %}
-            <option value="{{ size.name }}" {% if garment.size == size.name %}selected{% endif %}>{{ size.name }}</option>
-        {% endfor %}
-    </select>
+        <p>Size:</p>
+        <select name="size">
+            <option value="">Choose size...</option>
+            {% for size in sizes %}
+                <option value="{{ size.name }}" {% if garment.size == size.name %}selected{% endif %}>{{ size.name }}</option>
+            {% endfor %}
+        </select>
 
-    <p>Price (Type just the number, currency added later):</p>
-    <textarea name="price" rows="1" cols="10">{{ garment.price }}</textarea>
-    <br>
+        <p>Price (Type just the number, currency added later):</p>
+        <textarea name="price" rows="1" cols="10">{{ garment.price }}</textarea>
+        <br>
 
-    <input type="submit" value="Save Changes">
-</form>
+        <input type="submit" value="Save Changes">
+    </form>
+</body>
+</html>

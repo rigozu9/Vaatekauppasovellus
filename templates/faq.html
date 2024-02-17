@@ -1,18 +1,19 @@
-{% include 'header.html' %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CCD:</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+</head>
 <body>
-    <header>
+    {% include 'header.html' %}
         <h2>Frequently Asked Questions (FAQ)</h2>
-    </header>
-
-    <main>
         <h3>Question 1: What are the buyer/seller fees in CCD?</h3>
         <p>For buyers there arent no fees. And sellers pay 5% for the garment they sold.</p>
 
         <h3>Question 2: What are the shipping fees in CCD?</h3>
         <p>There are no shipping fees. After you sell an item we will provide a shipping code for you.</p>
-
-    </main>
-
     {% include 'footer.html' %}
 </body>
 </html>
