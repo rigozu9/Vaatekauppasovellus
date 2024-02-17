@@ -13,7 +13,7 @@ from modules.clothes import (
 )
 from modules.messages import send_message
 from modules.login import register, login, logout
-from modules.user import get_clothes_by_user
+from modules.user import get_info_by_user
 from models import (
     Category, 
     Brand, 
@@ -82,11 +82,6 @@ def modify_item(garment_id):
     else:
         return render_template('modify_item.html', garment=garment, categories=categories, brands=brands, sizes=sizes, images=images)
 
-#calls usertab.html where usertab renders and shows own listings
-@app.route('/users/<user_name>')
-def user_tab(user_name):
-    return get_clothes_by_user(user_name)
-
 #delete a garmnet
 @app.route("/delete/<garment_id>")
 def delete_item(garment_id):
@@ -127,6 +122,11 @@ def user_get_chats(seller_username, garment_id):
         last_messages[chat.id] = last_message
 
     return render_template('chats.html', chats=chats, last_messages=last_messages, seller_username=seller_username, garment=garment)
+
+#calls usertab.html where usertab renders and shows own listings
+@app.route('/users/<user_name>')
+def user_tab(user_name):
+    return get_info_by_user(user_name)
 
 @app.route("/register", methods=["GET", "POST"])
 def register_route():

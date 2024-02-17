@@ -7,7 +7,7 @@ body {
 }
 
 a {
-    color: #1b1a1a; /* White text color for links */
+    color: #6e6262; /* White text color for links */
     text-decoration: none; /* Remove underlines from links */
     transition: color 0.3s ease; /* Smooth transition for link color */
 }
@@ -16,9 +16,25 @@ a:hover {
     color: hsl(18, 9%, 38%); /* Change link color on hover */
 }
 
+/* header css */
+header h1 {
+    margin: 0; /* Remove default margin for h1 */
+    color: rgb(51, 44, 44);
+    font-size: 48px; /* Larger font size */
+    letter-spacing: 2px; /* Increase letter spacing for a modern look */
+    text-transform: uppercase; /* Convert text to uppercase */
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5); /* Add shadow for depth */
+}
+
+header a {
+    font-family: Arial, sans-serif;
+    color: rgb(51, 44, 44);
+    text-decoration: none; /* Removes underline from links */
+}
+
 /* footer css */
 footer {
-    background-color: #222;
+    background-color: #555454;
     color: #fff;
     padding: 7px;
     text-align: center;
@@ -28,22 +44,7 @@ footer {
     bottom: 0;
 }
 
-footer a {
-    color: #fff; /* White text color for links */
-    text-decoration: none; /* Remove underlines from links */
-    transition: color 0.3s ease; /* Smooth transition for link color */
-}
-
-footer a:hover {
-    color: hsl(16, 8%, 26%); /* Change link color on hover */
-}
-
-/* Chat list styling */
-.chat-list {
-    list-style: none;
-    padding: 0;
-}
-
+/* chats html css */
 .chat-item {
     padding: 15px;
     background-color: #f1f1f1;
@@ -62,6 +63,66 @@ footer a:hover {
     text-decoration: none;
 }
 
+
+/* garment page css */
+.garmentpage-item {
+    background-color: #f2f2f2; /* Adjust background color as needed */
+    padding: 25px;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* Add shadow for depth */
+    display: flex; /* Make the item container flex */
+    align-items: center; /* Align items vertically */
+}
+
+.garmentpage-item img {
+    max-width: 100%; /* Ensure image responsiveness */
+    display: block;
+    border-radius: 5px;
+    max-height: 400px; /* Adjust the maximum height of the image */
+}
+
+.garmentpage-image {
+    width: 100%; /* Set width to fill container */
+    height: auto; /* Maintain aspect ratio */
+    border-radius: 5px;
+}
+
+.details-container {
+    margin-left: 20px;
+    flex-grow: 1; /* Allow the details to take up remaining space */
+}
+
+.slideshow-container {
+    max-width: 1000px; /* Set max-width of slideshow container */
+    margin: 0 auto; /* Center the slideshow */
+}
+
+.mySlides {
+    display: none; /* Hide slides by default */
+}
+
+/* INdex.hmtl css */
+.category-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    grid-gap: 10px;
+    list-style: none;
+    padding: 0;
+}
+
+.category-item {
+    text-align: center;
+    padding: 0;
+}
+
+.category-image, .clothing-item img {
+    width: 250px;
+    height: 250px;
+    object-fit: cover;
+    border-radius: 15%;
+}
+
+/* item_messages html css */
 /* Chat form container styling */
 .chat-form {
     max-width: 600px;
@@ -109,21 +170,7 @@ footer a:hover {
     background-color: #555;
 }
 
-
-.header h1 {
-    margin: 0; /* Remove default margin for h1 */
-    font-size: 48px; /* Larger font size */
-    letter-spacing: 2px; /* Increase letter spacing for a modern look */
-    text-transform: uppercase; /* Convert text to uppercase */
-    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5); /* Add shadow for depth */
-}
-
-.header a {
-    text-decoration: none; /* Removes underline from links */
-}
-
 /* Sell, logout, register, usertab css */
-
 
 .sell, .logout, .login, .register, .usertab {
     font-family: Arial, sans-serif;
@@ -168,81 +215,6 @@ footer a:hover {
     top: 10px;
     right: 133px;
 }
-
-
-/* clothing image size and style */
-
-/* Category css */
-.category-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-    grid-gap: 20px;
-    list-style: none;
-    padding: 0;
-}
-
-.category-item {
-    text-align: center;
-}
-
-.category-image, .clothing-item img {
-    width: 250px;
-    height: 250px;
-    object-fit: cover;
-    border-radius: 50%;
-}
-
-/* garment page css */
-.garmentpage-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); /* Adjust as needed */
-    gap: 20px;
-    list-style: none;
-    padding: 0;
-    margin: 0 auto;
-    width: 90%; /* Adjust width as needed */
-}
-
-.garmentpage-item {
-    background-color: #f2f2f2; /* Adjust background color as needed */
-    padding: 20px;
-    border-radius: 8px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* Add shadow for depth */
-    display: flex; /* Make the item container flex */
-    align-items: center; /* Align items vertically */
-}
-
-.garmentpage-item img {
-    max-width: 100%; /* Ensure image responsiveness */
-    display: block;
-    border-radius: 5px;
-    max-height: 400px; /* Adjust the maximum height of the image */
-}
-
-.image-container {
-    width: 200px; /* Adjust the width as needed */
-    margin-right: 20px; /* Add some spacing between image and details */
-}
-
-.garmentpage-image {
-    width: 100%; /* Set width to fill container */
-    height: auto; /* Maintain aspect ratio */
-    border-radius: 5px;
-}
-
-.slideshow-container {
-    max-width: 1000px; /* Set max-width of slideshow container */
-    margin: 0 auto; /* Center the slideshow */
-}
-
-.mySlides {
-    display: none; /* Hide slides by default */
-}
-
-.details-container {
-    flex-grow: 1; /* Allow the details to take up remaining space */
-}
-
 
 /* loginform css */
 .login-form {
@@ -300,10 +272,10 @@ footer a:hover {
 /* New garment form */
 
 .new-garment-form {
-    width: 50%; /* Adjust width as needed */
+    width: 70%; /* Adjust width as needed */
     margin: 0 auto; /* Center the form horizontally */
     background-color: #fff; /* Form background color */
-    padding: 40px; /* Add padding for spacing */
+    padding: 70px;
     border-radius: 10px; /* Add rounded corners */
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* Add shadow for depth */
 }
@@ -316,9 +288,7 @@ footer a:hover {
     margin-bottom: 7px; /* Add spacing between paragraphs */
 }
 
-.new-garment-form textarea,
-.new-garment-form select,
-.new-garment-form input[type="submit"] {
+.new-garment-form textarea, .new-garment-form select, .new-garment-form input[type="submit"] {
     width: 100%; /* Make elements full width */
     padding: 10px; /* Add padding for spacing */
     margin-bottom: 10px; /* Add spacing between elements */

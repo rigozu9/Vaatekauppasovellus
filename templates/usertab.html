@@ -5,6 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>CCD:</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+    <link rel="icon" href="{{ url_for('static', filename='CCDLOGO.png') }}" type="image/x-icon">
+    <link rel="shortcut icon" href="{{ url_for('static', filename='CCDLOGO.png') }}" type="image/x-icon">    
 </head>
 <body>
     {% include 'header.html' %}
@@ -38,6 +40,20 @@
             </li>
         {% endfor %}
     </ul>
+
+    {% if session.username == username %}
+    <h2>{{ username }}'s' chats:</h2>
+        {% for chat in chats %}
+                <p class="chat-item">
+                    <a href="/send_message/{{ chat.seller_username }}/{{ chat.buyer_username }}/{{ chat.item_id }}" class="chat-link">{{ chat.buyer_username }}
+                    {% if last_messages.get(chat.id) %}
+                        : {{ last_messages.get(chat.id).message_body }} 
+                        <p>Open chat about {{ chat.item_id }}</p>
+                    {% endif %}
+                    </a>
+                </p>
+        {% endfor %}
+    {% endif %}
 
     {% if session.username %}
         <!-- User is logged in, show logout link -->

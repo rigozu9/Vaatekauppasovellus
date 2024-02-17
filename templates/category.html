@@ -5,6 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>CCD:</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+    <link rel="icon" href="{{ url_for('static', filename='CCDLOGO.png') }}" type="image/x-icon">
+    <link rel="shortcut icon" href="{{ url_for('static', filename='CCDLOGO.png') }}" type="image/x-icon">    
 </head>
 <body>
     {% include 'header.html' %}
@@ -27,19 +29,23 @@
         {% if clothes %}
             {% for item in clothes %}
                 <li class="category-item">
-                    <div>
-                        <p><strong><a href="/garment/{{ item.id }}">{{ item.name }}</a></strong></p>
-                        <!-- Check if the clothing item has associated images -->
-                        {% if item.images %}
-                            <!-- Render only the first image associated with the clothing item -->
-                            <a href="/garment/{{ item.id }}"><img class="category-image" src="data:image/jpeg;base64,{{ item.images[0].data | b64encode }}" alt="Clothing"></a>
-                        {% endif %}
-                        <ul>
-                            <p><strong>{{ item.brand }}</strong></p>
-                            <p><strong>{{ item.size }}</strong></p>
-                            <p><strong>{{ item.price }}€</strong></p>
-                        </ul>
-                    </div>
+                    <p>
+                        <strong>
+                            <a 
+                                href="/garment/{{ item.id }}">{{ item.name }}
+                            </a>
+                        </strong>
+                    </p>
+                    <!-- Check if the clothing item has associated images -->
+                    {% if item.images %}
+                        <!-- Render only the first image associated with the clothing item -->
+                        <a href="/garment/{{ item.id }}"><img class="category-image" src="data:image/jpeg;base64,{{ item.images[0].data | b64encode }}" alt="Clothing"></a>
+                    {% endif %}
+                    <ul>
+                        <p><strong>{{ item.brand }}</strong></p>
+                        <p><strong>{{ item.size }}</strong></p>
+                        <p><strong>{{ item.price }}€</strong></p>
+                    </ul>
                 </li>
             {% endfor %}
         {% else %}
