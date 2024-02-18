@@ -91,11 +91,6 @@ def add_clothes():
 
     return redirect("/")
 
-#added function to buy garment. Under work
-def buy_garment(garment_id):
-    username = session['username']
-    return redirect(f"/users/{username}")
-
 #added function to delete garment. Redirects to usertab
 def delete_garment(garment_id):
     username = session['username']

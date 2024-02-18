@@ -14,6 +14,7 @@ class Clothing(db.Model):
     size = db.Column(db.String(255), nullable=False)
     price = db.Column(db.Float, nullable=False)
     username = db.Column(db.String(255), db.ForeignKey('users.id'))
+    status = db.Column(db.String(50), default='available')  # Adding status column with default value 'available'
 
     # Define the one-to-many relationship with Image
     images = db.relationship('Image', backref='clothing', lazy=True)
@@ -112,3 +113,19 @@ class Message(db.Model):
         return f'<Message {self.id}>'
 
     
+class Transaction(db.Model):
+    __tablename__ = 'transactions'
+
+    id = db.Column(db.Integer, primary_key=True)
+    seller_username = db.Column(db.String(255), db.ForeignKey('users.username'), nullable=False)
+    buyer_username = db.Column(db.String(255), db.ForeignKey('users.username'), nullable=False)
+    price = db.Column(db.Float, nullable=False)
+    item_id = db.Column(db.Integer, db.ForeignKey('clothes.id'), nullable=False)
+
+    # Define relationships
+    seller = db.relationship("User", foreign_keys=[seller_username])
+    buyer = db.relationship("User", foreign_keys=[buyer_username])
+    item = db.relationship("Clothing")
+
+    def __repr__(self):
+        return f'<Transaction {self.id}>'

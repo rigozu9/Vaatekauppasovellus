@@ -16,7 +16,8 @@ from modules.login import register, login, logout
 from modules.user import (
     get_info_by_user, 
     buy_clothing,
-    get_chats
+    get_chats,
+    add_balance
 )
 from models import (
     Category, 
@@ -25,7 +26,8 @@ from models import (
     Clothing, 
     Image, 
     Message, 
-    Chat
+    Chat,
+    User
 )
 from flask import render_template, request, session
 
@@ -56,6 +58,15 @@ def brand(brand_name):
 @app.route('/garment/<garment_id>')
 def garment(garment_id):
     return get_clothes_by_id(garment_id)
+
+#Route to add balance
+@app.route('/balance/<username>', methods=['GET', 'POST'])
+def balance(username):
+    user = User.query.filter_by(username=session.get('username')).first()
+    if request.method == "POST":
+        return add_balance()
+    else: 
+        return render_template("balance.html", user=user)
 
 #route for buying item
 @app.route('/buy/<garment_id>')

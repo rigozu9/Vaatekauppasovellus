@@ -1,0 +1,61 @@
+<!-- After buying an item you get directed here to showcase the new item -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CCD:</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+    <link rel="icon" href="{{ url_for('static', filename='CCDLOGO.png') }}" type="image/x-icon">
+    <link rel="shortcut icon" href="{{ url_for('static', filename='CCDLOGO.png') }}" type="image/x-icon">    
+</head>
+<body>
+    {% include 'header.html' %}
+    {% include 'search.html' %}
+    <h2>Congratulations you bought this item!</h2>
+    <li class="garmentpage-item">
+        <!-- Display an image from the database -->
+        <div class="slideshow-container">
+            {% for image in garment.images %}
+                <div class="mySlides fade">
+                    <img class="garmentpage-image" src="data:image/jpeg;base64,{{ image.data | b64encode }}" alt="Clothing">
+                </div>
+            {% endfor %}
+            <!-- Next and previous buttons -->
+            <a class="prev" onclick="plusSlides(-1)">&#10094;</a>
+            <a class="next" onclick="plusSlides(1)">&#10095;</a>
+        </div>
+        <div class="details-container">
+            <h3><strong>{{ garment.name }}</strong></h3>
+            <h3><strong>For:</strong> {{ garment.price }}€</h3>
+        </div>
+    </li>
+    <p><strong>Browse your bought items: </strong><a href="/users/{{ garment.username }}">{{ garment.username }}</a></p>
+    <!-- footer -->
+    {% include 'footer.html' %}
+</body>
+<!-- Manual slideshow for the pictures -->
+    <script>
+        var slideIndex = 1;
+        showSlides(slideIndex);
+
+        function plusSlides(n) {
+            showSlides(slideIndex += n);
+        }
+
+        function currentSlide(n) {
+            showSlides(slideIndex = n);
+        }
+
+        function showSlides(n) {
+            var i;
+            var slides = document.getElementsByClassName("mySlides");
+            if (n > slides.length) {slideIndex = 1}
+            if (n < 1) {slideIndex = slides.length}
+            for (i = 0; i < slides.length; i++) {
+                slides[i].style.display = "none";
+            }
+            slides[slideIndex-1].style.display = "block";
+        }
+    </script>
+</html>

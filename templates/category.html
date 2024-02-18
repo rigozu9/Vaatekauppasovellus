@@ -24,29 +24,31 @@
         {% endif %}
     {% endif %}
 
-    <!-- Clothes rendered here -->
+    <!-- Clothes that are available rendered here -->
     <ul class="category-grid">
         {% if clothes %}
             {% for item in clothes %}
-                <li class="category-item">
-                    <p>
-                        <strong>
-                            <a 
-                                href="/garment/{{ item.id }}">{{ item.name }}
-                            </a>
-                        </strong>
-                    </p>
-                    <!-- Check if the clothing item has associated images -->
-                    {% if item.images %}
-                        <!-- Render only the first image associated with the clothing item -->
-                        <a href="/garment/{{ item.id }}"><img class="category-image" src="data:image/jpeg;base64,{{ item.images[0].data | b64encode }}" alt="Clothing"></a>
-                    {% endif %}
-                    <ul>
-                        <p><strong>{{ item.brand }}</strong></p>
-                        <p><strong>{{ item.size }}</strong></p>
-                        <p><strong>{{ item.price }}€</strong></p>
-                    </ul>
-                </li>
+                {% if item.status == "available" %} 
+                    <li class="category-item">
+                        <p>
+                            <strong>
+                                <a 
+                                    href="/garment/{{ item.id }}">{{ item.name }}
+                                </a>
+                            </strong>
+                        </p>
+                        <!-- Check if the clothing item has associated images -->
+                        {% if item.images %}
+                            <!-- Render only the first image associated with the clothing item -->
+                            <a href="/garment/{{ item.id }}"><img class="category-image" src="data:image/jpeg;base64,{{ item.images[0].data | b64encode }}" alt="Clothing"></a>
+                        {% endif %}
+                        <ul>
+                            <p><strong>{{ item.brand }}</strong></p>
+                            <p><strong>{{ item.size }}</strong></p>
+                            <p><strong>{{ item.price }}€</strong></p>
+                        </ul>
+                    </li>
+                {% endif %}
             {% endfor %}
         {% else %}
             <h2>No items</h2>
@@ -58,7 +60,7 @@
         <a class="usertab" href="/users/{{ session.username }}"> {{ session.username }}</a>
         <a class="logout" href="/logout">Sign out</a>
         <a class="sell" href="/new">Sell a garment</a>
-        <a class="balance">Balance: {{ user.balance }}€</a>
+        <a class="balance" href="/balance/{{ session.username }}">Balance: {{ user.balance }}€</a>
     {% else %}
         <!-- User is not logged in, show login and register links -->
         <a class="login" href="/login">Sign in</a>

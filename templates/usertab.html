@@ -12,49 +12,67 @@
     {% include 'header.html' %}
     {% include 'search.html' %}
 
-    <h2>{{ username }}'s' listings:</h2>
+    <h2>{{ username }}'s listings:</h2>
 
-    <!-- If theres no listings it says so and offers you a link to list an item-->
+    <!-- If there are no listings, display a message and offer a link to list an item -->
     {% if not clothes %}
-        <p>No listings made yet. </p>
+        <p>No listings made yet.</p>
         <a href="/new">List an item here</a>
+    {% else %}
+        <!-- Create a dictionary to group items by status -->
+        {% set items_by_status = {'available': [], 'sold': [], 'bought': []} %}
+        {% for item in clothes %}
+            {% if item.status == 'available' %}
+                {% set _ = items_by_status['available'].append(item) %}
+            {% elif item.status == 'sold' %}
+                {% set _ = items_by_status['sold'].append(item) %}
+            {% elif item.status == 'bought' %}
+                {% set _ = items_by_status['bought'].append(item) %}
+            {% endif %}
+        {% endfor %}
+        
+
+        <!-- Iterate over the grouped items and render each group -->
+        {% for status, items in items_by_status.items() %}
+            {% if items %}
+                <h4>{{ status|capitalize }} listings</h4>
+                <ul class="category-grid">
+                    {% for item in items %}
+                        <li class="category-item">
+                            <div>
+                                <p><strong><a href="/garment/{{ item.id }}">{{ item.name }}</a></strong></p>
+                                <!-- Check if the clothing item has associated images -->
+                                {% if item.images %}
+                                    <!-- Render only the first image associated with the clothing item -->
+                                    <a href="/garment/{{ item.id }}"><img class="category-image" src="data:image/jpeg;base64,{{ item.images[0].data | b64encode }}" alt="Clothing"></a>
+                                {% endif %}
+                                <ul>
+                                    <p><strong>{{ item.brand }}</strong></p>
+                                    <p><strong>{{ item.size }}</strong></p>
+                                    <p><strong>{{ item.price }}€</strong></p>
+                                </ul>
+                            </div>
+                        </li>
+                    {% endfor %}
+                </ul>
+            {% endif %}
+        {% endfor %}
     {% endif %}
 
-    <!-- Clothes rendered here if there are listing in-->
-    <ul class="category-grid">
-        {% for item in clothes %}
-            <li class="category-item">
-                <div>
-                    <p><strong><a href="/garment/{{ item.id }}">{{ item.name }}</a></strong></p>
-                    <!-- Check if the clothing item has associated images -->
-                    {% if item.images %}
-                        <!-- Render only the first image associated with the clothing item -->
-                        <a href="/garment/{{ item.id }}"><img class="category-image" src="data:image/jpeg;base64,{{ item.images[0].data | b64encode }}" alt="Clothing"></a>
-                    {% endif %}
-                    <ul>
-                        <p><strong>{{ item.brand }}</strong></p>
-                        <p><strong>{{ item.size }}</strong></p>
-                        <p><strong>{{ item.price }}€</strong></p>
-                    </ul>
-                </div>
-            </li>
-        {% endfor %}
-    </ul>
-
     {% if session.username == username %}
-    <h2>Your balance: <strong>{{user.balance}}€</strong></h2>
+        <h2>Your balance: <strong>{{user.balance}}€</strong></h2>
 
-    <h2>Your chats:</h2>
+        <h2>Your chats:</h2>
         {% if chats %}
             {% for chat in chats %}
-                    <p class="chat-item">
-                        <a href="/send_message/{{ chat.seller_username }}/{{ chat.buyer_username }}/{{ chat.item_id }}" class="chat-link">{{ chat.buyer_username }}
-                        {% if last_messages.get(chat.id) %}
-                            : {{ last_messages.get(chat.id).message_body }} 
-                            <p>Open chat about {{ chat.item_id }}</p>
-                        {% endif %}
-                        </a>
-                    </p>
+                <p class="chat-item">
+                    <a href="/send_message/{{ chat.seller_username }}/{{ chat.buyer_username }}/{{ chat.item_id }}" class="chat-link">{{ chat.buyer_username }}
+                    {% if last_messages.get(chat.id) %}
+                        : {{ last_messages.get(chat.id).message_body }} 
+                        <p>Open chat about {{ chat.item_id }}</p>
+                    {% endif %}
+                    </a>
+                </p>
             {% endfor %}
         {% else %}
             <p>No chats</p>
@@ -63,9 +81,10 @@
 
     {% if session.username %}
         <!-- User is logged in, show logout link -->
-        <a class="usertab" href="/users/{{ session.username }}"> {{ session.username }}</a>
+        <a class="usertab" href="/users/{{ session.username }}">{{ session.username }}</a>
         <a class="logout" href="/logout">Sign out</a>
         <a class="sell" href="/new">Sell a garment</a>
+        <a class="balance" href="/balance/{{ session.username }}">Balance: {{ user.balance }}€</a>
     {% else %}
         <!-- User is not logged in, show login and register links -->
         <a class="login" href="/login">Sign in</a>
@@ -73,6 +92,6 @@
     {% endif %}
 
     <!-- footer -->
-    {% include 'footer.html' %}
+    <!-- {% include 'footer.html' %} -->
 </body>
 </html>

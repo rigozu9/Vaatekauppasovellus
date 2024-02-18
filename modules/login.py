@@ -14,7 +14,7 @@ def register():
         hash_value = generate_password_hash(password)
 
         try:
-            new_user = User(username=username, password=hash_value)
+            new_user = User(username=username, password=hash_value, balance=0.0) #Adds default balance of 0.0
             db.session.add(new_user)
             db.session.commit()
             session["username"] = username

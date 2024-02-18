@@ -1,0 +1,23 @@
+<!-- Balance html to add more funds -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CCD: Balance</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+    <link rel="icon" href="{{ url_for('static', filename='CCDLOGO.png') }}" type="image/x-icon">
+    <link rel="shortcut icon" href="{{ url_for('static', filename='CCDLOGO.png') }}" type="image/x-icon">    
+</head>
+<body>
+    {% include 'header.html' %}
+    <form action="/balance/{{user.username}}" method="POST" class="add-balance-form">
+        <h2>Add Balance</h2> 
+        <div>
+            <label for="balance">Amount to add:</label>
+            <input type="number" id="balance" name="balance" min="0">
+        </div>
+        <input type="submit" value="Add Balance">
+    </form>
+</body>
+</html>

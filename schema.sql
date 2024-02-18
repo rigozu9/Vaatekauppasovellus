@@ -25,7 +25,7 @@ CREATE TABLE sizes (
     name VARCHAR(255) NOT NULL
 );
 
--- Create the 'clothes' table with foreign key references
+-- Create the 'clothes' table with foreign key references added status for the availablity
 CREATE TABLE clothes (
     id SERIAL PRIMARY KEY,
     name VARCHAR(255) NOT NULL,
@@ -34,7 +34,8 @@ CREATE TABLE clothes (
     category VARCHAR(255) NOT NULL,
     size VARCHAR(255) NOT NULL,
     price FLOAT NOT NULL,
-    username VARCHAR(255) REFERENCES users(username)
+    username VARCHAR(255) REFERENCES users(username),
+    status VARCHAR(50) DEFAULT 'available' 
 );
 
 -- Create the 'images' table with foreign key references
@@ -63,6 +64,19 @@ CREATE TABLE messages (
     message_body TEXT NOT NULL,
     timestamp TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
+
+-- Create the transactions table
+CREATE TABLE transactions (
+    id SERIAL PRIMARY KEY,
+    seller_username VARCHAR(255) NOT NULL,
+    buyer_username VARCHAR(255) NOT NULL,
+    price FLOAT NOT NULL,
+    item_id INTEGER NOT NULL,
+    FOREIGN KEY (seller_username) REFERENCES users(username),
+    FOREIGN KEY (buyer_username) REFERENCES users(username),
+    FOREIGN KEY (item_id) REFERENCES clothes(id)
+);
+
 
 INSERT INTO categories (name) VALUES ('tops');
 INSERT INTO categories (name) VALUES ('bottoms');
