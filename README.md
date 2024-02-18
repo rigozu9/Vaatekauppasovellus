@@ -8,6 +8,7 @@ Test the application in Render.com now:
 The Clothing Shop web is close to being finished. Below is an overview of its current functionalities and future enhancements:
 
 ### 3rd return Features
+- **Production:** Clothing shop is running on render.com
 - **Virtual Currency System:** Users can deposit virtual money to buy clothing items.
 - **Messaging System:** Users can communicate with buyers and sellers through messages.
 - **Search Functionality:** Users can search for specific clothing items.
