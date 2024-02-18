@@ -43,16 +43,20 @@
 
     {% if session.username == username %}
     <h2>{{ username }}'s' chats:</h2>
-        {% for chat in chats %}
-                <p class="chat-item">
-                    <a href="/send_message/{{ chat.seller_username }}/{{ chat.buyer_username }}/{{ chat.item_id }}" class="chat-link">{{ chat.buyer_username }}
-                    {% if last_messages.get(chat.id) %}
-                        : {{ last_messages.get(chat.id).message_body }} 
-                        <p>Open chat about {{ chat.item_id }}</p>
-                    {% endif %}
-                    </a>
-                </p>
-        {% endfor %}
+        {% if chats %}
+            {% for chat in chats %}
+                    <p class="chat-item">
+                        <a href="/send_message/{{ chat.seller_username }}/{{ chat.buyer_username }}/{{ chat.item_id }}" class="chat-link">{{ chat.buyer_username }}
+                        {% if last_messages.get(chat.id) %}
+                            : {{ last_messages.get(chat.id).message_body }} 
+                            <p>Open chat about {{ chat.item_id }}</p>
+                        {% endif %}
+                        </a>
+                    </p>
+            {% endfor %}
+        {% else %}
+            <p>No chats</p>
+        {% endif %}
     {% endif %}
 
     {% if session.username %}

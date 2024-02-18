@@ -13,7 +13,7 @@ a {
 }
 
 a:hover {
-    color: hsl(18, 9%, 38%); /* Change link color on hover */
+    color: hsl(17, 6%, 50%); /* Change link color on hover */
 }
 
 /* header css */
@@ -34,7 +34,7 @@ header a {
 
 /* footer css */
 footer {
-    background-color: #555454;
+    background-color: #333232;
     color: #fff;
     padding: 7px;
     text-align: center;
