@@ -48,7 +48,7 @@ def category(category_name):
 def brand(brand_name):
     return get_clothes_by_brand(brand_name)
 
-#calls garment.html
+#calls garmentpage.html
 @app.route('/garment/<garment_id>')
 def garment(garment_id):
     return get_clothes_by_id(garment_id)

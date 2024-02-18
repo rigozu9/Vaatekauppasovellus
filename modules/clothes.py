@@ -1,6 +1,6 @@
 from flask import redirect, render_template, request, session
 from db import db
-from models import Clothing, Category, Brand, Image
+from models import Clothing, Category, Brand, Image, User
 
 # Check if the filename has an allowed extension
 ALLOWED_EXTENSIONS = {'png', 'jpg', 'jpeg', 'gif'}
@@ -37,7 +37,8 @@ def get_clothes_by_search():
 # Method to get clothes based on category from the database
 def get_clothes_by_id(garment_id):
     clothing = Clothing.query.filter_by(id=garment_id).all()
-    return render_template("garmentpage.html", clothing=clothing)
+    admin = User.query.filter_by(role="admin").first()
+    return render_template("garmentpage.html", clothing=clothing, admin=admin)
 
 # Add new clothes
 def add_clothes():

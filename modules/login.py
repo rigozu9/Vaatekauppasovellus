@@ -1,6 +1,7 @@
 #login module for the functions register, login and logout
 from flask import redirect, render_template, request, session
 from werkzeug.security import check_password_hash, generate_password_hash
+from sqlalchemy.exc import IntegrityError
 from db import db
 from models import User
 
@@ -12,13 +13,17 @@ def register():
         
         hash_value = generate_password_hash(password)
 
-        new_user = User(username=username, password=hash_value)
-
-        db.session.add(new_user)
-        db.session.commit()
-
-        session["username"] = username
-        return redirect("/")
+        try:
+            new_user = User(username=username, password=hash_value)
+            db.session.add(new_user)
+            db.session.commit()
+            session["username"] = username
+            return redirect("/")
+        #error message for same username
+        except IntegrityError:
+            db.session.rollback()
+            error_message = "Username already exists. Please choose a different one."
+            return render_template("register.html", error_message=error_message)
     return render_template("register.html")
 
 #check if the credentials are correct if they are sign in
