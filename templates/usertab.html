@@ -42,7 +42,9 @@
     </ul>
 
     {% if session.username == username %}
-    <h2>{{ username }}'s' chats:</h2>
+    <h2>Your balance: <strong>{{user.balance}}€</strong></h2>
+
+    <h2>Your chats:</h2>
         {% if chats %}
             {% for chat in chats %}
                     <p class="chat-item">

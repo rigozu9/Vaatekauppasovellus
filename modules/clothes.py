@@ -12,20 +12,37 @@ def allowed_file(filename):
 def get_categories_and_brands():
     categories = Category.query.all()
     brands = Brand.query.all()
-    return render_template("index.html", categories=categories, brands=brands)
+    if 'username' in session:
+        user = User.query.filter_by(username=session['username']).first()
+        return render_template("index.html", categories=categories, brands=brands, user=user)
+    else:
+        return render_template("index.html", categories=categories, brands=brands)
 
 # Method to get clothes based on category from the database
 def get_clothes_by_category(category_name):
     clothes = Clothing.query.filter_by(category=category_name).all()
-    return render_template("category.html", clothes=clothes, category_name=category_name)
+    if 'username' in session:
+        user = User.query.filter_by(username=session['username']).first()
+        return render_template("category.html", clothes=clothes, category_name=category_name, user=user) 
+    else:
+        return render_template("category.html", clothes=clothes, category_name=category_name) 
 
 # Method to get clothes based on brands from the database
 def get_clothes_by_brand(brand_name):
     if brand_name != "All brands":
-        clothes = Clothing.query.filter_by(brand=brand_name).all()
-        return render_template("category.html", clothes=clothes, brand_name=brand_name)
+        if 'username' in session:
+            user = User.query.filter_by(username=session['username']).first()
+            clothes = Clothing.query.filter_by(brand=brand_name).all()
+            return render_template("category.html", clothes=clothes, brand_name=brand_name, user=user)
+        else:
+            clothes = Clothing.query.filter_by(brand=brand_name).all()
+            return render_template("category.html", clothes=clothes, brand_name=brand_name)
     else:
-        return render_template("category.html", clothes=Clothing.query.all(), brand_name="All brands")
+        if 'username' in session:
+            user = User.query.filter_by(username=session['username']).first()
+            return render_template("category.html", clothes=Clothing.query.all(), brand_name="All brands", user=user)
+        else:
+            return render_template("category.html", clothes=Clothing.query.all(), brand_name="All brands")
     
 # Method to get clothes based on search
 def get_clothes_by_search():
@@ -38,7 +55,11 @@ def get_clothes_by_search():
 def get_clothes_by_id(garment_id):
     clothing = Clothing.query.filter_by(id=garment_id).all()
     admin = User.query.filter_by(role="admin").first()
-    return render_template("garmentpage.html", clothing=clothing, admin=admin)
+    if 'username' in session:
+        user = User.query.filter_by(username=session['username']).first()
+        return render_template("garmentpage.html", clothing=clothing, admin=admin, user=user)
+    else:
+        return render_template("garmentpage.html", clothing=clothing, admin=admin)
 
 # Add new clothes
 def add_clothes():
@@ -69,6 +90,11 @@ def add_clothes():
     db.session.commit()
 
     return redirect("/")
+
+#added function to buy garment. Under work
+def buy_garment(garment_id):
+    username = session['username']
+    return redirect(f"/users/{username}")
 
 #added function to delete garment. Redirects to usertab
 def delete_garment(garment_id):

@@ -1,8 +1,23 @@
 # module for message functions
-from models import Message, Chat
+from models import Message, Chat, Clothing, User
 from db import db
-from flask import request, redirect
+from flask import request, redirect, render_template, session
 from datetime import datetime
+
+def get_messages(sender_username, receiver_username, garment_id):
+    garment = Clothing.query.get(garment_id)
+    
+    # Retrieve messages where sender can be either buyer or seller, and receiver can be either buyer or seller
+    messages = Message.query.filter(
+        (Message.sender_username == sender_username) & (Message.receiver_username == receiver_username) |
+        (Message.sender_username == receiver_username) & (Message.receiver_username == sender_username),
+        Message.item_id == garment_id
+    ).all()
+    if 'username' in session:
+        user = User.query.filter_by(username=session['username']).first()
+        return render_template('item_messages.html', messages=messages, sender_username=sender_username, receiver_username=receiver_username, garment=garment, user=user)
+    else:
+        return render_template('item_messages.html', messages=messages, sender_username=sender_username, receiver_username=receiver_username, garment=garment)
 
 # Sending a message
 def send_message():

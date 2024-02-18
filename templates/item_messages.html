@@ -36,6 +36,7 @@
         <a class="usertab" href="/users/{{ session.username }}"> {{ session.username }}</a>
         <a class="logout" href="/logout">Sign out</a>
         <a class="sell" href="/new">Sell a garment</a>
+        <a class="balance">Balance: {{ user.balance }}€</a>
     {% else %}
         <!-- User is not logged in, show login and register links -->
         <a class="login" href="/login">Sign in</a>

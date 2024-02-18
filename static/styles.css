@@ -87,7 +87,33 @@ footer {
     border-radius: 5px;
 }
 
+.buy-button {
+    background-color: #0c0c0c; /* Green background */
+    border: none;
+    color: white; /* White text */
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    cursor: pointer;
+    padding: 10px 20px; /* Padding */
+    border-radius: 5px; /* Rounded corners */
+    transition-duration: 0.4s;
+    margin-bottom: 10px;
+}
+
+.buy-button a {
+    color: white; /* White text for link */
+    text-decoration: none; /* Remove underline from link */
+}
+
+.buy-button:hover {
+    background-color: #999b99; /* Darker green on hover */
+}
+
+
 .details-container {
+    margin-bottom: 90px;
     margin-left: 20px;
     flex-grow: 1; /* Allow the details to take up remaining space */
 }
@@ -172,7 +198,7 @@ footer {
 
 /* Sell, logout, register, usertab css */
 
-.sell, .logout, .login, .register, .usertab {
+.sell, .logout, .login, .register, .usertab, .balance {
     font-family: Arial, sans-serif;
     color: #fff; /* Text color */
     background-color: #333; /* Background color */
@@ -185,11 +211,15 @@ footer {
     position: absolute;
 }
 
-.login:hover, .sell:hover, .logout:hover, .register:hover, .usertab:hover {
+.login:hover, .sell:hover, .logout:hover, .register:hover, .usertab:hover, balance:hover {
     background-color: #555; /* Darker background color on hover */
 }
 
-/* Usertab, logout, register, sell placements  */
+/* Usertab, logout, register, sell placements, balance  */
+.balance {
+    top: 10px;
+    right: 370px;
+}
 
 .usertab {
     top: 10px;

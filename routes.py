@@ -11,9 +11,13 @@ from modules.clothes import (
     delete_garment,
     modify_garment,
 )
-from modules.messages import send_message
+from modules.messages import send_message, get_messages
 from modules.login import register, login, logout
-from modules.user import get_info_by_user
+from modules.user import (
+    get_info_by_user, 
+    buy_clothing,
+    get_chats
+)
 from models import (
     Category, 
     Brand, 
@@ -23,7 +27,7 @@ from models import (
     Message, 
     Chat
 )
-from flask import render_template, request
+from flask import render_template, request, session
 
 #For the picture to render from the database need to 
 #define a custom Jinja2 filter for base64 encoding
@@ -52,6 +56,11 @@ def brand(brand_name):
 @app.route('/garment/<garment_id>')
 def garment(garment_id):
     return get_clothes_by_id(garment_id)
+
+#route for buying item
+@app.route('/buy/<garment_id>')
+def buy_item(garment_id):
+    return buy_clothing(garment_id)
 
 #route for search
 @app.route('/search')
@@ -89,39 +98,17 @@ def delete_item(garment_id):
 
 #if GET renders item_messages.html tempalte if POST sends message by calling the function send_message 
 @app.route('/send_message/<sender_username>/<receiver_username>/<garment_id>', methods=['GET', 'POST'])
-def user_send_message(sender_username, receiver_username, garment_id):
-    garment = Clothing.query.get(garment_id)
-    
-    # Retrieve messages where sender can be either buyer or seller, and receiver can be either buyer or seller
-    messages = Message.query.filter(
-        (Message.sender_username == sender_username) & (Message.receiver_username == receiver_username) |
-        (Message.sender_username == receiver_username) & (Message.receiver_username == sender_username),
-        Message.item_id == garment_id
-    ).all()
-    
+def user_send_message(sender_username, receiver_username, garment_id):    
     if request.method == 'POST':
         return send_message()
     else:
-        return render_template('item_messages.html', messages=messages, sender_username=sender_username, receiver_username=receiver_username, garment=garment)
+        return get_messages(sender_username, receiver_username, garment_id)
 
         
 #Route for users to check inquiries on their listings
 @app.route('/chats/<seller_username>/<garment_id>', methods=['GET', 'POST'])
 def user_get_chats(seller_username, garment_id):
-    garment = Clothing.query.get(garment_id)
-    # Fetch chats where the user is the seller and the item_id matches
-    chats = Chat.query.filter(
-        Chat.seller_username == seller_username,
-        Chat.item_id == garment_id
-    ).all()
-
-    # Fetch the last message for each chat
-    last_messages = {}
-    for chat in chats:
-        last_message = Message.query.filter_by(chat_id=chat.id).order_by(desc(Message.timestamp)).first()
-        last_messages[chat.id] = last_message
-
-    return render_template('chats.html', chats=chats, last_messages=last_messages, seller_username=seller_username, garment=garment)
+    return get_chats(seller_username, garment_id)
 
 #calls usertab.html where usertab renders and shows own listings
 @app.route('/users/<user_name>')

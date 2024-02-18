@@ -27,7 +27,7 @@
                 <a class="next" onclick="plusSlides(1)">&#10095;</a>
             </div>
             <div class="details-container">
-                <p><strong>{{ item.name }}</strong></p>
+                <h3><strong>{{ item.name }}</strong></h3>
                 <p><strong>Category:</strong> {{ item.category }}</p>
                 <p><strong>About the item:</strong> <br>{{ item.description }}</br></p>
                 <p><strong>Size:</strong> {{ item.size }}</p>
@@ -42,7 +42,12 @@
                     {% else %}
                         <!-- link to send messsage about the item -->
                         <p><strong>Listed by: </strong><a href="/users/{{ item.username }}">{{ item.username }}</a></p>
-                        <p><a href="/send_message/{{ session.username }}/{{ item.username }}/{{ item.id }}">Send a message about the item</a></p>
+                        <button class="buy-button"><a href="/send_message/{{ session.username }}/{{ item.username }}/{{ item.id }}">Send a message about the item</a></button>
+                        <div>
+                            <button class="buy-button">
+                                <a href="/buy/{{ item.id }}" onclick="return confirm('Are you sure you want to buy {{ item.name }} for {{ item.price }}€?');">Buy now for {{ item.price }}€</a>
+                            </button>
+                        </div>
                     {% endif %}
                 {% else %}
                     <!-- link to send messsage about the item -->
@@ -58,6 +63,7 @@
         <a class="usertab" href="/users/{{ session.username }}"> {{ session.username }}</a>
         <a class="logout" href="/logout">Sign out</a>
         <a class="sell" href="/new">Sell a garment</a>
+        <a class="balance">Balance: {{ user.balance }}€</a>
     {% else %}
         <!-- User is not logged in, show login and register links -->
         <a class="login" href="/login">Sign in</a>
