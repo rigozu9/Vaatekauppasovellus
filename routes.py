@@ -1,6 +1,7 @@
 #routes file for navigating in the app
 from app import app
-from sqlalchemy import and_, or_, desc
+from sqlalchemy import text
+from db import db
 from modules.clothes import (
     get_categories_and_brands,
     add_clothes,
@@ -18,16 +19,6 @@ from modules.user import (
     buy_clothing,
     get_chats,
     add_balance
-)
-from models import (
-    Category, 
-    Brand, 
-    Size, 
-    Clothing, 
-    Image, 
-    Message, 
-    Chat,
-    User
 )
 from flask import render_template, request, session
 
@@ -62,7 +53,15 @@ def garment(garment_id):
 #Route to add balance
 @app.route('/balance/<username>', methods=['GET', 'POST'])
 def balance(username):
-    user = User.query.filter_by(username=session.get('username')).first()
+    # Define the SQL query using text
+    sql_query = text("SELECT * FROM users WHERE username = :username")
+
+    # Execute the SQL query with parameters
+    result = db.session.execute(sql_query, {"username": session.get('username')})
+
+    # Fetch the first row from the result
+    user = result.fetchone()
+
     if request.method == "POST":
         return add_balance()
     else: 
@@ -78,25 +77,40 @@ def buy_item(garment_id):
 def search():
     return get_clothes_by_search()
 
-#renders new.html and adds categories, brands, sizes from database to the select list
 @app.route("/new", methods=["POST", "GET"])
 def new():
-    categories = Category.query.all()
-    brands = Brand.query.all()
-    sizes = Size.query.all()
+    # Raw SQL query to retrieve categories, brands, and sizes
+    categories_query = text("SELECT * FROM categories")
+    brands_query = text("SELECT * FROM brands")
+    sizes_query = text("SELECT * FROM sizes")
+
+    # Execute the raw SQL queries
+    categories = db.session.execute(categories_query).fetchall()
+    brands = db.session.execute(brands_query).fetchall()
+    sizes = db.session.execute(sizes_query).fetchall()
+
     if request.method == "POST":
         return add_clothes()
     else: 
         return render_template("new.html", categories=categories, brands=brands, sizes=sizes)
 
-#modify a garment if its a get method loads modify_item.html if post if calls modify_garment function 
+
+from sqlalchemy import text
+
 @app.route("/modify/<garment_id>", methods=["GET", "POST"])
 def modify_item(garment_id):
-    garment = Clothing.query.get(garment_id)
-    categories = Category.query.all()
-    brands = Brand.query.all()
-    sizes = Size.query.all()
-    images = Image.query.all()
+    garment_query = text("SELECT * FROM clothes WHERE id = :garment_id")
+    categories_query = text("SELECT * FROM categories")
+    brands_query = text("SELECT * FROM brands")
+    sizes_query = text("SELECT * FROM sizes")
+    images_query = text("SELECT * FROM images WHERE clothing_id = :garment_id")
+
+    garment = db.session.execute(garment_query, {"garment_id": garment_id}).fetchone()
+    categories = db.session.execute(categories_query).fetchall()
+    brands = db.session.execute(brands_query).fetchall()
+    sizes = db.session.execute(sizes_query).fetchall()
+    images = db.session.execute(images_query, {"garment_id": garment_id}).fetchall()
+
     if request.method == "POST":
         return modify_garment(garment_id)
     else:

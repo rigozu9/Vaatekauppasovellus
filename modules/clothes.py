@@ -1,6 +1,8 @@
 from flask import redirect, render_template, request, session
 from db import db
-from models import Clothing, Category, Brand, Image, User
+import base64
+from sqlalchemy import text
+from models import Clothing, Image
 
 # Check if the filename has an allowed extension
 ALLOWED_EXTENSIONS = {'png', 'jpg', 'jpeg', 'gif'}
@@ -10,10 +12,15 @@ def allowed_file(filename):
 
 # Method to get categories and brands from the database
 def get_categories_and_brands():
-    categories = Category.query.all()
-    brands = Brand.query.all()
+    categories_query = text("SELECT * FROM categories")
+    brands_query = text("SELECT * FROM brands")
+
+    categories = db.session.execute(categories_query).fetchall()
+    brands = db.session.execute(brands_query).fetchall()
+
     if 'username' in session:
-        user = User.query.filter_by(username=session['username']).first()
+        user_query = text("SELECT * FROM users WHERE username = :username")
+        user = db.session.execute(user_query, {"username": session['username']}).fetchone()
         return render_template("index.html", categories=categories, brands=brands, user=user)
     else:
         return render_template("index.html", categories=categories, brands=brands)
@@ -21,46 +28,58 @@ def get_categories_and_brands():
 # Method to get clothes based on category from the database
 def get_clothes_by_category(category_name):
     clothes = Clothing.query.filter_by(category=category_name).all()
+
     if 'username' in session:
-        user = User.query.filter_by(username=session['username']).first()
+        user_query = text("SELECT * FROM users WHERE username = :username")
+        user = db.session.execute(user_query, {"username": session['username']}).fetchone()
         return render_template("category.html", clothes=clothes, category_name=category_name, user=user) 
     else:
         return render_template("category.html", clothes=clothes, category_name=category_name) 
 
+
 # Method to get clothes based on brands from the database
 def get_clothes_by_brand(brand_name):
     if brand_name != "All brands":
+        clothes = Clothing.query.filter_by(brand=brand_name).all()
+
         if 'username' in session:
-            user = User.query.filter_by(username=session['username']).first()
-            clothes = Clothing.query.filter_by(brand=brand_name).all()
+            user_query = text("SELECT * FROM users WHERE username = :username")
+            user = db.session.execute(user_query, {"username": session['username']}).fetchone()
             return render_template("category.html", clothes=clothes, brand_name=brand_name, user=user)
         else:
-            clothes = Clothing.query.filter_by(brand=brand_name).all()
             return render_template("category.html", clothes=clothes, brand_name=brand_name)
     else:
+        clothes=Clothing.query.all()
         if 'username' in session:
-            user = User.query.filter_by(username=session['username']).first()
-            return render_template("category.html", clothes=Clothing.query.all(), brand_name="All brands", user=user)
+            user_query = text("SELECT * FROM users WHERE username = :username")
+            user = db.session.execute(user_query, {"username": session['username']}).fetchone()
+            return render_template("category.html", clothes=clothes, brand_name="All brands", user=user)
         else:
-            return render_template("category.html", clothes=Clothing.query.all(), brand_name="All brands")
-    
+            return render_template("category.html", clothes=clothes, brand_name="All brands")
+
 # Method to get clothes based on search
 def get_clothes_by_search():
     query = request.args.get('query') # Get the search query from the request
-    # Filter clothes based on the search query
     clothes = Clothing.query.filter(Clothing.name.ilike(f'%{query}%')).all()
+
     if 'username' in session:
-        user = User.query.filter_by(username=session['username']).first()
+        user_query = text("SELECT * FROM users WHERE username = :username")
+        user = db.session.execute(user_query, {"username": session['username']}).fetchone()
         return render_template("category.html", clothes=clothes, query=query, user=user)
     else:
         return render_template("category.html", clothes=clothes, query=query)
-    
+
+# Method to get clothes based on category from the database
 # Method to get clothes based on category from the database
 def get_clothes_by_id(garment_id):
     clothing = Clothing.query.filter_by(id=garment_id).all()
-    admin = User.query.filter_by(role="admin").first()
+
+    admin_query = text("SELECT * FROM users WHERE role = 'admin'")
+    admin = db.session.execute(admin_query).fetchone()
+
     if 'username' in session:
-        user = User.query.filter_by(username=session['username']).first()
+        user_query = text("SELECT * FROM users WHERE username = :username")
+        user = db.session.execute(user_query, {"username": session['username']}).fetchone()
         return render_template("garmentpage.html", clothing=clothing, admin=admin, user=user)
     else:
         return render_template("garmentpage.html", clothing=clothing, admin=admin)
@@ -95,18 +114,20 @@ def add_clothes():
 
     return redirect("/")
 
-#added function to delete garment. Redirects to usertab
+# Added function to delete garment. Redirects to usertab
 def delete_garment(garment_id):
     username = session['username']
-    garment = Clothing.query.get(garment_id)
     
-    if garment:
-        db.session.delete(garment)
-        db.session.commit()
+    # Construct a text-based query to delete the garment by ID
+    delete_query = text("DELETE FROM clothes WHERE id = :garment_id")
+    
+    # Execute the query with the garment_id parameter
+    db.session.execute(delete_query, {"garment_id": garment_id})
+    db.session.commit()
 
     return redirect(f"/users/{username}")
 
-#function to modify items
+# Function to modify items
 def modify_garment(garment_id):
     username = session['username']
     
@@ -148,7 +169,3 @@ def modify_garment(garment_id):
 
     # Redirect to the home page or any other appropriate page
     return redirect(f"/users/{username}")
-
-
-
-

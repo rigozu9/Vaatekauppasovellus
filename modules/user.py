@@ -1,24 +1,34 @@
 #module for user related functions
 from flask import render_template, session, flash, redirect, request
-from sqlalchemy import desc, or_
-from models import Clothing, Chat, Message, User, Transaction, Image
 from db import db
+from sqlalchemy import text
+from models import User, Transaction, Clothing, Image
 
 # Method to get info from the username
 def get_info_by_user(username):
+    # Fetch clothes using SQL command
     clothes = Clothing.query.filter_by(username=username).all()
-    chats = Chat.query.filter(
-        or_(
-            Chat.seller_username == username,
-            Chat.buyer_username == username
-        )
-    ).all()
+    
+    # Fetch chats using SQL command
+    chats_query = text("""
+    SELECT * FROM chats
+    WHERE seller_username = :username OR buyer_username = :username
+    """)
+    chats = db.session.execute(chats_query, {"username": username}).fetchall()
+
     last_messages = {}
     for chat in chats:
-        last_message = Message.query.filter_by(chat_id=chat.id).order_by(desc(Message.timestamp)).first()
+        last_message_query = text("""
+        SELECT * FROM messages
+        WHERE chat_id = :chat_id
+        ORDER BY timestamp DESC
+        LIMIT 1
+        """)
+        last_message = db.session.execute(last_message_query, {"chat_id": chat.id}).fetchone()
         last_messages[chat.id] = last_message
     
-    user = User.query.filter_by(username=session['username']).first()
+    user_query = text("SELECT * FROM users WHERE username = :username")
+    user = db.session.execute(user_query, {"username": session['username']}).first()
     return render_template("usertab.html", last_messages=last_messages, clothes=clothes, username=username, chats=chats, user=user)
 
 #Clothing buying method
@@ -80,29 +90,49 @@ def buy_clothing(garment_id):
     # Render the bought page template
     return render_template("bought_page.html", garment=new_clothing_for_buyer, seller=seller)
 
+
 def get_chats(seller_username, garment_id):
-    garment = Clothing.query.get(garment_id)
+    # Fetch garment details using SQL command
+    garment_query = text("SELECT * FROM clothes WHERE id = :garment_id")
+    garment = db.session.execute(garment_query, {"garment_id": garment_id}).fetchone()
+    
     # Fetch chats where the user is the seller and the item_id matches
-    chats = Chat.query.filter(
-        Chat.seller_username == seller_username,
-        Chat.item_id == garment_id
-    ).all()
+    chats_query = text("""
+    SELECT * FROM chats
+    WHERE seller_username = :seller AND item_id = :garment_id
+    """)
+    chats = db.session.execute(chats_query, {"seller": seller_username, "garment_id": garment_id}).fetchall()
 
     # Fetch the last message for each chat
     last_messages = {}
     for chat in chats:
-        last_message = Message.query.filter_by(chat_id=chat.id).order_by(desc(Message.timestamp)).first()
+        last_message_query = text("""
+        SELECT * FROM messages
+        WHERE chat_id = :chat_id
+        ORDER BY timestamp DESC
+        LIMIT 1
+        """)
+        last_message = db.session.execute(last_message_query, {"chat_id": chat.id}).fetchone()
         last_messages[chat.id] = last_message
-    user = User.query.filter_by(username=session['username']).first()
-    return render_template('chats.html', chats=chats, last_messages=last_messages, seller_username=seller_username, garment=garment, user=user)
 
+    user_query = text("SELECT * FROM users WHERE username = :username")
+    user = db.session.execute(user_query, {"username": session['username']}).first()
+    return render_template('chats.html', chats=chats, last_messages=last_messages, seller_username=seller_username, garment=garment, user=user)
 
 # Balance adding method
 def add_balance():
-    user = User.query.filter_by(username=session['username']).first()
-    balance_to_add = float(request.form.get('balance', 0))
+    # Retrieve the user from the database using a raw SQL query
+    sql_query = text("SELECT * FROM users WHERE username = :username")
+    result = db.session.execute(sql_query, {"username": session['username']})
+    user = result.fetchone()
 
-    user.balance += balance_to_add
-    db.session.commit()
+    if user:
+        # Get the balance to add from the form
+        balance_to_add = float(request.form.get('balance', 0))
 
-    return redirect(f"/users/{user.username}")
+        # Update the user's balance using a raw SQL UPDATE query
+        update_query = text("UPDATE users SET balance = balance + :balance_to_add WHERE username = :username")
+        db.session.execute(update_query, {"balance_to_add": balance_to_add, "username": session['username']})
+        db.session.commit()
+
+    return redirect(f"/users/{session['username']}")

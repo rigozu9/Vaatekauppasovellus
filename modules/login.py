@@ -1,11 +1,10 @@
-#login module for the functions register, login and logout
 from flask import redirect, render_template, request, session
 from werkzeug.security import check_password_hash, generate_password_hash
 from sqlalchemy.exc import IntegrityError
 from db import db
-from models import User
+from sqlalchemy import text
 
-#registering a new account using User model
+# Registering a new account using raw SQL commands
 def register():
     if request.method == "POST":
         username = request.form["username"]
@@ -14,26 +13,32 @@ def register():
         hash_value = generate_password_hash(password)
 
         try:
-            new_user = User(username=username, password=hash_value, balance=0.0) #Adds default balance of 0.0
-            db.session.add(new_user)
+            # Insert new user into the database
+            new_user_query = text("""
+                INSERT INTO users (username, password, balance)
+                VALUES (:username, :password, :balance)
+            """)
+            db.session.execute(new_user_query, {"username": username, "password": hash_value, "balance": 0.0})
             db.session.commit()
+
             session["username"] = username
             return redirect("/")
-        #error message for same username
         except IntegrityError:
             db.session.rollback()
             error_message = "Username already exists. Please choose a different one."
             return render_template("register.html", error_message=error_message)
     return render_template("register.html")
 
-#check if the credentials are correct if they are sign in
+# Check if the credentials are correct, if they are, sign in
 def login():
     render_template("login.html", error=None)
     if request.method == "POST":
         username = request.form["username"]
         password = request.form["password"]
 
-        user = User.query.filter_by(username=username).first()
+        # Retrieve user from the database
+        user_query = text("SELECT * FROM users WHERE username = :username")
+        user = db.session.execute(user_query, {"username": username}).fetchone()
 
         if not user or not check_password_hash(user.password, password):
             return render_template("login.html", error="Invalid username or password")
@@ -42,7 +47,7 @@ def login():
         return redirect("/")
     return render_template("login.html")
 
-#log out
+# Logout
 def logout():
     session.pop("username", None)
     return redirect("/")
