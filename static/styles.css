@@ -8,12 +8,11 @@ body {
 
 a {
     color: #6e6262; /* White text color for links */
-    text-decoration: none; /* Remove underlines from links */
     transition: color 0.3s ease; /* Smooth transition for link color */
 }
 
 a:hover {
-    color: hsl(17, 6%, 50%); /* Change link color on hover */
+    color: hsl(250, 42%, 68%); /* Change link color on hover */
 }
 
 /* header css */
