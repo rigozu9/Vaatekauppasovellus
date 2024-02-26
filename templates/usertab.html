@@ -42,9 +42,9 @@
                             <div>
                                 <p><strong><a href="/garment/{{ item.id }}">{{ item.name }}</a></strong></p>
                                 <!-- Check if the clothing item has associated images -->
-                                {% if item.images %}
+                                {% if item.image_data %}
                                     <!-- Render only the first image associated with the clothing item -->
-                                    <a href="/garment/{{ item.id }}"><img class="category-image" src="data:image/jpeg;base64,{{ item.images[0].data | b64encode }}" alt="Clothing"></a>
+                                    <a href="/garment/{{ item.id }}"><img class="category-image" src="data:image/jpeg;base64,{{ item.image_data | b64encode }}" alt="Clothing"></a>
                                 {% endif %}
                                 <ul>
                                     <p><strong>{{ item.brand }}</strong></p>

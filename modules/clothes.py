@@ -1,8 +1,6 @@
 from flask import redirect, render_template, request, session
 from db import db
-import base64
 from sqlalchemy import text
-from models import Clothing, Image
 
 # Check if the filename has an allowed extension
 ALLOWED_EXTENSIONS = {'png', 'jpg', 'jpeg', 'gif'}

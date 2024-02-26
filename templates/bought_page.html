@@ -16,9 +16,9 @@
     <li class="garmentpage-item">
         <!-- Display an image from the database -->
         <div class="slideshow-container">
-            {% for image in garment.images %}
+            {% for image_data in images %}
                 <div class="mySlides fade">
-                    <img class="garmentpage-image" src="data:image/jpeg;base64,{{ image.data | b64encode }}" alt="Clothing">
+                    <img class="garmentpage-image" src="data:image/jpeg;base64,{{ image_data | b64encode }}" alt="Clothing">
                 </div>
             {% endfor %}
             <!-- Next and previous buttons -->

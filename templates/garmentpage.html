@@ -17,9 +17,9 @@
         <!-- Display images from the list -->
         <div class="slideshow-container">
             {% for image_data in images %}
-            <div class="mySlides fade">
-                <img class="garmentpage-image" src="data:image/jpeg;base64,{{ image_data | b64encode }}" alt="Clothing">
-            </div>
+                <div class="mySlides fade">
+                    <img class="garmentpage-image" src="data:image/jpeg;base64,{{ image_data | b64encode }}" alt="Clothing">
+                </div>
             {% endfor %}
             <!-- Next and previous buttons -->
             <a class="prev" onclick="plusSlides(-1)">&#10094;</a>
