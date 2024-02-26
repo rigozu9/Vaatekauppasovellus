@@ -1,6 +1,8 @@
-from flask import redirect, render_template, request, session
+from flask import redirect, render_template, request, session, flash
 from db import db
 from sqlalchemy import text
+from sqlalchemy.exc import DataError
+from decimal import Decimal
 
 # Check if the filename has an allowed extension
 ALLOWED_EXTENSIONS = {'png', 'jpg', 'jpeg', 'gif'}
@@ -137,50 +139,82 @@ def get_clothes_by_id(garment_id):
     else:
         return render_template("garmentpage.html", clothing=clothing_result, images=image_data_list, admin=admin)
 
+
+# Validate price function
+def is_valid_price(price):
+    try:
+        price_value = Decimal(price)
+        return price_value > 0
+    except:
+        return False
+
 # Add new clothes
 def add_clothes():
-    name = request.form["name"]
-    description = request.form["description"]
-    category = request.form["category"]
-    brand = request.form["brand"]
-    size = request.form["size"]
-    price = request.form["price"]
+    try:
+        name = request.form["name"].strip()
+        description = request.form["description"].strip()
+        category = request.form["category"].strip()
+        brand = request.form["brand"].strip()
+        size = request.form["size"].strip()
+        price = request.form["price"].strip()
 
-    if 'username' in session:
-        username = session['username']
+        # Validation for mandatory fields
+        if not all([name, description, category, brand, size, price]):
+            flash('All fields are required.')
+            return redirect("/new")
 
-    if 'image' in request.files:
-        files = request.files.getlist('image')  # Retrieve multiple files
+        # Validate price
+        if not is_valid_price(price):
+            flash('Invalid price. Please enter a positive number.')
+            return redirect("/new")
 
-    # Add new clothing item
-    add_clothes_query = text("""
-        INSERT INTO clothes (name, description, category, brand, size, price, username)
-        VALUES (:name, :description, :category, :brand, :size, :price, :username)
-        RETURNING id
-    """)
-    result = db.session.execute(add_clothes_query, {
-        "name": name,
-        "description": description,
-        "category": category,
-        "brand": brand,
-        "size": size,
-        "price": price,
-        "username": username
-    })
-    new_clothes_id = result.fetchone()[0]
+        username = session.get('username', None)
+        if not username:
+            flash('User not logged in.')
+            return redirect("/login")
 
-    # Add images for the new clothing item
-    for file in files:
-        if file and allowed_file(file.filename):
-            image_data = file.read()
-            add_image_query = text("""
-                INSERT INTO images (clothing_id, data)
-                VALUES (:clothing_id, :data)
-            """)
-            db.session.execute(add_image_query, {"clothing_id": new_clothes_id, "data": image_data})
+        files = request.files.getlist('image') if 'image' in request.files else []
 
-    db.session.commit()
-    return redirect("/")
+        # Add new clothing item
+        add_clothes_query = text("""
+            INSERT INTO clothes (name, description, category, brand, size, price, username)
+            VALUES (:name, :description, :category, :brand, :size, :price, :username)
+            RETURNING id
+        """)
+        result = db.session.execute(add_clothes_query, {
+            "name": name,
+            "description": description,
+            "category": category,
+            "brand": brand,
+            "size": size,
+            "price": price,
+            "username": username
+        })
+        db.session.commit()
+        new_clothes_id = result.fetchone()[0]
+
+        # Add images for the new clothing item
+        for file in files:
+            if file and allowed_file(file.filename):
+                image_data = file.read()
+                add_image_query = text("""
+                    INSERT INTO images (clothing_id, data)
+                    VALUES (:clothing_id, :data)
+                """)
+                db.session.execute(add_image_query, {"clothing_id": new_clothes_id, "data": image_data})
+                db.session.commit()
+
+        flash('New garment added successfully!')
+        return redirect("/")
+    except DataError:
+        db.session.rollback()
+        flash('Failed to add new garment due to invalid input.')
+        return redirect("/new")
+    except Exception as e:
+        db.session.rollback()
+        flash('An unexpected error occurred.')
+        return redirect("/new")
+
 
 # Added function to delete garment. Redirects to usertab
 def delete_garment(garment_id):
