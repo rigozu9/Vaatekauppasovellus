@@ -230,6 +230,17 @@ def modify_garment(garment_id):
     size = request.form['size']
     price = request.form['price']
     
+    # Check if brand exists, if not, add it
+    brand_exists_query = text("SELECT id FROM brands WHERE name = :brand")
+    brand_result = db.session.execute(brand_exists_query, {"brand": brand})
+    brand_row = brand_result.fetchone()
+
+    if not brand_row:
+        # Add new brand to brands table
+        add_brand_query = text("INSERT INTO brands (name) VALUES (:brand)")
+        db.session.execute(add_brand_query, {"brand": brand})
+
+
     # Update the garment attributes with the new data
     update_query = text("""
         UPDATE clothes

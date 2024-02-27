@@ -9,34 +9,31 @@
     <link rel="shortcut icon" href="{{ url_for('static', filename='CCDLOGO.png') }}" type="image/x-icon">
     <style>
         .image-preview {
-            max-width: 100px;
-            max-height: 100px;
-            margin-right: 10px;
+            max-width: 100px; /* Set maximum width */
+            max-height: 100px; /* Set maximum height */
+            margin-right: 10px; /* Add margin between images */
         }
     </style>
 </head>
 <body>
     {% include 'header.html' %}
-    <form action="/modify/{{ garment.id }}" class="new-garment-form" method="POST" enctype="multipart/form-data" onsubmit="return validateForm()">
-        <h2>Modify {{ garment.name }} Details</h2> 
+    <form action="/modify/{{ garment.id }}" method="POST" class="new-garment-form" enctype="multipart/form-data">
+        <h2>Modify {{ garment.name }} Details</h2>
         <br>
         <p>Name:</p>
-        <input type="text" name="name" value="{{ garment.name }}" required>
+        <textarea name="name" rows="1" cols="40" required>{{ garment.name }}</textarea>
 
         <p>Pictures (Max 4), (Accepted extensions: 'png', 'jpg', 'jpeg', 'gif'):</p>
         <input type="file" name="image" multiple onchange="displaySelectedImages(this)" required>
+        <br>
         <div id="image-preview-container"></div>
 
         <p>Description:</p>
-        <textarea name="description" rows="3" required>{{ garment.description }}</textarea>
+        <textarea name="description" rows="3" cols="40" required>{{ garment.description }}</textarea>
 
         <p>Brand:</p>
-        <select name="brand" required>
-            <option value="">Choose the brand...</option>
-            {% for brand in brands %}
-                <option value="{{ brand.name }}" {% if garment.brand == brand.name %}selected{% endif %}>{{ brand.name }}</option>
-            {% endfor %}
-        </select>
+        <input type="text" name="brand" id="brandInput" oninput="searchBrand()" placeholder="Type brand name here..." value="{{ garment.brand }}">
+        <div id="brandList"></div>
 
         <p>Category:</p>
         <select name="category" required>
@@ -47,24 +44,52 @@
         </select>
 
         <p>Size:</p>
-        <select name="size" required>
-            <option value="">Choose size...</option>
-            {% for size in sizes %}
-                <option value="{{ size.name }}" {% if garment.size == size.name %}selected{% endif %}>{{ size.name }}</option>
-            {% endfor %}
-        </select>
+        <input type="text" name="size" placeholder="Enter size here ex. S or EU41..." required value="{{ garment.size }}">
 
         <p>Price (Type just the number, currency added later):</p>
-        <input type="text" name="price" value="{{ garment.price }}" required pattern="^\d*(\.\d+)?$" title="Price must be a number between 15 and 10,000. Decimal points are allowed." oninput="validatePrice(this)">
+        <input type="text" name="price" required pattern="^\d*(\.\d+)?$" title="Price must be a number between 15 and 10,000. Decimal points are allowed." oninput="validatePrice(this)" value="{{ garment.price }}">
         <br>
         <input type="submit" value="Save Changes">
     </form>
 
     <script>
+        function searchBrand() {
+            var input = document.getElementById('brandInput').value;
+            var brandList = document.getElementById('brandList');
+            if (input.length > 0) {
+                // Simulate fetching brands from the server based on user input
+                fetch('/search-brand?query=' + input)
+                    .then(response => response.json())
+                    .then(data => {
+                        brandList.innerHTML = ''; // Clear previous results
+
+                        let brandExists = data.some(brand => brand.toLowerCase() === input.toLowerCase());
+
+                        data.forEach(function(brand) {
+                            brandList.innerHTML += '<div onclick="selectBrand(\'' + brand + '\')">' + brand + '</div>';
+                        });
+
+                        if (!brandExists) {
+                            brandList.innerHTML += '<div onclick="selectBrand(\'' + input + '\')">Add new brand: "' + input + '"</div>';
+                        }
+
+                        
+                    });
+            } else {
+                brandList.innerHTML = '';
+            }
+        }
+
+        function selectBrand(name) {
+            var brandInput = document.getElementById('brandInput');
+            brandInput.value = name;
+            document.getElementById('brandList').innerHTML = '';
+        }
+
         function validatePrice(input) {
             const value = parseFloat(input.value);
             if (value < 15 || value > 10000) {
-                input.setCustomValidity("Price must be between 15 and 10,000.");
+                input.setCustomValidity("Price must be between 15€ and 10,000€.");
             } else {
                 input.setCustomValidity("");
             }
