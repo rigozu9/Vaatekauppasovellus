@@ -335,6 +335,44 @@ footer {
 }
 
 /* New garment form css */
+
+.image-container {
+    display: inline-block; /* Display image containers side-by-side */
+    margin-right: 10px; /* Space between containers */
+    text-align: center; /* Center the content */
+}
+
+.image-preview {
+    max-width: 100px; /* Set a max-width that fits your layout */
+    max-height: 100px; /* Set a max-height */
+    display: block; /* Display block to allow for margin */
+    margin-bottom: 5px; /* Space between the image and the radio button */
+}
+
+input[type="radio"] {
+    display: none; /* Hide the default radio button */
+}
+
+input[type="radio"] + label {
+    background-color: #f0f0f0; /* Light grey background */
+    padding: 5px 5px; /* Padding around the text */
+    border: 1px solid #ccc; /* Light grey border */
+    border-radius: 3px; /* Rounded corners */
+    cursor: pointer; /* Pointer cursor on hover */
+    display: block; /* Block display to fill container width */
+    margin: auto; /* Center the button under the image */
+    text-align: center; /* Center the text */
+}
+
+/* Style when the radio button is checked */
+input[type="radio"]:checked + label {
+    background-color: #007bff; /* Blue background for selected */
+    color: white; /* White text for contrast */
+    border-color: #0056b3; /* Darker blue border */
+}
+
+
+
 /* brandlisting css */
 #brandList {
     border-radius: 4px;

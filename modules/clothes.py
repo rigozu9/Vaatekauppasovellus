@@ -25,14 +25,13 @@ def get_categories_and_brands():
     else:
         return render_template("index.html", categories=categories, brands=brands)
 
-# Method to get clothes based on category from the database
 def get_clothes_by_category(category_name):
     clothes_query = text("""
         SELECT c.*, i.data AS image_data
         FROM clothes c
         LEFT JOIN (
             SELECT clothing_id, data,
-                   ROW_NUMBER() OVER (PARTITION BY clothing_id ORDER BY id) AS rn
+                   ROW_NUMBER() OVER (PARTITION BY clothing_id ORDER BY main_image DESC, id) AS rn  
             FROM images
         ) i ON c.id = i.clothing_id AND i.rn = 1
         WHERE c.category = :category
@@ -48,7 +47,6 @@ def get_clothes_by_category(category_name):
         return render_template("category.html", clothes=clothes, category_name=category_name)
 
 
-
 # Method to get clothes based on brands from the database
 def get_clothes_by_brand(brand_name):
     if brand_name != "All brands":
@@ -56,9 +54,10 @@ def get_clothes_by_brand(brand_name):
             SELECT c.*, i.data AS image_data
             FROM clothes c
             LEFT JOIN (
-                SELECT DISTINCT ON (clothing_id) clothing_id, data
+                SELECT clothing_id, data,
+                    ROW_NUMBER() OVER (PARTITION BY clothing_id ORDER BY main_image DESC, id) AS rn  
                 FROM images
-            ) i ON c.id = i.clothing_id
+            ) i ON c.id = i.clothing_id AND i.rn = 1
             WHERE c.brand = :brand_name
         """)
         clothes = db.session.execute(clothes_query, {"brand_name": brand_name}).fetchall()
@@ -74,9 +73,10 @@ def get_clothes_by_brand(brand_name):
             SELECT c.*, i.data AS image_data
             FROM clothes c
             LEFT JOIN (
-                SELECT DISTINCT ON (clothing_id) clothing_id, data
+                SELECT clothing_id, data,
+                    ROW_NUMBER() OVER (PARTITION BY clothing_id ORDER BY main_image DESC, id) AS rn  
                 FROM images
-            ) i ON c.id = i.clothing_id
+            ) i ON c.id = i.clothing_id AND i.rn = 1
         """)
         clothes = db.session.execute(clothes_query).fetchall()
 
@@ -157,6 +157,8 @@ def add_clothes():
     size = request.form["size"]
     price = request.form["price"]
 
+    main_image_index = int(request.form["main_image_index"])
+
     if 'username' in session:
         username = session['username']
 
@@ -190,15 +192,21 @@ def add_clothes():
     })
     new_clothes_id = result.fetchone()[0]
 
-    # Add images for the new clothing item
-    for file in files:
+    # Add images for the new clothing item and mark the main image
+    for index, file in enumerate(files):
         if file and allowed_file(file.filename):
             image_data = file.read()
+            # Determine if this is the main image
+            is_main_image = index == main_image_index
             add_image_query = text("""
-                INSERT INTO images (clothing_id, data)
-                VALUES (:clothing_id, :data)
+                INSERT INTO images (clothing_id, data, main_image)
+                VALUES (:clothing_id, :data, :main_image)
             """)
-            db.session.execute(add_image_query, {"clothing_id": new_clothes_id, "data": image_data})
+            db.session.execute(add_image_query, {
+                "clothing_id": new_clothes_id, 
+                "data": image_data,
+                "main_image": is_main_image  # This will be True for the main image, False otherwise
+            })
 
     db.session.commit()
     return redirect("/")

@@ -94,3 +94,5 @@ INSERT INTO sizes (name) VALUES ('M');
 INSERT INTO sizes (name) VALUES ('L');
 INSERT INTO sizes (name) VALUES ('XL');
 INSERT INTO sizes (name) VALUES ('Other');
+
+ALTER TABLE images ADD COLUMN main_image BOOLEAN DEFAULT FALSE;
