@@ -16,17 +16,16 @@
             <p class="error">{{ error_message }}</p>
         {% endif %}
         <p>Username:</p>
-        <input type="text" name="username" required>
-        <p>Password:</p>
-        <input type="password" name="password" id="password" minlength="8" required>
+            <input type="text" name="username" required>
+        <p>Password (minimum length 8):</p>
+            <input type="password" name="password" id="password" minlength="8" required>
         <p>Confirm Password:</p>
-        <input type="password" name="confirm_password" id="confirm_password" minlength="8" required>
+            <input type="password" name="confirm_password" id="confirm_password" minlength="8" required>
         <br>
         <input type="submit" value="Register">
         <p class="no-account">Already have an account? <a href="/login">Log in here</a></p>
         <p class="no-account">Continue as a guest <a href="/">Here</a></p>
     </form>
-</body>
     <script>
         function validateForm() {
             var password = document.getElementById("password").value;
@@ -37,5 +36,15 @@
             }
             return true;
         }
+
+        window.onload = function() {
+            const errorMessage = document.querySelector('.error');
+            if (errorMessage) {
+                setTimeout(function() {
+                    errorMessage.style.display = 'none';
+                }, 5000); // Hide after 5 seconds
+            }
+        };
     </script>
+</body>
 </html>

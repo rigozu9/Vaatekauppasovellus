@@ -43,6 +43,42 @@ footer {
     bottom: 0;
 }
 
+/* balacne css */
+.add-balance-form {
+    width: 50%; /* Adjust width as needed */
+    margin: 20px auto; /* Center the form */
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    background-color: #f9f9f9; /* Light background color */
+}
+
+.add-balance-form div {
+    margin-bottom: 10px;
+}
+
+.add-balance-form input[type="number"] {
+    width: 100%;
+    padding: 8px;
+    margin-top: 5px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+}
+
+.add-balance-form input[type="submit"] {
+    width: 100%;
+    padding: 10px;
+    background-color: #333;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+.add-balance-form input[type="submit"]:hover {
+    background-color: #555;
+}
+
+
 /* chats html css */
 .chat-item {
     padding: 15px;
@@ -317,7 +353,7 @@ footer {
     margin-bottom: 7px; /* Add spacing between paragraphs */
 }
 
-.new-garment-form textarea, .new-garment-form select, .new-garment-form input[type="submit"] {
+.new-garment-form textarea, .new-garment-form select, .new-garment-form input[type="text"],  .new-garment-form input[type="submit"] {
     width: 100%; /* Make elements full width */
     padding: 10px; /* Add padding for spacing */
     margin-bottom: 10px; /* Add spacing between elements */

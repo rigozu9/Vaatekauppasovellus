@@ -3,30 +3,35 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CCD:</title>
+    <title>Modify Item</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
     <link rel="icon" href="{{ url_for('static', filename='CCDLOGO.png') }}" type="image/x-icon">
-    <link rel="shortcut icon" href="{{ url_for('static', filename='CCDLOGO.png') }}" type="image/x-icon">    
+    <link rel="shortcut icon" href="{{ url_for('static', filename='CCDLOGO.png') }}" type="image/x-icon">
+    <style>
+        .image-preview {
+            max-width: 100px;
+            max-height: 100px;
+            margin-right: 10px;
+        }
+    </style>
 </head>
 <body>
     {% include 'header.html' %}
-    <form action="/modify/{{ garment.id }}" class="new-garment-form" method="POST" enctype="multipart/form-data">
-        <h2>Modify {{garment.name}} details</h2> 
+    <form action="/modify/{{ garment.id }}" class="new-garment-form" method="POST" enctype="multipart/form-data" onsubmit="return validateForm()">
+        <h2>Modify {{ garment.name }} Details</h2> 
         <br>
         <p>Name:</p>
-        <textarea name="name" rows="1" cols="40">{{ garment.name }}</textarea>
-
-        <p>Current Images:</p>
-        
+        <input type="text" name="name" value="{{ garment.name }}" required>
 
         <p>Pictures (Max 4), (Accepted extensions: 'png', 'jpg', 'jpeg', 'gif'):</p>
-        <input type="file" name="image" multiple>
+        <input type="file" name="image" multiple onchange="displaySelectedImages(this)" required>
+        <div id="image-preview-container"></div>
 
         <p>Description:</p>
-        <textarea name="description" rows="3" cols="40">{{ garment.description }}</textarea>
+        <textarea name="description" rows="3" required>{{ garment.description }}</textarea>
 
         <p>Brand:</p>
-        <select name="brand">
+        <select name="brand" required>
             <option value="">Choose the brand...</option>
             {% for brand in brands %}
                 <option value="{{ brand.name }}" {% if garment.brand == brand.name %}selected{% endif %}>{{ brand.name }}</option>
@@ -34,7 +39,7 @@
         </select>
 
         <p>Category:</p>
-        <select name="category">
+        <select name="category" required>
             <option value="">Choose a category...</option>
             {% for category in categories %}
                 <option value="{{ category.name }}" {% if garment.category == category.name %}selected{% endif %}>{{ category.name }}</option>
@@ -42,7 +47,7 @@
         </select>
 
         <p>Size:</p>
-        <select name="size">
+        <select name="size" required>
             <option value="">Choose size...</option>
             {% for size in sizes %}
                 <option value="{{ size.name }}" {% if garment.size == size.name %}selected{% endif %}>{{ size.name }}</option>
@@ -50,10 +55,40 @@
         </select>
 
         <p>Price (Type just the number, currency added later):</p>
-        <textarea name="price" rows="1" cols="10">{{ garment.price }}</textarea>
+        <input type="text" name="price" value="{{ garment.price }}" required pattern="^\d*(\.\d+)?$" title="Price must be a number between 15 and 10,000. Decimal points are allowed." oninput="validatePrice(this)">
         <br>
-
         <input type="submit" value="Save Changes">
     </form>
+
+    <script>
+        function validatePrice(input) {
+            const value = parseFloat(input.value);
+            if (value < 15 || value > 10000) {
+                input.setCustomValidity("Price must be between 15 and 10,000.");
+            } else {
+                input.setCustomValidity("");
+            }
+        }
+
+        function displaySelectedImages(input) {
+            const previewContainer = document.getElementById('image-preview-container');
+            previewContainer.innerHTML = ''; // Clear previous previews
+
+            const files = input.files;
+            for (let i = 0; i < files.length; i++) {
+                const file = files[i];
+                const img = document.createElement('img');
+                img.classList.add('image-preview');
+
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    img.src = e.target.result;
+                };
+                reader.readAsDataURL(file);
+
+                previewContainer.appendChild(img);
+            }
+        }
+    </script>
 </body>
 </html>
