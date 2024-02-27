@@ -34,27 +34,32 @@
 
         <!-- Iterate over the grouped items and render each group -->
         {% for status, items in items_by_status.items() %}
-            {% if items %}
-                <h4>{{ status|capitalize }} listings</h4>
-                <ul class="category-grid">
-                    {% for item in items %}
-                        <li class="category-item">
-                            <div>
-                                <p><strong><a href="/garment/{{ item.id }}">{{ item.name }}</a></strong></p>
-                                <!-- Check if the clothing item has associated images -->
-                                {% if item.image_data %}
-                                    <!-- Render only the first image associated with the clothing item -->
-                                    <a href="/garment/{{ item.id }}"><img class="category-image" src="data:image/jpeg;base64,{{ item.image_data | b64encode }}" alt="Clothing"></a>
-                                {% endif %}
-                                <ul>
-                                    <p><strong>{{ item.brand }}</strong></p>
-                                    <p><strong>{{ item.size }}</strong></p>
-                                    <p><strong>{{ item.price }}€</strong></p>
-                                </ul>
-                            </div>
-                        </li>
-                    {% endfor %}
-                </ul>
+            <!-- Check if the user is viewing their own listings to show sold and bought -->
+            {% if session.username == username or status == 'available' %}
+                {% if items %}
+                    <h4>{{ status|capitalize }} listings</h4>
+                    <ul class="category-grid">
+                        {% for item in items %}
+                            <li class="category-item">
+                                <div>
+                                    <p><strong><a href="/garment/{{ item.id }}">{{ item.name }}</a></strong></p>
+                                    <!-- Check if the clothing item has associated images -->
+                                    {% if item.image_data %}
+                                        <!-- Render only the first image associated with the clothing item -->
+                                        <a href="/garment/{{ item.id }}"><img class="category-image" src="data:image/jpeg;base64,{{ item.image_data | b64encode }}" alt="Clothing"></a>
+                                    {% endif %}
+                                    <ul>
+                                        <p><strong>{{ item.brand }}</strong></p>
+                                        <p><strong>{{ item.size }}</strong></p>
+                                        <p><strong>{{ item.price }}€</strong></p>
+                                    </ul>
+                                </div>
+                            </li>
+                        {% endfor %}
+                    </ul>
+                {% else %}
+                    <p>{{ username }} has no active listings.</p>
+                {% endif %}
             {% endif %}
         {% endfor %}
     {% endif %}

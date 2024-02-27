@@ -334,7 +334,28 @@ footer {
     text-decoration: underline;
 }
 
-/* New garment form */
+/* New garment form css */
+/* brandlisting css */
+#brandList {
+    border-radius: 4px;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+    position: absolute; /* This will position the dropdown right below the input field */
+    background: white;
+    width: calc(70% - 2px); /* Subtract border width */
+    max-height: 200px; /* You can adjust this value as needed */
+    overflow-y: auto; /* Adds a scrollbar if the content overflows */
+    z-index: 1000; /* Ensures the list appears above other content */
+}
+
+#brandList div {
+    padding: 8px 12px;
+    cursor: pointer;
+    line-height: 1.5;
+}
+
+#brandList div:hover {
+    background-color: #f7f7f7;
+}
 
 .new-garment-form {
     width: 70%; /* Adjust width as needed */

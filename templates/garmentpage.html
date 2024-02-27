@@ -26,34 +26,45 @@
             <a class="next" onclick="plusSlides(1)">&#10095;</a>
         </div>
         <div class="details-container">
-            <h3><strong>{{ clothing.name }}</strong></h3>
-            <p><strong>Category:</strong> {{ clothing.category }}</p>
-            <p><strong>About the item:</strong> <br>{{ clothing.description }}</br></p>
-            <p><strong>Size:</strong> {{ clothing.size }}</p>
-            <p><strong>Price:</strong> {{ clothing.price }}€</p>
-            <!-- links to check inquiries and modify or delete item. -->
-            <!-- admin can delete or modify items -->
-            {% if session.username %}
-                {% if session.username == clothing.username or session.username == admin.username %}
-                    <p><a href="/chats/{{ session.username }}/{{ clothing.id }}">See inquiries</a></p>
-                    <p><a href="/modify/{{ clothing.id }}">MODIFY ITEM</a></p>
-                    <p><a href="/delete/{{ clothing.id }}" onclick="return confirm('Are you sure you want to delete this item?');">DELETE ITEM</a></p>
+            {% if clothing.status != "sold" %}
+                <h3><strong>{{ clothing.name }}</strong></h3>
+                <p><strong>Brand:</strong> <a href="/brands/{{ clothing.brand }}">{{ clothing.brand }}</a></p>
+                <p><strong>Category:</strong> {{ clothing.category }}</p>
+                <p><strong>About the item:</strong> <br>{{ clothing.description }}</br></p>
+                <p><strong>Size:</strong> {{ clothing.size }}</p>
+                <p><strong>Price:</strong> {{ clothing.price }}€</p>
+                <!-- links to check inquiries and modify or delete item. -->
+                <!-- admin can delete or modify items -->
+                {% if session.username %}
+                    {% if session.username == clothing.username or session.username == admin.username %}
+                        <p><a href="/chats/{{ session.username }}/{{ clothing.id }}">See inquiries</a></p>
+                        <p><a href="/modify/{{ clothing.id }}">MODIFY ITEM</a></p>
+                        <p><a href="/delete/{{ clothing.id }}" onclick="return confirm('Are you sure you want to delete this item?');">DELETE ITEM</a></p>
+                    {% else %}
+                        <!-- link to send messsage about the item -->
+                        <p><strong>Listed by: </strong><a href="/users/{{ clothing.username }}">{{ clothing.username }}</a></p>
+                        <button class="buy-button"><a href="/send_message/{{ session.username }}/{{ clothing.username }}/{{ clothing.id }}">Send a message about the item</a></button>
+                        <div>
+                            <button class="buy-button">
+                                <a href="/buy/{{ clothing.id }}" onclick="return confirm('Are you sure you want to buy {{ clothing.name }} for {{ clothing.price }}€ ? Your balance after the purchase {{ user.balance-clothing.price }}€');">
+                                    Buy now for {{ clothing.price }}€
+                                </a>
+                            </button>
+                        </div>
+                    {% endif %}
                 {% else %}
                     <!-- link to send messsage about the item -->
                     <p><strong>Listed by: </strong><a href="/users/{{ clothing.username }}">{{ clothing.username }}</a></p>
-                    <button class="buy-button"><a href="/send_message/{{ session.username }}/{{ clothing.username }}/{{ clothing.id }}">Send a message about the item</a></button>
-                    <div>
-                        <button class="buy-button">
-                            <a href="/buy/{{ clothing.id }}" onclick="return confirm('Are you sure you want to buy {{ clothing.name }} for {{ clothing.price }}€ ? Your balance after the purchase {{ user.balance-clothing.price }}€');">
-                                Buy now for {{ clothing.price }}€
-                            </a>
-                        </button>
-                    </div>
+                    <p><a href="/login">Login or register to send a message about the item</a></p>
                 {% endif %}
             {% else %}
-                <!-- link to send messsage about the item -->
-                <p><strong>Listed by: </strong><a href="/users/{{ clothing.username }}">{{ clothing.username }}</a></p>
-                <p><a href="/login">Login or register to send a message about the item</a></p>
+            <!-- cant modidy/delete sold items -->
+                <h3><strong>{{ clothing.name }}</strong></h3>
+                <p><strong>Brand:</strong> <a href="/brands/{{ clothing.brand }}">{{ clothing.brand }}</a></p>
+                <p><strong>Category:</strong> {{ clothing.category }}</p>
+                <p><strong>About the item:</strong> <br>{{ clothing.description }}</br></p>
+                <p><strong>Size:</strong> {{ clothing.size }}</p>
+                <p><strong>Sold price:</strong> {{ clothing.price }}€</p>
             {% endif %}
         </div>
     </li>

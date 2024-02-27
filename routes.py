@@ -20,7 +20,7 @@ from modules.user import (
     get_chats,
     add_balance
 )
-from flask import render_template, request, session
+from flask import render_template, request, session, jsonify
 
 #For the picture to render from the database need to 
 #define a custom Jinja2 filter for base64 encoding
@@ -93,9 +93,19 @@ def new():
         return add_clothes()
     else: 
         return render_template("new.html", categories=categories, brands=brands, sizes=sizes)
-
-
-from sqlalchemy import text
+    
+#route to search for existing brands from database when adding a newlisting
+@app.route('/search-brand')
+def search_brand():
+    query = request.args.get('query', '')
+    if query:
+        # Raw SQL query to search for brands that match the query
+        search_query = text("SELECT name FROM brands WHERE name ILIKE :query")
+        result = db.session.execute(search_query, {'query': f'%{query}%'}).fetchall()
+        # Convert result to a list of brand names
+        brand_names = [row[0] for row in result]
+        return jsonify(brand_names)
+    return jsonify([])
 
 @app.route("/modify/<garment_id>", methods=["GET", "POST"])
 def modify_item(garment_id):

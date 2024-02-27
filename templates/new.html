@@ -21,7 +21,7 @@
         <h2>Add new garment for sale</h2> 
         <br>
         <p>Name:</p>
-        <textarea name="name" rows="1" cols="40" required></textarea>
+        <textarea name="name" rows="1" cols="40" required placeholder="Item name here ex. White Kapital T-shirt..."></textarea>
 
         <!-- Picture added here -->
         <p>Pictures (Max 4), (Accepted extensions:'png', 'jpg', 'jpeg', 'gif'):</p>
@@ -30,15 +30,11 @@
         <div id="image-preview-container"></div>
 
         <p>Description:</p>
-        <textarea name="description" rows="3" cols="40" required></textarea>
+        <textarea name="description" rows="3" cols="40" required placeholder="Type info about item. Color, size, condition etc."></textarea>
 
         <p>Brand:</p>
-        <select name="brand" required>
-            <option value="">Choose the brand...</option>
-            {% for brand in brands %}
-                <option value="{{ brand.name }}">{{ brand.name }}</option>
-            {% endfor %}
-        </select>
+            <input type="text" name="brand" id="brandInput" oninput="searchBrand()" placeholder="Type brand name here...">
+        <div id="brandList"></div>
 
         <p>Category:</p>
         <select name="category" required>
@@ -48,13 +44,17 @@
             {% endfor %}
         </select>
 
-        <p>Size:</p>
+        <!-- <p>Size:</p>
         <select name="size" required>
             <option value="">Choose size...</option>
             {% for size in sizes %}
                 <option value="{{ size.name }}">{{ size.name }}</option>
             {% endfor %}
-        </select>
+        </select> -->
+        <!-- not using the size table for now. -->
+        <p>Size:</p>
+            <input type="text" name="size" placeholder="Enter size here ex. S or EU41..." required>
+
 
         <p>Price (Type just the number, currency added later):</p>
         <input type="text" name="price" required pattern="^\d*(\.\d+)?$" title="Price must be a number between 15 and 10,000. Decimal points are allowed." oninput="validatePrice(this)">
@@ -63,6 +63,42 @@
     </form>
 
     <script>
+        // function to search existing brands from database
+        function searchBrand() {
+            var input = document.getElementById('brandInput').value;
+            var brandList = document.getElementById('brandList');
+
+            if (input.length > 0) {
+                // Send a request to your server to search for brands
+                fetch('/search-brand?query=' + input)
+                    .then(response => response.json())
+                    .then(data => {
+                        // Assuming 'data' is an array of brand names
+                        brandList.innerHTML = ''; // Clear previous results
+                        
+                        let brandExists = data.some(brand => brand.toLowerCase() === input.toLowerCase());
+
+                        data.forEach(brand => {
+                            brandList.innerHTML += '<div onclick="selectBrand(\'' + brand + '\')">' + brand + '</div>';
+                        });
+
+                        if (!brandExists) {
+                            brandList.innerHTML += '<div onclick="selectBrand(\'' + input + '\')">Add new brand: "' + input + '"</div>';
+                        }
+                    });
+            } else {
+                // Clear the brand list if input is empty
+                brandList.innerHTML = '';
+            }
+        }
+
+        // selects the brands from the database to the form
+        function selectBrand(name) {
+            var brandInput = document.getElementById('brandInput');
+            brandInput.value = name;
+            document.getElementById('brandList').innerHTML = '';
+        }
+
         function validatePrice(input) {
             const value = parseFloat(input.value);
             if (value < 15 || value > 10000) {

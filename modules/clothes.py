@@ -13,7 +13,7 @@ def allowed_file(filename):
 # Method to get categories and brands from the database
 def get_categories_and_brands():
     categories_query = text("SELECT * FROM categories")
-    brands_query = text("SELECT * FROM brands")
+    brands_query = text("SELECT * FROM brands WHERE name IN ('NUMBER (N)INE', 'BAPE', 'junya watanabe', 'All brands')")
 
     categories = db.session.execute(categories_query).fetchall()
     brands = db.session.execute(brands_query).fetchall()
@@ -162,6 +162,16 @@ def add_clothes():
 
     if 'image' in request.files:
         files = request.files.getlist('image')  # Retrieve multiple files
+
+    # Check if brand exists, if not, add it
+    brand_exists_query = text("SELECT id FROM brands WHERE name = :brand")
+    brand_result = db.session.execute(brand_exists_query, {"brand": brand})
+    brand_row = brand_result.fetchone()
+
+    if not brand_row:
+        # Add new brand to brands table
+        add_brand_query = text("INSERT INTO brands (name) VALUES (:brand)")
+        db.session.execute(add_brand_query, {"brand": brand})
 
     # Add new clothing item
     add_clothes_query = text("""
