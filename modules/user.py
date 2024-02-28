@@ -18,23 +18,30 @@ def get_info_by_user(username):
     """)
     clothes = db.session.execute(clothes_query, {"username": username}).fetchall()
     
-    # Fetch chats using SQL command
     chats_query = text("""
-    SELECT * FROM chats
-    WHERE seller_username = :username OR buyer_username = :username
+    SELECT ch.*, cl.name AS item_name, im.data AS image_data
+    FROM chats ch
+    JOIN clothes cl ON ch.item_id = cl.id
+    LEFT JOIN (
+        SELECT clothing_id, data,
+        ROW_NUMBER() OVER (PARTITION BY clothing_id ORDER BY main_image DESC, id) AS rn  
+        FROM images
+    ) im ON cl.id = im.clothing_id AND im.rn = 1
+    WHERE ch.seller_username = :username OR ch.buyer_username = :username
     """)
     chats = db.session.execute(chats_query, {"username": username}).fetchall()
 
     last_messages = {}
     for chat in chats:
         last_message_query = text("""
-        SELECT * FROM messages
-        WHERE chat_id = :chat_id
-        ORDER BY timestamp DESC
-        LIMIT 1
+            SELECT * FROM messages
+            WHERE chat_id = :chat_id
+            ORDER BY timestamp DESC
+            LIMIT 1
         """)
         last_message = db.session.execute(last_message_query, {"chat_id": chat.id}).fetchone()
         last_messages[chat.id] = last_message
+    
     
     user_query = text("SELECT * FROM users WHERE username = :username")
     user = db.session.execute(user_query, {"username": session['username']}).first()
@@ -170,7 +177,16 @@ def buy_clothing(garment_id):
 
 def get_chats(seller_username, garment_id):
     # Fetch garment details using SQL command
-    garment_query = text("SELECT * FROM clothes WHERE id = :garment_id")
+    garment_query = text("""
+        SELECT c.*, i.data AS image_data
+        FROM clothes c
+        LEFT JOIN (
+            SELECT clothing_id, data,
+            ROW_NUMBER() OVER (PARTITION BY clothing_id ORDER BY main_image DESC, id) AS rn
+            FROM images
+        ) i ON c.id = i.clothing_id AND i.rn = 1
+        WHERE c.id = :garment_id
+    """)
     garment = db.session.execute(garment_query, {"garment_id": garment_id}).fetchone()
     
     # Fetch chats where the user is the seller and the item_id matches

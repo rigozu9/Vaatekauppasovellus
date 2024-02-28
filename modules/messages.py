@@ -10,11 +10,11 @@ def get_messages(sender_username, receiver_username, garment_id):
     
     # Retrieve messages where sender can be either buyer or seller, and receiver can be either buyer or seller
     query = text("""
-    SELECT * FROM messages
-    WHERE ((sender_username = :sender_username AND receiver_username = :receiver_username) 
-    OR (sender_username = :receiver_username AND receiver_username = :sender_username))
-    AND item_id = :garment_id
-    """)
+        SELECT * FROM messages
+        WHERE ((sender_username = :sender_username AND receiver_username = :receiver_username) 
+        OR (sender_username = :receiver_username AND receiver_username = :sender_username))
+        AND item_id = :garment_id
+        """)
     messages = db.session.execute(query, {"sender_username": sender_username, "receiver_username": receiver_username, "garment_id": garment_id}).fetchall()
 
     if 'username' in session:
@@ -34,25 +34,34 @@ def send_message():
 
     timestamp = datetime.now()
 
-    # Check if a chat exists between sender and receiver for the item
     existing_chat_query = text("""
-    SELECT * FROM chats
-    WHERE buyer_username = :sender_username
-    AND seller_username = :receiver_username
-    AND item_id = :item_id
+        SELECT * FROM chats
+        WHERE (buyer_username = :sender_username AND seller_username = :receiver_username
+            OR buyer_username = :receiver_username AND seller_username = :sender_username)
+        AND item_id = :item_id
     """)
-    existing_chat = db.session.execute(existing_chat_query, {"sender_username": sender_username, "receiver_username": receiver_username, "item_id": item_id}).first()
+    existing_chat = db.session.execute(existing_chat_query, {
+        "sender_username": sender_username, 
+        "receiver_username": receiver_username, 
+        "item_id": item_id
+    }).first()
 
     if not existing_chat:
         # Create a new chat if one doesn't exist
         new_chat_query = text("""
-        INSERT INTO chats (buyer_username, seller_username, item_id, start_timestamp)
-        VALUES (:sender_username, :receiver_username, :item_id, :start_timestamp)
-        """)
-        db.session.execute(new_chat_query, {"sender_username": sender_username, "receiver_username": receiver_username, "item_id": item_id, "start_timestamp": timestamp})
+            INSERT INTO chats (buyer_username, seller_username, item_id, start_timestamp)
+            VALUES (:sender_username, :receiver_username, :item_id, :start_timestamp)
+            RETURNING id
+            """)
+        result = db.session.execute(new_chat_query, {
+            "sender_username": sender_username, 
+            "receiver_username": receiver_username, 
+            "item_id": item_id, 
+            "start_timestamp": timestamp
+        })
         db.session.commit()
 
-        chat_id = db.session.execute("SELECT last_insert_rowid()").scalar()
+        chat_id = result.fetchone()[0]
     else:
         # Use the existing chat_id
         chat_id = existing_chat.id
@@ -62,6 +71,7 @@ def send_message():
     INSERT INTO messages (chat_id, sender_username, receiver_username, item_id, message_body, timestamp)
     VALUES (:chat_id, :sender_username, :receiver_username, :item_id, :message_body, :timestamp)
     """)
+
     db.session.execute(new_message_query, {"chat_id": chat_id, "sender_username": sender_username, "receiver_username": receiver_username, "item_id": item_id, "message_body": message_body, "timestamp": timestamp})
     db.session.commit()
 
