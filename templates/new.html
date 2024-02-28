@@ -68,7 +68,7 @@
 
     <script>
         function selectMainImage(index) {
-            document.getElementById('main_image_index').value = index;
+            document.getElementById('main_image_index').value = index !== null ? index : "";
         }   
         // function to search existing brands from database
         function searchBrand() {
@@ -114,9 +114,8 @@
                 input.setCustomValidity("");
             }
         }
-        // Array to store selected files
-        let selectedFiles = [];
 
+        // function to see what images you selected and påick a main image
         function displaySelectedImages(input) {
             const previewContainer = document.getElementById('image-preview-container');
             previewContainer.innerHTML = ''; // Clear previous previews

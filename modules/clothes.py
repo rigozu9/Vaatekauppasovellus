@@ -94,9 +94,10 @@ def get_clothes_by_search():
         SELECT c.*, i.data AS image_data
         FROM clothes c
         LEFT JOIN (
-            SELECT DISTINCT ON (clothing_id) clothing_id, data
+            SELECT clothing_id, data,
+                ROW_NUMBER() OVER (PARTITION BY clothing_id ORDER BY main_image DESC, id) AS rn  
             FROM images
-        ) i ON c.id = i.clothing_id
+        ) i ON c.id = i.clothing_id AND i.rn = 1
         WHERE c.name ILIKE :query
     """)
     clothes = db.session.execute(clothes_query, {"query": f'%{query}%'}).fetchall()
@@ -123,6 +124,7 @@ def get_clothes_by_id(garment_id):
         SELECT data
         FROM images
         WHERE clothing_id = :garment_id
+        ORDER BY main_image DESC, id
     """)
     images_result = db.session.execute(images_query, {"garment_id": garment_id}).fetchall()
 
@@ -156,8 +158,7 @@ def add_clothes():
     brand = request.form["brand"]
     size = request.form["size"]
     price = request.form["price"]
-
-    main_image_index = int(request.form["main_image_index"])
+    
 
     if 'username' in session:
         username = session['username']
@@ -190,22 +191,31 @@ def add_clothes():
         "price": price,
         "username": username
     })
+    
     new_clothes_id = result.fetchone()[0]
 
-    # Add images for the new clothing item and mark the main image
+    # Initialize main_image_index to None
+    main_image_index = None
+
+    # Get the index of the main image, if provided and valid
+    if 'main_image_index' in request.form and request.form['main_image_index'].isdigit():
+        main_image_index = int(request.form['main_image_index'])
+
     for index, file in enumerate(files):
         if file and allowed_file(file.filename):
             image_data = file.read()
-            # Determine if this is the main image
-            is_main_image = index == main_image_index
+            # Check if this file's index matches the main image index provided by the user
+            # Or if no main image was provided, default to the first image as the main image
+            is_main_image = (main_image_index is None and index == 0) or (main_image_index == index)
+
             add_image_query = text("""
                 INSERT INTO images (clothing_id, data, main_image)
                 VALUES (:clothing_id, :data, :main_image)
             """)
             db.session.execute(add_image_query, {
-                "clothing_id": new_clothes_id, 
+                "clothing_id": new_clothes_id,
                 "data": image_data,
-                "main_image": is_main_image  # This will be True for the main image, False otherwise
+                "main_image": is_main_image
             })
 
     db.session.commit()
@@ -277,15 +287,29 @@ def modify_garment(garment_id):
         """)
         db.session.execute(delete_images_query, {"garment_id": garment_id})
 
-        # Insert new images for the garment
-        for file in files:
-            if file and allowed_file(file.filename):
-                image_data = file.read()
-                add_image_query = text("""
-                    INSERT INTO images (clothing_id, data)
-                    VALUES (:clothing_id, :data)
-                """)
-                db.session.execute(add_image_query, {"clothing_id": garment_id, "data": image_data})
+    # Initialize main_image_index to None
+    main_image_index = None
+
+    # Get the index of the main image, if provided and valid
+    if 'main_image_index' in request.form and request.form['main_image_index'].isdigit():
+        main_image_index = int(request.form['main_image_index'])
+
+    for index, file in enumerate(files):
+        if file and allowed_file(file.filename):
+            image_data = file.read()
+            # Check if this file's index matches the main image index provided by the user
+            # Or if no main image was provided, default to the first image as the main image
+            is_main_image = (main_image_index is None and index == 0) or (main_image_index == index)
+            
+            add_image_query = text("""
+                INSERT INTO images (clothing_id, data, main_image)
+                VALUES (:clothing_id, :data, :main_image)
+            """)
+            db.session.execute(add_image_query, {
+                "clothing_id": garment_id,
+                "data": image_data,
+                "main_image": is_main_image
+            })
 
     # Commit changes to the database
     db.session.commit()

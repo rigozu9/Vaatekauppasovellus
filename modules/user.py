@@ -11,7 +11,7 @@ def get_info_by_user(username):
         FROM clothes c
         LEFT JOIN (
             SELECT clothing_id, data,
-                   ROW_NUMBER() OVER (PARTITION BY clothing_id ORDER BY id) AS rn
+                ROW_NUMBER() OVER (PARTITION BY clothing_id ORDER BY main_image DESC, id) AS rn  
             FROM images
         ) i ON c.id = i.clothing_id AND i.rn = 1
         WHERE c.username = :username

@@ -28,6 +28,8 @@
         <br>
         <div id="image-preview-container"></div>
 
+        <input type="hidden" name="main_image_index" id="main_image_index">
+
         <p>Description:</p>
         <textarea name="description" rows="3" cols="40" required>{{ garment.description }}</textarea>
 
@@ -53,33 +55,39 @@
     </form>
 
     <script>
+        function selectMainImage(index) {
+            document.getElementById('main_image_index').value = index !== null ? index : "";
+        }   
+        // function to search existing brands from database
         function searchBrand() {
             var input = document.getElementById('brandInput').value;
             var brandList = document.getElementById('brandList');
+
             if (input.length > 0) {
-                // Simulate fetching brands from the server based on user input
+                // Send a request to your server to search for brands
                 fetch('/search-brand?query=' + input)
                     .then(response => response.json())
                     .then(data => {
+                        // Assuming 'data' is an array of brand names
                         brandList.innerHTML = ''; // Clear previous results
-
+                        
                         let brandExists = data.some(brand => brand.toLowerCase() === input.toLowerCase());
 
-                        data.forEach(function(brand) {
+                        data.forEach(brand => {
                             brandList.innerHTML += '<div onclick="selectBrand(\'' + brand + '\')">' + brand + '</div>';
                         });
 
                         if (!brandExists) {
                             brandList.innerHTML += '<div onclick="selectBrand(\'' + input + '\')">Add new brand: "' + input + '"</div>';
                         }
-
-                        
                     });
             } else {
+                // Clear the brand list if input is empty
                 brandList.innerHTML = '';
             }
         }
 
+        // selects the brands from the database to the form
         function selectBrand(name) {
             var brandInput = document.getElementById('brandInput');
             brandInput.value = name;
@@ -95,23 +103,52 @@
             }
         }
 
+        // function to see what images you selected and påick a main image
         function displaySelectedImages(input) {
             const previewContainer = document.getElementById('image-preview-container');
             previewContainer.innerHTML = ''; // Clear previous previews
 
             const files = input.files;
+
             for (let i = 0; i < files.length; i++) {
                 const file = files[i];
+
+                // Create a container for each image and radio button
+                const imageContainer = document.createElement('div');
+                imageContainer.className = 'image-container'; // Add a class for styling purposes
+
+                // Create an image element
                 const img = document.createElement('img');
                 img.classList.add('image-preview');
 
+                // Create a radio button
+                const radio = document.createElement('input');
+                radio.type = 'radio';
+                radio.name = 'mainImage';
+                radio.value = i; // Use the index as the value
+                radio.id = 'mainImage' + i; // Unique ID for the label to reference
+
+                // Create a label for the radio button
+                const label = document.createElement('label');
+                label.htmlFor = 'mainImage' + i;
+                label.textContent = 'Main Pic'; // Text to be displayed on the button
+
+                // Append the image, radio button, and label to the container
+                imageContainer.appendChild(img);
+                imageContainer.appendChild(radio);
+                imageContainer.appendChild(label); // Make sure label comes after the radio button
+
+                // Append the container to the preview container
+                previewContainer.appendChild(imageContainer);
+
+                // Read the image file and set the image source
                 const reader = new FileReader();
                 reader.onload = function(e) {
                     img.src = e.target.result;
                 };
                 reader.readAsDataURL(file);
 
-                previewContainer.appendChild(img);
+                radio.onclick = function() { selectMainImage(i); };
             }
         }
     </script>
