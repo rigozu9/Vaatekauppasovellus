@@ -11,6 +11,7 @@ from modules.clothes import (
     get_clothes_by_search,
     delete_garment,
     modify_garment,
+    admin_pick
 )
 from modules.messages import send_message, get_messages
 from modules.login import register, login, logout
@@ -18,7 +19,7 @@ from modules.user import (
     get_info_by_user, 
     buy_clothing,
     get_chats,
-    add_balance
+    add_balance,
 )
 from flask import render_template, request, session, jsonify
 
@@ -130,6 +131,11 @@ def modify_item(garment_id):
 @app.route("/delete/<garment_id>")
 def delete_item(garment_id):
     return delete_garment(garment_id)
+
+#delete a garmnet
+@app.route("/admin_pick/<garment_id>")
+def adminpick(garment_id):
+    return admin_pick(garment_id)
 
 #if GET renders item_messages.html tempalte if POST sends message by calling the function send_message 
 @app.route('/send_message/<sender_username>/<receiver_username>/<garment_id>', methods=['GET', 'POST'])

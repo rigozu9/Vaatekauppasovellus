@@ -316,3 +316,23 @@ def modify_garment(garment_id):
 
     # Redirect to the user's profile page
     return redirect(f"/users/{username}")
+
+
+def admin_pick(garment_id):
+    # Fetch the current state of admin_pick for the garment
+    current_state_query = text("SELECT admin_pick FROM clothes WHERE id = :garment_id")
+    current_state_result = db.session.execute(current_state_query, {"garment_id": garment_id}).fetchone()
+    
+    if current_state_result:
+        new_admin_pick_status = not current_state_result[0]  # Toggle the status
+        
+        # Define the SQL statement to update the admin_pick column based on the toggled status
+        update_statement = text("UPDATE clothes SET admin_pick = :new_status WHERE id = :garment_id")
+        
+        # Execute the SQL statement with the provided garment_id and the new status
+        db.session.execute(update_statement, {"garment_id": garment_id, "new_status": new_admin_pick_status})
+        
+        # Commit the changes to the database
+        db.session.commit()
+        
+        return redirect(f"/garment/{garment_id}")

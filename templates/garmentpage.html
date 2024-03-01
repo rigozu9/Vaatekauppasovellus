@@ -36,9 +36,17 @@
                 <!-- links to check inquiries and modify or delete item. -->
                 <!-- admin can delete or modify items -->
                 {% if session.username %}
-                    {% if session.username == clothing.username or session.username == admin.username %}
+                    {% if session.username == admin.username %}
+                        {% if clothing.admin_pick %}
+                            <p><a href="/admin_pick/{{ clothing.id }}">Remove from Admin Picks</a></p>
+                        {% else %}
+                            <p><a href="/admin_pick/{{ clothing.id }}">Add to Admin Picks</a></p>
+                        {% endif %}
+                        <p><a href="/modify/{{ clothing.id }}">Modify item</a></p>
+                        <p><a href="/delete/{{ clothing.id }}" onclick="return confirm('Are you sure you want to delete this item?');">DELETE ITEM</a></p>
+                    {% elif session.username == clothing.username %}
                         <p><a href="/chats/{{ session.username }}/{{ clothing.id }}">See inquiries</a></p>
-                        <p><a href="/modify/{{ clothing.id }}">MODIFY ITEM</a></p>
+                        <p><a href="/modify/{{ clothing.id }}">Modify item</a></p>
                         <p><a href="/delete/{{ clothing.id }}" onclick="return confirm('Are you sure you want to delete this item?');">DELETE ITEM</a></p>
                     {% else %}
                         <!-- link to send messsage about the item -->
