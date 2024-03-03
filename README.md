@@ -1,11 +1,37 @@
-# Clothing Shop Web Application
+# CCD Clothing Shop Web Application
 
 ## Getting Started
 Test the application in Render.com now:
 [Clothing Shop Web Application](https://ccd-clothingshop.onrender.com/)
 
 ## Overview
-The Clothing Shop web is close to being finished. Below is an overview of its current functionalities and future enhancements:
+The Clothing Shop web is finished. Below is an overview of its functionalities and database usage:
+
+### Final return features
+
+- **User Registration and Login:** Securely register and log in to access the platform's features.
+- **Clothes Listings:** Add your clothes for sale and browse listings from other users. Each listing includes details such as brand, size, price, and description.
+- **Modify and Delete Listings:** Own a listing? You can modify its details or delete it entirely.
+- **Virtual Currency Transactions:** Buy clothes from other users using virtual currency. Add to your balance to continue shopping.
+- **Messaging:** Communicate with other users about items through the built-in messaging system. Keep track of your conversations in the user tab.
+- **User Dashboard:** View available, sold, and bought listings. Manage your chats and replies within the user tab.
+- **Admin Privileges:** Admins can modify or delete any listing, add listings to "Admin Picks" for featured visibility, and manage the site's overall content.
+
+## Database Structure
+
+The application utilizes a robust PostgreSQL database consisting of 11 tables to store and manage data efficiently:
+
+1. **Categories:** Different clothing categories.
+2. **Chats:** User communications about transactions.
+3. **Clothes:** Details of clothes listed for sale.
+4. **Images:** Byte data of images for each listing.
+5. **Messages:** Messages exchanged between users.
+6. **Sizes:** Clothing sizes.
+7. **Transactions:** Completed purchase information.
+8. **Users:** User account details, including balance.
+9. **Subcategories:** More specific categories like t-shirts or jeans.
+10. **Category_Sizes:** Item sizes for different categories.
+11. **Brands:** Clothing brands.
 
 ### 3rd return Features
 - **Production:** Clothing shop is running on render.com
@@ -40,6 +66,7 @@ The Clothing Shop web is close to being finished. Below is an overview of its cu
 - **Enhanced Functionality:** Improve website performance to ensure smoother usage.
 - **Real-Time Chat:** Implement a feature to render messages in real-time as they are sent.
 - **Notification System:** Add a notification system to keep users informed about important updates.
+INSERT INTO category_sizes (category_id, size_id) VALUES (4, 44);
 - **Admin Picks Category:** Introduce a category where admin-selected favorite clothes are showcased for sale.
 
 Thank you!
