@@ -11,19 +11,29 @@ def allowed_file(filename):
     return '.' in filename and filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
 
 # Method to get categories and brands from the database
-def get_categories_and_brands():
+def get_clothes():
+    clothes_query = text("""
+        SELECT c.*, i.data AS image_data
+        FROM clothes c
+        LEFT JOIN (
+            SELECT clothing_id, data,
+                   ROW_NUMBER() OVER (PARTITION BY clothing_id ORDER BY main_image DESC, id) AS rn  
+            FROM images
+        ) i ON c.id = i.clothing_id AND i.rn = 1
+    """)
     categories_query = text("SELECT * FROM categories")
     brands_query = text("SELECT * FROM brands WHERE name IN ('NUMBER (N)INE', 'BAPE', 'junya watanabe', 'All brands')")
 
+    clothes = db.session.execute(clothes_query).fetchall()
     categories = db.session.execute(categories_query).fetchall()
     brands = db.session.execute(brands_query).fetchall()
 
     if 'username' in session:
         user_query = text("SELECT * FROM users WHERE username = :username")
         user = db.session.execute(user_query, {"username": session['username']}).fetchone()
-        return render_template("index.html", categories=categories, brands=brands, user=user)
+        return render_template("index.html", clothes=clothes, categories=categories, brands=brands, user=user)
     else:
-        return render_template("index.html", categories=categories, brands=brands)
+        return render_template("index.html", clothes=clothes, categories=categories, brands=brands)
 
 def get_clothes_by_category(category_name):
     clothes_query = text("""

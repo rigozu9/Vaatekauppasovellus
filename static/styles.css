@@ -38,10 +38,37 @@ footer {
     padding: 7px;
     text-align: center;
     font-family: Arial, sans-serif;
-    position: fixed;
     width: 100%;
     bottom: 0;
 }
+
+/* styles.css */
+
+.about-section {
+    background-color: #fff; /* White background */
+    margin: 20px auto; /* Center the section with some margin */
+    padding: 40px; /* Padding around the content */
+    max-width: 800px; /* Max width for the content area */
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* Subtle shadow around the section */
+    border-radius: 8px; /* Rounded corners for the section */
+}
+
+.about-section h2 {
+    text-align: center; /* Center align the heading */
+    color: #333; /* Dark grey color for the text */
+    margin-bottom: 20px; /* Space below the heading */
+    font-size: 2.5em; /* Larger font size for the heading */
+}
+
+.about-section p {
+    font-size: 1.2em; /* Slightly larger font size for readability */
+    line-height: 1.6; /* Spacing between lines for better readability */
+    color: #666; /* Lighter grey color for the text */
+    margin-bottom: 20px; /* Space below each paragraph */
+}
+
+/* Add other styles as needed */
+
 
 /* balacne css */
 .add-balance-form {
@@ -51,6 +78,7 @@ footer {
     border-radius: 10px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
     background-color: #f9f9f9; /* Light background color */
+    margin-bottom: 536px;
 }
 
 .add-balance-form div {
@@ -170,6 +198,25 @@ footer {
     list-style: none;
     padding: 0;
 }
+
+/* Default footer styles */
+.main-footer {
+    background-color: #333232;
+    color: #fff;
+    padding: 7px;
+    text-align: center;
+    font-family: Arial, sans-serif;
+    width: 100%;
+    position: relative; /* Footer is in the normal flow of the document */
+}
+
+/* Fixed footer styles when a specific class is added */
+.main-footer.fixed-footer {
+    position: fixed; /* Footer sticks to the bottom */
+    bottom: 0; /* Aligns to the bottom of the viewport */
+}
+
+
 
 .category-item {
     text-align: center;

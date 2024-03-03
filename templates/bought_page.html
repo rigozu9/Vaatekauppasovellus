@@ -6,8 +6,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>CCD:</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
-    <link rel="icon" href="{{ url_for('static', filename='CCDLOGO.png') }}" type="image/x-icon">
-    <link rel="shortcut icon" href="{{ url_for('static', filename='CCDLOGO.png') }}" type="image/x-icon">    
+    <link rel="icon" href="{{ url_for('static', filename='NEWCDDLOGO.png') }}" type="image/x-icon">
+    <link rel="shortcut icon" href="{{ url_for('static', filename='NEWCDDLOGO.png') }}" type="image/x-icon">    
 </head>
 <body>
     {% include 'header.html' %}
@@ -28,11 +28,12 @@
         <div class="details-container">
             <h3><strong>{{ garment.name }}</strong></h3>
             <h3><strong>For:</strong> {{ garment.price }}€</h3>
+            <p><strong>Browse your bought items: </strong><a href="/users/{{ garment.username }}">{{ garment.username }}</a></p>
         </div>
     </li>
-    <p><strong>Browse your bought items: </strong><a href="/users/{{ garment.username }}">{{ garment.username }}</a></p>
-    <!-- footer -->
-    {% include 'footer.html' %}
+    <footer class="main-footer fixed-footer">
+        {% include 'footer.html' %}
+    </footer>
 </body>
 <!-- Manual slideshow for the pictures -->
     <script>

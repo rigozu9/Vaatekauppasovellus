@@ -5,8 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>CCD:</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
-    <link rel="icon" href="{{ url_for('static', filename='CCDLOGO.png') }}" type="image/x-icon">
-    <link rel="shortcut icon" href="{{ url_for('static', filename='CCDLOGO.png') }}" type="image/x-icon">    
+    <link rel="icon" href="{{ url_for('static', filename='NEWCDDLOGO.png') }}" type="image/x-icon">
+    <link rel="shortcut icon" href="{{ url_for('static', filename='NEWCDDLOGO.png') }}" type="image/x-icon">    
 </head>
 <body>
     {% include 'header.html' %}
@@ -16,6 +16,8 @@
 
         <h3>Question 2: What are the shipping fees in CCD?</h3>
         <p>There are no shipping fees. After you sell an item we will provide a shipping code for you.</p>
-    {% include 'footer.html' %}
+    <footer class="main-footer fixed-footer">
+        {% include 'footer.html' %}
+    </footer>
 </body>
 </html>

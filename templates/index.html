@@ -5,8 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>CCD:</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
-    <link rel="icon" href="{{ url_for('static', filename='CCDLOGO.png') }}" type="image/x-icon">
-    <link rel="shortcut icon" href="{{ url_for('static', filename='CCDLOGO.png') }}" type="image/x-icon">    
+    <link rel="icon" href="{{ url_for('static', filename='NEWCDDLOGO.png') }}" type="image/x-icon">
+    <link rel="shortcut icon" href="{{ url_for('static', filename='NEWCDDLOGO.png') }}" type="image/x-icon">    
 </head>
 <body>
     {% include 'header.html' %}
@@ -38,6 +38,22 @@
         {% endfor %}
     </ul>
 
+    <!-- Brands rendered here -->
+    <h2>Browse admin picks</h2>
+    <ul class="category-grid">
+        {% for clothing in clothes %}
+            {% if clothing.admin_pick %}
+                <li class="category-item">
+                    {% if clothing.image_data %}
+                        <!-- Render only the first image associated with the clothing item -->
+                        <a href="/garment/{{ clothing.id }}"><img class="category-image" src="data:image/jpeg;base64,{{ clothing.image_data | b64encode }}" alt="Clothing"></a>
+                    {% endif %}
+                    <p>{{ clothing.name }}</p>
+                </li>
+            {% endif %}
+        {% endfor %}
+    </ul>
+
     {% if session.username %}
         <!-- User is logged in, shows usertab, sell a garment tab and logout link -->
         <a class="usertab" href="/users/{{ session.username }}"> {{ session.username }}</a>
@@ -50,7 +66,8 @@
         <a class="register" href="/register">Register here</a>
     {% endif %}
 
-    <!-- footer -->
-    {% include 'footer.html' %}
+    <footer class="main-footer">
+        {% include 'footer.html' %}
+    </footer>
 </body>
 </html>

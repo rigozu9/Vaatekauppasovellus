@@ -6,8 +6,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>CCD: Balance</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
-    <link rel="icon" href="{{ url_for('static', filename='CCDLOGO.png') }}" type="image/x-icon">
-    <link rel="shortcut icon" href="{{ url_for('static', filename='CCDLOGO.png') }}" type="image/x-icon">    
+    <link rel="icon" href="{{ url_for('static', filename='NEWCDDLOGO.png') }}" type="image/x-icon">
+    <link rel="shortcut icon" href="{{ url_for('static', filename='NEWCDDLOGO.png') }}" type="image/x-icon">    
 </head>
 <body>
     {% include 'header.html' %}
@@ -19,5 +19,8 @@
         </div>
         <input type="submit" value="Add Balance">
     </form>
+    <footer class="main-footer fixed-footer">
+        {% include 'footer.html' %}
+    </footer>
 </body>
 </html>

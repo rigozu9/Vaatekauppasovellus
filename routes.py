@@ -3,7 +3,7 @@ from app import app
 from sqlalchemy import text
 from db import db
 from modules.clothes import (
-    get_categories_and_brands,
+    get_clothes,
     add_clothes,
     get_clothes_by_category,
     get_clothes_by_brand,
@@ -34,7 +34,7 @@ def b64encode_filter(data):
 #calls index.html the main page and renders the categories and brands from database
 @app.route("/")
 def index():
-    return get_categories_and_brands()
+    return get_clothes()
 
 #calls category.html the category page and renders the clothes from selected category from database
 @app.route('/category/<category_name>')

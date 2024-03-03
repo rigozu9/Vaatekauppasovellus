@@ -5,19 +5,22 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>CCD:</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
-    <link rel="icon" href="{{ url_for('static', filename='CCDLOGO.png') }}" type="image/x-icon">
-    <link rel="shortcut icon" href="{{ url_for('static', filename='CCDLOGO.png') }}" type="image/x-icon">    
+    <link rel="icon" href="{{ url_for('static', filename='NEWCDDLOGO.png') }}" type="image/x-icon">
+    <link rel="shortcut icon" href="{{ url_for('static', filename='NEWCDDLOGO.png') }}" type="image/x-icon">    
 </head>
 {% include 'header.html' %}
 <body>
-    <h2>About Us</h2>
-    <p>Welcome to CCD Clothing Company! We are dedicated to providing high-quality clothing for our customers.</p>
-    <p>Our mission is to help people to find authenticated clothing from high end brands for competitive prices.</p>
-    <p>At CCD Clothing Company, we quarantee an friendly customer support and 100% authenticated clothing listed</p>
-    <p>Welcome to CCD Clothing Company! We are dedicated to providing high-quality clothing for our customers.</p>
-    <p>Our mission is to help people to find authenticated clothing from high end brands for competitive prices.</p>
-    <p>At CCD Clothing Company, we quarantee an friendly customer support and 100% authenticated clothing listed</p>
-
-    {% include 'footer.html' %}
+    <div class="about-section">
+        <h2>About Us</h2>
+        <p>Welcome to CCD Clothing Company! We are dedicated to providing high-quality clothing for our customers.</p>
+        <p>Our mission is to help people to find authenticated clothing from high end brands for competitive prices.</p>
+        <p>At CCD Clothing Company, we quarantee an friendly customer support and 100% authenticated clothing listed</p>
+        <p>Welcome to CCD Clothing Company! We are dedicated to providing high-quality clothing for our customers.</p>
+        <p>Our mission is to help people to find authenticated clothing from high end brands for competitive prices.</p>
+        <p>At CCD Clothing Company, we quarantee an friendly customer support and 100% authenticated clothing listed</p>
+    </div>
+    <footer class="main-footer fixed-footer">
+        {% include 'footer.html' %}
+    </footer>
 </body>
 </html>

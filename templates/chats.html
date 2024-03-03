@@ -5,8 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>CCD:</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
-    <link rel="icon" href="{{ url_for('static', filename='CCDLOGO.png') }}" type="image/x-icon">
-    <link rel="shortcut icon" href="{{ url_for('static', filename='CCDLOGO.png') }}" type="image/x-icon">    
+    <link rel="icon" href="{{ url_for('static', filename='NEWCDDLOGO.png') }}" type="image/x-icon">
+    <link rel="shortcut icon" href="{{ url_for('static', filename='NEWCDDLOGO.png') }}" type="image/x-icon">       
 </head>
 <body>
     {% include 'header.html' %}
@@ -15,7 +15,7 @@
     <!-- See chats for the listing-->
     <h2>Inquiries for "{{ garment.name }}"</h2>
     {% if garment.image_data %}
-        <img src="data:image/jpeg;base64,{{ garment.image_data | b64encode }}" alt="{{ garment.name }}" class="garment-image">
+        <img src="data:image/jpeg;base64,{{ garment.image_data | b64encode }}" alt="{{ garment.name }}" class="garment-image" width="200px">
     {% endif %}
     <br>
     {% for chat in chats %}
@@ -41,6 +41,8 @@
     {% endif %}
 
     <!-- footer -->
-    {% include 'footer.html' %}
+    <footer class="main-footer fixed-footer">
+        {% include 'footer.html' %}
+    </footer>
 </body>
 </html>
