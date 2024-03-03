@@ -37,25 +37,25 @@
         <div id="brandList"></div>
 
         <p>Category:</p>
-        <select name="category" required>
+        <select name="category" id="category-select" required onchange="loadSubcategoriesAndSizes()">
             <option value="">Choose a category...</option>
             {% for category in categories %}
-                <option value="{{ category.name }}">{{ category.name }}</option>
+                <option value="{{ category.id }}">{{ category.name }}</option>
             {% endfor %}
+        </select>        
+
+        <p>Subcategory (not required):</p>
+        <select name="subcategory" id="subcategory-select">
+            <option value="">Choose a subcategory...</option>
+            <!-- Subcategories will be loaded here based on the chosen category -->
         </select>
 
-        <!-- <p>Size:</p>
-        <select name="size" required>
-            <option value="">Choose size...</option>
-            {% for size in sizes %}
-                <option value="{{ size.name }}">{{ size.name }}</option>
-            {% endfor %}
-        </select> -->
-        <!-- not using the size table for now. -->
         <p>Size:</p>
-            <input type="text" name="size" placeholder="Enter size here ex. S or EU41..." required>
-
-
+        <select name="size" id="size-select" required>
+            <option value="">Choose size...</option>
+            <!-- Sizes will be loaded here based on the chosen category -->
+        </select>
+            
         <p>Price (Type just the number, currency added later):</p>
         <input type="text" name="price" required pattern="^\d*(\.\d+)?$" title="Price must be a number between 15 and 10,000. Decimal points are allowed." oninput="validatePrice(this)">
         <br>
@@ -67,6 +67,40 @@
     </form>
 
     <script>
+        function loadSubcategoriesAndSizes() {
+            var categorySelect = document.getElementById('category-select');
+            var subcategorySelect = document.getElementById('subcategory-select');
+            var sizeSelect = document.getElementById('size-select');
+            var categoryId = categorySelect.value; // Simplified way to get selected value
+
+            // Clear current options in subcategories and sizes dropdowns
+            subcategorySelect.innerHTML = '<option value="">Choose a subcategory...</option>';
+            sizeSelect.innerHTML = '<option value="">Choose size...</option>';
+
+            // Fetch and populate subcategories
+            fetch('/get-subcategories?category_id=' + categoryId)
+                .then(response => response.json())
+                .then(subcategories => {
+                    subcategories.forEach(subcategory => {
+                        let option = document.createElement('option');
+                        option.value = subcategory.name;
+                        option.textContent = subcategory.name;
+                        subcategorySelect.appendChild(option);
+                    });
+                });
+
+            // Fetch and populate sizes
+            fetch('/get-sizes?category_id=' + categoryId)
+                .then(response => response.json())
+                .then(sizes => {
+                    sizes.forEach(size => {
+                        let option = document.createElement('option');
+                        option.value = size.name;
+                        option.textContent = size.name;
+                        sizeSelect.appendChild(option);
+                    });
+                });
+        }
         function selectMainImage(index) {
             document.getElementById('main_image_index').value = index !== null ? index : "";
         }   

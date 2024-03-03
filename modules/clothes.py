@@ -165,6 +165,7 @@ def add_clothes():
     name = request.form["name"]
     description = request.form["description"]
     category = request.form["category"]
+    subcategory = request.form["subcategory"]
     brand = request.form["brand"]
     size = request.form["size"]
     price = request.form["price"]
@@ -188,8 +189,8 @@ def add_clothes():
 
     # Add new clothing item
     add_clothes_query = text("""
-        INSERT INTO clothes (name, description, category, brand, size, price, username)
-        VALUES (:name, :description, :category, :brand, :size, :price, :username)
+        INSERT INTO clothes (name, description, category, brand, size, price, username, subcategory)
+        VALUES (:name, :description, :category, :brand, :size, :price, :username, :subcategory)
         RETURNING id
     """)
     result = db.session.execute(add_clothes_query, {
@@ -199,7 +200,8 @@ def add_clothes():
         "brand": brand,
         "size": size,
         "price": price,
-        "username": username
+        "username": username,
+        "subcategory": subcategory
     })
     
     new_clothes_id = result.fetchone()[0]
@@ -257,6 +259,7 @@ def modify_garment(garment_id):
     category = request.form['category']
     size = request.form['size']
     price = request.form['price']
+    subcategory = request.form['subcategory']
     
     # Check if brand exists, if not, add it
     brand_exists_query = text("SELECT id FROM brands WHERE name = :brand")
@@ -273,7 +276,7 @@ def modify_garment(garment_id):
     update_query = text("""
         UPDATE clothes
         SET name = :name, description = :description, brand = :brand,
-            category = :category, size = :size, price = :price
+            category = :category, size = :size, price = :price, subcategory = :subcategory
         WHERE id = :garment_id
     """)
     db.session.execute(update_query, {
@@ -283,6 +286,7 @@ def modify_garment(garment_id):
         "category": category,
         "size": size,
         "price": price,
+        "subcategory" :subcategory,
         "garment_id": garment_id
     })
 

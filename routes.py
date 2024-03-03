@@ -80,7 +80,6 @@ def search():
 
 @app.route("/new", methods=["POST", "GET"])
 def new():
-    # Raw SQL query to retrieve categories, brands, and sizes
     categories_query = text("SELECT * FROM categories")
     brands_query = text("SELECT * FROM brands")
     sizes_query = text("SELECT * FROM sizes")
@@ -94,6 +93,31 @@ def new():
         return add_clothes()
     else: 
         return render_template("new.html", categories=categories, brands=brands, sizes=sizes)
+    
+#in new.html subcategories render based on main category
+@app.route("/get-subcategories")
+def get_subcategories():
+    category_id = request.args.get('category_id')
+    subcategories_query = text("SELECT * FROM subcategories WHERE category_id = :category_id")
+    subcategories = db.session.execute(subcategories_query, {'category_id': category_id}).fetchall()
+    # Convert subcategories to a list of dicts
+    subcategories_list = [{'id': sub.id, 'name': sub.name} for sub in subcategories]
+    return jsonify(subcategories_list)
+
+#in new.html sizes render based on main category
+@app.route("/get-sizes")
+def get_sizes():
+    category_id = request.args.get('category_id')
+    size_query = text("""
+        SELECT s.id, s.name FROM sizes s
+        JOIN category_sizes cs ON s.id = cs.size_id
+        WHERE cs.category_id = :category_id
+    """)
+    sizes = db.session.execute(size_query, {'category_id': category_id}).fetchall()
+    sizes_list = [{'id': size.id, 'name': size.name} for size in sizes]
+    return jsonify(sizes_list)
+
+
     
 #route to search for existing brands from database when adding a newlisting
 @app.route('/search-brand')
