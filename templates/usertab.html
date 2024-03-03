@@ -72,22 +72,35 @@
                 {% for chat in chats %}
                     {% if session.username == chat.buyer_username %}
                         <h3>Buying</h3>
+                            <p class="chat-item">
+                                <a href="/send_message/{{ chat.buyer_username }}/{{ chat.seller_username }}/{{ chat.item_id }}" class="chat-link">
+                                    {{ last_messages.get(chat.id).sender_username }}
+                                    {% if last_messages.get(chat.id) %}
+                                        : {{ last_messages.get(chat.id).message_body }}
+                                        <p>Open chat with {{ chat.seller_username if session.username == chat.buyer_username else chat.buyer_username }} about "{{ chat.item_name }}"</p>
+                                    {% endif %}
+                                    {% if chat.image_data %}
+                                        <!-- Display the item's image if available -->
+                                        <img src="data:image/jpeg;base64,{{ chat.image_data | b64encode }}" alt="{{ chat.item_name }}" style="width: 70px; height: 70px;">
+                                    {% endif %}
+                                </a>
+                            </p>
                     {% else %}
                         <h3>Selling</h3>
+                            <p class="chat-item">
+                                <a href="/send_message/{{ chat.seller_username }}/{{ chat.buyer_username }}/{{ chat.item_id }}" class="chat-link">
+                                    {{ last_messages.get(chat.id).sender_username }}
+                                    {% if last_messages.get(chat.id) %}
+                                        : {{ last_messages.get(chat.id).message_body }}
+                                        <p>Open chat with {{ chat.seller_username if session.username == chat.buyer_username else chat.buyer_username }} about "{{ chat.item_name }}"</p>
+                                    {% endif %}
+                                    {% if chat.image_data %}
+                                        <!-- Display the item's image if available -->
+                                        <img src="data:image/jpeg;base64,{{ chat.image_data | b64encode }}" alt="{{ chat.item_name }}" style="width: 70px; height: 70px;">
+                                    {% endif %}
+                                </a>
+                            </p>
                     {% endif %}
-                    <p class="chat-item">
-                        <a href="/send_message/{{ chat.buyer_username }}/{{ chat.seller_username }}/{{ chat.item_id }}" class="chat-link">
-                            {{ last_messages.get(chat.id).sender_username }}
-                            {% if last_messages.get(chat.id) %}
-                                : {{ last_messages.get(chat.id).message_body }}
-                                <p>Open chat with {{ chat.seller_username if session.username == chat.buyer_username else chat.buyer_username }} about "{{ chat.item_name }}"</p>
-                            {% endif %}
-                            {% if chat.image_data %}
-                                <!-- Display the item's image if available -->
-                                <img src="data:image/jpeg;base64,{{ chat.image_data | b64encode }}" alt="{{ chat.item_name }}" style="width: 70px; height: 70px;">
-                            {% endif %}
-                        </a>
-                    </p>
                 {% endfor %}
             {% else %}
                 <p>No chats</p>

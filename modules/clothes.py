@@ -164,12 +164,22 @@ def is_valid_price(price):
 def add_clothes():
     name = request.form["name"]
     description = request.form["description"]
-    category = request.form["category"]
+    category_id = request.form["category"]
     subcategory = request.form["subcategory"]
     brand = request.form["brand"]
     size = request.form["size"]
     price = request.form["price"]
     
+    category_name_query = text("SELECT name FROM categories WHERE id = :category_id")
+    category_name_result = db.session.execute(category_name_query, {"category_id": category_id})
+    category_name_row = category_name_result.fetchone()
+
+    # Extract the category name from the result
+    if category_name_row:
+        category_name = category_name_row[0]
+    else:
+        # Handle case where category ID does not exist
+        return "Category not found", 400
 
     if 'username' in session:
         username = session['username']
@@ -196,7 +206,7 @@ def add_clothes():
     result = db.session.execute(add_clothes_query, {
         "name": name,
         "description": description,
-        "category": category,
+        "category": category_name,
         "brand": brand,
         "size": size,
         "price": price,
@@ -256,10 +266,21 @@ def modify_garment(garment_id):
     name = request.form['name']
     description = request.form['description']
     brand = request.form['brand']
-    category = request.form['category']
+    category_id = request.form['category']
     size = request.form['size']
     price = request.form['price']
     subcategory = request.form['subcategory']
+
+    category_name_query = text("SELECT name FROM categories WHERE id = :category_id")
+    category_name_result = db.session.execute(category_name_query, {"category_id": category_id})
+    category_name_row = category_name_result.fetchone()
+
+    # Extract the category name from the result
+    if category_name_row:
+        category_name = category_name_row[0]
+    else:
+        # Handle case where category ID does not exist
+        return "Category not found", 400
     
     # Check if brand exists, if not, add it
     brand_exists_query = text("SELECT id FROM brands WHERE name = :brand")
@@ -283,7 +304,7 @@ def modify_garment(garment_id):
         "name": name,
         "description": description,
         "brand": brand,
-        "category": category,
+        "category": category_name,
         "size": size,
         "price": price,
         "subcategory" :subcategory,
