@@ -1,13 +1,13 @@
 # CCD Clothing Shop Web Application
 
+## Overview
+The Clothing Shop web is finished. Below is an overview of its functionalities and database usage:
+
 ## Getting Started
 Test the application in Render.com now:
 [Clothing Shop Web Application](https://ccd-clothingshop.onrender.com/)
 
-## Overview
-The Clothing Shop web is finished. Below is an overview of its functionalities and database usage:
-
-### Final return features
+## Final return features
 
 - **User Registration and Login:** Securely register and log in to access the platform's features.
 - **Clothes Listings:** Add your clothes for sale and browse listings from other users. Each listing includes details such as brand, size, price, and description.
@@ -17,7 +17,7 @@ The Clothing Shop web is finished. Below is an overview of its functionalities a
 - **User Dashboard:** View available, sold, and bought listings. Manage your chats and replies within the user tab.
 - **Admin Privileges:** Admins can modify or delete any listing, add listings to "Admin Picks" for featured visibility, and manage the site's overall content.
 
-## Database Structure
+### Database Structure
 
 The application utilizes a robust PostgreSQL database consisting of 11 tables to store and manage data efficiently:
 
@@ -59,14 +59,5 @@ The application utilizes a robust PostgreSQL database consisting of 11 tables to
 - **Clothes Selling:** Logged-in users can add clothes for sale using a form, including the option to upload pictures which are saved in a designated folder.
 - **Database Structure:** The application utilizes nine PostgreSQL database tables: Categories, Chats, Clothes, Images, Messages, Sizes, Transactions, Users, and Admin Picks.
 - **Footer Navigation:** The footer contains links to pages such as "About Us" and "FAQ" for additional information and frequently asked questions. Users can also navigate back to the home page.
-
-### Future Enhancements
-- **Improved Visual Design:** Enhance the style and overall look of the website for a better user experience.
-- **Categories, brands and sizes:** Make it so user can add new categories, brands and sizes to database
-- **Enhanced Functionality:** Improve website performance to ensure smoother usage.
-- **Real-Time Chat:** Implement a feature to render messages in real-time as they are sent.
-- **Notification System:** Add a notification system to keep users informed about important updates.
-INSERT INTO category_sizes (category_id, size_id) VALUES (4, 44);
-- **Admin Picks Category:** Introduce a category where admin-selected favorite clothes are showcased for sale.
 
 Thank you!
