@@ -42,7 +42,7 @@ footer {
     bottom: 0;
 }
 
-/* styles.css */
+/* about html.css */
 
 .about-section {
     background-color: #fff; /* White background */
@@ -66,9 +66,6 @@ footer {
     color: #666; /* Lighter grey color for the text */
     margin-bottom: 20px; /* Space below each paragraph */
 }
-
-/* Add other styles as needed */
-
 
 /* balacne css */
 .add-balance-form {
@@ -124,6 +121,40 @@ footer {
 .chat-link {
     color: #333;
     text-decoration: none;
+}
+
+/* FAQ Section Styles */
+
+.faq-section {
+    background-color: #fff; /* White background */
+    margin: 20px auto; /* Center the section with some margin */
+    padding: 40px; /* Padding around the content */
+    max-width: 800px; /* Max width for the content area */
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* Subtle shadow around the section */
+    border-radius: 8px; /* Rounded corners for the section */
+}
+
+.faq-section h2, .faq-section h3 {
+    text-align: center; /* Center align the headings */
+    color: #333; /* Dark grey color for the text */
+}
+
+.faq-section h2 {
+    margin-bottom: 20px; /* Space below the heading */
+    font-size: 2.5em; /* Larger font size for the heading */
+}
+
+.faq-section h3 {
+    margin-top: 20px; /* Space above the subheading */
+    font-size: 2em; /* Size for question headings */
+}
+
+.faq-section p {
+    font-size: 1.2em; /* Slightly larger font size for readability */
+    line-height: 1.6; /* Spacing between lines for better readability */
+    color: #666; /* Lighter grey color for the text */
+    margin-bottom: 20px; /* Space below each paragraph */
+    text-align: left; /* Align text to the left */
 }
 
 
