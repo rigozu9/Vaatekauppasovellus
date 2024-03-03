@@ -29,6 +29,7 @@ def get_info_by_user(username):
     ) im ON cl.id = im.clothing_id AND im.rn = 1
     WHERE ch.seller_username = :username OR ch.buyer_username = :username
     """)
+
     chats = db.session.execute(chats_query, {"username": username}).fetchall()
 
     last_messages = {}
@@ -70,6 +71,10 @@ def buy_clothing(garment_id):
     """)
     buyer_user = db.session.execute(buyer_query, {"buyer": buyer}).fetchone()
 
+    # cant buy duplicates
+    if session.get(f"purchased_{garment_id}"):
+        return get_info_by_user(session.get('username'))
+    
     # Check if the buyer has enough balance to purchase the item
     if buyer_user.balance < old_garment.price:
         flash("Insufficient balance to purchase this item", "error")
@@ -130,6 +135,7 @@ def buy_clothing(garment_id):
         SELECT data
         FROM images
         WHERE clothing_id = :garment_id
+        ORDER BY main_image DESC, id
     """)
 
     images_result = db.session.execute(images_query, {"garment_id": garment_id}).fetchall()
@@ -171,8 +177,10 @@ def buy_clothing(garment_id):
     image_data_list = [row[0] for row in images_result]
 
     db.session.commit()
+    
+    session[f"purchased_{garment_id}"] = True
 
-    # Render the bought page template
+    # Continue with rendering the bought_page.html or redirecting
     return render_template("bought_page.html", garment=clothing_result, seller=seller, images=image_data_list)
 
 def get_chats(seller_username, garment_id):

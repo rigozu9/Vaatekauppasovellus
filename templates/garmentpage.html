@@ -53,12 +53,10 @@
                         <p><strong>Listed by: </strong><a href="/users/{{ clothing.username }}">{{ clothing.username }}</a></p>
                         <button class="buy-button"><a href="/send_message/{{ session.username }}/{{ clothing.username }}/{{ clothing.id }}">Send a message about the item</a></button>
                         <div>
-                            <button class="buy-button">
-                                <a href="/buy/{{ clothing.id }}" onclick="return confirm('Are you sure you want to buy {{ clothing.name }} for {{ clothing.price }}€ ? Your balance after the purchase {{ user.balance-clothing.price }}€');">
-                                    Buy now for {{ clothing.price }}€
-                                </a>
-                            </button>
-                        </div>
+                            <button class="buy-button" onclick="checkBalanceAndConfirm(event, '{{ user.balance }}', '{{ clothing.price }}', '{{ clothing.name }}', '/buy/{{ clothing.id }}')">
+                                Buy now for {{ clothing.price }}€
+                            </button>                            
+                        </div>                        
                     {% endif %}
                 {% else %}
                     <!-- link to send messsage about the item -->
@@ -93,8 +91,22 @@
         {% include 'footer.html' %}
     </footer>
 </body>
-<!-- Manual slideshow for the pictures -->
     <script>
+        function checkBalanceAndConfirm(event, balance, price, itemName, buyLink) {
+            event.preventDefault(); 
+            var intBalance = parseInt(balance, 10);
+            var intPrice = parseInt(price, 10);
+
+            if (intBalance < intPrice) {
+                alert("You do not have enough balance to buy this item.");
+                return false;
+            } else {
+                const confirmPurchase = confirm(`Are you sure you want to buy ${itemName} for ${intPrice}€? Your balance after the purchase will be ${intBalance - intPrice}€`);
+                if (confirmPurchase) {
+                    window.location.href = buyLink;
+                }
+            }
+        }
         var slideIndex = 1;
         showSlides(slideIndex);
 
